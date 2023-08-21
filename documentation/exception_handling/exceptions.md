@@ -1,13 +1,14 @@
 # External Errors
-> **ApodHttpException extends IApodExternalException < resource.status**
+**ApodExternalException < resource.status**
 
 # Infra Errors
-> **ApodMapperException extends IApodInfraException < IApodExternalException**
+**ApodInfraException < IApodExternalException**
 
 # Data Errors
-> **ApodDataException extends IApodDataException < IApodInfraException**
+**ApodDataException < IApodInfraException**
 
 # Domain Errors
-> **ApodDomainException extends IApodDomainException < IApodDataException**
+**ApodDomainException < IApodDataException**
+
 # Presentation Errors
-> **String < IApodDomainException**
+**String < IApodDomainException**
