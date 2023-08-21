@@ -1,4 +1,5 @@
-# cloudwalk_test_mobile_engineer_2
+# Cloudwalk Interview Test: Mobile Engineer 2
+Interview test reference: https://gist.github.com/cloudwalk-tests/68db9331919d02c16b1e05c5daa0364f
 
 This repository contains the implementation of a mobile application following the Clean Architecture principles. The architecture is organized into separate layers to ensure modularity, maintainability, and testability. Below is a step-by-step guide outlining the key aspects of the project development.
 
@@ -20,6 +21,8 @@ Based on the TDD scenarios, the implementation of each use case is carried out. 
 
 ## Step 3: Separating Project by Layers
 
+![architecture_layers](documentation/architecture/architecture_layers.png)
+
 ### Domain Layer
 The domain layer contains the core business logic of the application. It defines entities, use case interfaces, and business rules. This layer is independent of external frameworks and technologies.
 
@@ -37,6 +40,10 @@ The presentation layer handles the user interface and user interaction. It inclu
 
 ### Main Layer
 The main layer serves as the entry point of the application. It initializes the necessary components, sets up dependency injection, and coordinates the interactions between different layers.
+
+## An Real Example
+
+![architecture_classes](documentation/architecture/architecture_classes.png)
 
 By organizing the project into these distinct layers, the Clean Architecture approach promotes code separation, reusability, and testability. This structure enables the development team to make changes to specific parts of the application without affecting the entire system.
 
