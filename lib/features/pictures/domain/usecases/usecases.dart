@@ -1,1 +1,1 @@
-export 'load_pictures/load_pictures.dart';
+export 'load_pictures/remote_load_pictures_usecase.dart';
