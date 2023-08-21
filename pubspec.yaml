@@ -13,9 +13,11 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   # External Layer
+  # HttpClientAdapter
   http: ^0.13.4
   # Error Handling
   multiple_result: ^5.1.0
+  # Cache Image
   path_provider: ^2.1.0
   
 dev_dependencies:
@@ -25,8 +27,9 @@ dev_dependencies:
   mocktail: 0.1.4
   faker: 2.0.0
   network_image_mock: 2.0.1
-  #
+  # Linters
   flutter_lints: ^2.0.0
+  lints: ^2.0.0
 
 flutter:
   uses-material-design: true
