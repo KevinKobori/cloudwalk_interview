@@ -1,14 +1,15 @@
-# External Errors
-**ApodExternalException < resource.status**
+# External Exception
+**ApodExternalException < response.status**
 
-# Infra Errors
+# Infra Exception
 **ApodInfraException < IApodExternalException**
 
-# Data Errors
+# Data Exception
 **ApodDataException < IApodInfraException**
 
-# Domain Errors
+# Domain Exception
 **ApodDomainException < IApodDataException**
 
-# Presentation Errors
-**String < IApodDomainException**
+# Presenter Exception
+**PresenterException < IApodDomainException**
+**UI < IPresenterException**
