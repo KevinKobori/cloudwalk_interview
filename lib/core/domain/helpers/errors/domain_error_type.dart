@@ -1,0 +1,3 @@
+enum DomainErrorType {
+    unexpected,
+}

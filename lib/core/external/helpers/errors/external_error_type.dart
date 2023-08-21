@@ -1,0 +1,3 @@
+enum ExternalErrorType {
+    unexpected,
+}

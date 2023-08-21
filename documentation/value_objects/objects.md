@@ -19,7 +19,7 @@
     }
 
 # Infra Objects Treatment
-> **From Maps To Models**
+> **Maps/Models**
 ### Map to Model
 - From: {...}
 - Mapper: PictureMapper.fromMapToModel()
@@ -31,14 +31,17 @@
 - To: PictureModel
 
 # Data Objects Treatment
-> **From Models To Entities**
+> **Models/Entities**
 ### Model to Entity
 - From: PictureModel
 - Mapper: PictureMapper.fromModelToEntity()
 - To: PictureEntity
 
+# Domain Objects Treatment
+- None
+
 # Presentation Objects Treatment
-> **From Entities To ViewModels**
+> **Entities/ViewModels**
 ### Entity to ViewModel
 - From: PictureEntity
 - Mapper: PictureMapper.fromEntityToViewModel()
