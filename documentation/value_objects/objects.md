@@ -1,4 +1,4 @@
-## External Objects Treatment
+# External Objects Treatment
 > **From JSON Encoded to Map(JSON Decoded)**
 - From:
     - "[{},...]" (json.encoded)
@@ -8,33 +8,38 @@
     - Map<String, String> = json.decode({...})
 - Mappers:
     - PictureMapper {
-        PictureModel fromMapToModel(); external > infra
-        <!-- Map<String, String> fromModelToMap(); infra > external -->
+        PictureModel fromMapToModel(); External/Cache > Infra
+        Map<String, String> fromModelToMap(); Infra > External/Cache
 
         PictureEntity fromModelToEntity(); Data > Domain
         <!-- PictureModel fromEntityToModel(); Domain > Data -->
 
-        PictureEntity fromEntityToViewModel(); Domain > Presenter
-        <!-- PictureModel fromViewModelToEntity(); Presenter > Domain -->
+        PictureViewModel fromEntityToViewModel(); Domain > Presenter
+        <!-- PictureEntity fromViewModelToEntity(); Presenter > Domain -->
     }
 
-## Infra Objects Treatment
-> **From Map To Model**
+# Infra Objects Treatment
+> **From Maps To Models**
+### Map to Model
 - From: {...}
 - Mapper: PictureMapper.fromMapToModel()
 - To: PictureModel
 
-## Data Objects Treatment
-> **From To Models**
+### Model To Map
+- From: {...}
+- Mapper: PictureMapper.fromModelToMap()
+- To: PictureModel
+
+# Data Objects Treatment
+> **From Models To Entities**
+### Model to Entity
 - From: PictureModel
 - Mapper: PictureMapper.fromModelToEntity()
 - To: PictureEntity
 
-## Domain Objects Treatment
-> **From To Entities**
-
-## Presentation Objects Treatment
+# Presentation Objects Treatment
 > **From Entities To ViewModels**
+### Entity to ViewModel
 - From: PictureEntity
 - Mapper: PictureMapper.fromEntityToViewModel()
 - To: PictureViewModel
