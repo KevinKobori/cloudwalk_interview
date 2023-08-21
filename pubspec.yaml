@@ -12,10 +12,19 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  
+  # External Layer
+  http: ^0.13.4
+  # Error Handling
+  multiple_result: ^5.1.0
+
 dev_dependencies:
+  # Tests
   flutter_test:
     sdk: flutter
+  mocktail: 0.1.4
+  faker: 2.0.0
+  network_image_mock: 2.0.1
+  #
   flutter_lints: ^2.0.0
 
 flutter:
