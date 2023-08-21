@@ -1,4 +1,4 @@
-## Feature: Remote Load Pictures With Local Fallback
+## Remote Load Pictures With Local Fallback
 
 > **Success Case**
 1. The system executes the remote load implementation

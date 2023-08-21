@@ -1,4 +1,4 @@
-## Feature: Remote Load Picture Details
+## Remote Load Picture Details
 
 > **Success Case**
 1. The system makes a request to the Picture details API URL
