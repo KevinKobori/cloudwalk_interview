@@ -1,6 +1,5 @@
 import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_2.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:multiple_result/multiple_result.dart';
 
 import '../../../../../apod.dart';
 
@@ -16,24 +15,27 @@ void main() {
   });
 
   test('Should call HttpClient with correct values', () async {
-    httpClient.mockRequestSuccess(<Map<String, String>>{});
+    final data = <Map<String, String>>{};
+
+    httpClient.mockRequestSuccess(data);
    
     await sut.call();
 
     ApodTest.verify(() => httpClient.request(method: 'get', url: url));
   });
 
-  test('Should return pictures list on 200', () async {
-    final List<Map<String, String>> apodObjects = apodObjectsListMock;
-    httpClient.mockRequestSuccess(apodObjects);
+  test('Should return pictures list on 200 with valid data', () async {
+    final data = ApodObjectsMock.apodObjects;
 
-    final Result<List<PictureEntity>, DomainException> result = await sut.call();
-
-    final List<PictureEntity>? actual = result.whenSuccess((success) => success);
-
-    final List<PictureEntity> matcher = List<PictureEntity>.from(apodObjects.map((map) => 
+    final matcher = List<PictureEntity>.from(data.map((map) => 
       PictureMapper.fromMapToModel(map).whenSuccess((model) => 
         PictureMapper.fromModelToEntity(model).whenSuccess((entity) => entity)))).toList();
+
+    httpClient.mockRequestSuccess(data);
+
+    final result = await sut.call();
+
+    final actual = result.whenSuccess((success) => success);
 
     expect(actual, matcher);
   });
