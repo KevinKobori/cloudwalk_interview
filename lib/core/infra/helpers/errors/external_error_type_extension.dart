@@ -8,9 +8,9 @@ extension ExternalErrorTypeExtension on ExternalErrorType {
       case ExternalErrorType.forbidden:
         return InfraErrorType.unexpected;
       case ExternalErrorType.invalidData:
-        return InfraErrorType.unexpected;
+        return InfraErrorType.invalidData;
       case ExternalErrorType.notFound:
-        return InfraErrorType.unexpected;
+        return InfraErrorType.notFound;
       case ExternalErrorType.serverError:
         return InfraErrorType.unexpected;
       case ExternalErrorType.unauthorized:

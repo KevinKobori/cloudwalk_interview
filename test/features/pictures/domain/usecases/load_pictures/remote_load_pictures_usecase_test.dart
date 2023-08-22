@@ -37,12 +37,7 @@ void main() {
 
     final result = await sut.loadLastTenDaysData();
 
-    List<PictureEntity>? actual;
-
-    result.when(
-      (success) => actual = success,
-      (error) => null,
-    );
+    final actual = result.when((success) => success, (error) => error);
 
     expect(actual, matcher);
   });
@@ -63,6 +58,17 @@ void main() {
             e is DomainException && e.errorType == DomainErrorType.unexpected));
   });
 
-  test('Should throw UnexpectedError if HttpClient not returns 200',
-      () async {});
+  test('Should throw UnexpectedError if HttpClient not returns 200', () async {
+    httpClient
+        .mockRequestError(ApodResponsesFactory().generateNotFoundError());
+
+    final result = await sut.loadLastTenDaysData();
+
+    final actual = result.when((success) => success, (error) => error);
+
+    expect(
+        actual,
+        predicate((e) =>
+            e is DomainException && e.errorType == DomainErrorType.unexpected));
+  });
 }
