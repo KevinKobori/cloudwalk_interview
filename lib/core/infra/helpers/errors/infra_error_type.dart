@@ -1,3 +1,4 @@
 enum InfraErrorType {
-    unexpected,
+  unexpected,
+  invalidData,
 }

@@ -16,4 +16,29 @@ class PictureViewModel {
     required this.title,
     required this.url,
   });
+
+  @override
+  bool operator ==(covariant PictureViewModel other) {
+    if (identical(this, other)) return true;
+  
+    return 
+      other.date == date &&
+      other.explanation == explanation &&
+      other.hdurl == hdurl &&
+      other.mediaType == mediaType &&
+      other.serviceVersion == serviceVersion &&
+      other.title == title &&
+      other.url == url;
+  }
+
+  @override
+  int get hashCode {
+    return date.hashCode ^
+      explanation.hashCode ^
+      hdurl.hashCode ^
+      mediaType.hashCode ^
+      serviceVersion.hashCode ^
+      title.hashCode ^
+      url.hashCode;
+  }
 }

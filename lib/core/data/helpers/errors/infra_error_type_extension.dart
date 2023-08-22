@@ -5,6 +5,8 @@ extension InfraErrorTypeExtension on InfraErrorType {
     switch (this) {
       case InfraErrorType.unexpected:
         return DataErrorType.unexpected;
+      case InfraErrorType.invalidData:
+        return DataErrorType.unexpected;
     }
   }
 }
