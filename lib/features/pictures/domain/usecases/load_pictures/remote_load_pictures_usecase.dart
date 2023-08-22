@@ -35,7 +35,7 @@ class RemoteLoadPicturesUsecase implements ILoadPicturesUseCase {
                   PictureMapper.fromMapToModel(data).when(
                     (model) => model,
                     (error) => error,
-                  ), // TODO: NOW
+                  ),
                 )).toList());
         } else {
           return Error(DataException(DataErrorType.invalidData));

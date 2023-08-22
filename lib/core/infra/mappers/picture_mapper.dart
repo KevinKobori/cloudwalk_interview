@@ -38,7 +38,7 @@ class PictureMapper {
         date: map['date']!,
         explanation: map['explanation']!,
         hdurl: map['hdurl']!,
-        mediaType: map['media_Type'] ?? '',
+        mediaType: map['media_type']!,
         serviceVersion: map['service_version'] ?? '',
         title: map['title']!,
         url: map['url']!,
