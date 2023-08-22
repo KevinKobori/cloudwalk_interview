@@ -11,43 +11,56 @@ class RemoteLoadPicturesUsecase implements ILoadPicturesUseCase {
   });
 
   @override
-  Future<Result<List<PictureEntity>, DomainException>> loadLastTenDaysData() async {
+  Future<Result<List<PictureEntity>, DomainException>>
+      loadLastTenDaysData() async {
     final resultHttpClient = await httpClient.request(method: 'get', url: url);
-    
+
     // Infra/Datasource
-    final Result<dynamic, InfraException> resultDataSource = resultHttpClient.when(
+    final Result<dynamic, InfraException> resultDataSource =
+        resultHttpClient.when(
       (body) {
-        if(PicturesMapper().bodyIsAListOfMap(body)) {
+        if (PicturesMapper().bodyIsAListOfMap(body)) {
           return Success(body);
         } else {
           return Error(InfraException(InfraErrorType.invalidData));
         }
-      }, 
-      (externalException) => Error(InfraException(externalException.errorType.infraError)),
+      },
+      (externalException) =>
+          Error(InfraException(externalException.errorType.infraError)),
     );
 
     // Data/Repository
-    final Result<List<PictureModel>, DataException> resultRepository = resultDataSource.when(
+    final Result<List<PictureModel>, DataException> resultRepository =
+        resultDataSource.when(
       (mapList) {
         final resultModel = PicturesMapper().fromMapListToModelList(mapList);
         return resultModel.when(
-          (pictureModelList) => Success(pictureModelList), 
-          (infraException) => Error(DataException(infraException.errorType.dataError)),
+          (pictureModelList) {
+            return Success(pictureModelList);
+          },
+          (infraException) {
+            return Error(DataException(infraException.errorType.dataError));
+          },
         );
       },
-      (infraException) => Error(DataException(infraException.errorType.dataError)),
+      (infraException) =>
+          Error(DataException(infraException.errorType.dataError)),
     );
-      
+
     // Domain/UseCase
-    final Result<List<PictureEntity>, DomainException> resultUseCase = resultRepository.when(
+    final Result<List<PictureEntity>, DomainException> resultUseCase =
+        resultRepository.when(
       (pictureModelList) {
-        final resultEntity = PicturesMapper().fromModelListToEntityList(pictureModelList);
+        final resultEntity =
+            PicturesMapper().fromModelListToEntityList(pictureModelList);
         return resultEntity.when(
-          (pictureEntityList) => Success(pictureEntityList), 
-          (infraException) => Error(DomainException(infraException.errorType.dataError.domainError)),
+          (pictureEntityList) => Success(pictureEntityList),
+          (infraException) => Error(
+              DomainException(infraException.errorType.dataError.domainError)),
         );
       },
-      (dataException) => Error(DomainException(dataException.errorType.domainError)),
+      (dataException) =>
+          Error(DomainException(dataException.errorType.domainError)),
     );
 
     return resultUseCase;

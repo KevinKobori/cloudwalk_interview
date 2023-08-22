@@ -5,8 +5,8 @@ class PictureModel extends ApodObject {
     required super.date,
     required super.explanation,
     required super.hdurl,
-    required super.mediaType,  
-    required super.serviceVersion,  
+    required super.mediaType,
+    required super.serviceVersion,
     required super.title,
     required super.url,
   });
