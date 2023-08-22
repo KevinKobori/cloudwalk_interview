@@ -8,8 +8,10 @@ class HttpClientSpy extends Mock implements IHttpClient {
       method: any(named: 'method'),
       body: any(named: 'body'),
       headers: any(named: 'headers')));
-  void mockRequest(dynamic data) =>
+
+  void mockRequestSuccess(dynamic data) =>
       mockRequestCall().thenAnswer((_) async => Success(data));
+      
   void mockRequestError(ExternalErrorType error) =>
       mockRequestCall().thenAnswer((_) async => Error(ExternalException(error)));
 }

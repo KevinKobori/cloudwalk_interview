@@ -5,6 +5,8 @@ extension DomainErrorTypeExtension on DomainErrorType {
     switch (this) {
       case DomainErrorType.unexpected:
         return PresenterErrorType.unexpected;
+      case DomainErrorType.invalidData:
+        return PresenterErrorType.unexpected;
     }
   }
 }

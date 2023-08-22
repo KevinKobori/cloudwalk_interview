@@ -1,3 +1,4 @@
 enum DataErrorType {
-    unexpected,
+  unexpected,
+  invalidData,
 }
