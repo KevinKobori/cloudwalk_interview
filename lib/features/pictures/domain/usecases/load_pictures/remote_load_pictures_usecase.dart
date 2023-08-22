@@ -17,7 +17,7 @@ class RemoteLoadPicturesUsecase implements ILoadPicturesUseCase {
     // Infra / Datasource
     final Result<dynamic, InfraException> resultDataSource = result.when(
       (body) {
-        if(PictureMapper.bodyIsAListOfMap(body) || PictureMapper.bodyIsAMap(body)) {
+        if(PictureMapper().bodyIsAListOfMap(body) || PictureMapper().bodyIsAMap(body)) {
           return Success(body);
         } else {
           return Error(InfraException(InfraErrorType.invalidData));
@@ -29,10 +29,10 @@ class RemoteLoadPicturesUsecase implements ILoadPicturesUseCase {
     // Data / Repository
     final Result<List<PictureModel>, DataException> resultRepository = resultDataSource.when(
       (mapList) {
-        if(PictureMapper.bodyIsAListOfMap(mapList)) {
+        if(PictureMapper().bodyIsAListOfMap(mapList)) {
           return Success(List<PictureModel>.from((mapList as List<Map<String, String>>)
                 .map((data) => 
-                  PictureMapper.fromMapToModel(data).when(
+                  PictureMapper().fromMapToModel(data).when(
                     (model) => model,
                     (error) => error,
                   ),
@@ -50,7 +50,7 @@ class RemoteLoadPicturesUsecase implements ILoadPicturesUseCase {
       (picturesModelList) {
          return Success(List<PictureEntity>.from(picturesModelList
                 .map((data) => 
-                  PictureMapper.fromModelToEntity(data).when(
+                  PictureMapper().fromModelToEntity(data).when(
                     (model) => model,
                     (error) => error,
                   ),

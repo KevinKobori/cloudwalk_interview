@@ -1,25 +1,13 @@
+import 'dart:convert';
+
 import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-class PictureMapper {
-  static final pictureMapperException = InfraException(InfraErrorType.invalidData);
-
-  static bool bodyIsAMap(dynamic body) {
-    if (body is Map<String, dynamic>) {
-      return true;
-    }
-    return false;
-  }
-
-  static bool bodyIsAListOfMap(dynamic body) {
-    if (body is List<Map<String, String>> || (body is List && body.isEmpty)) {
-      return true;
-    }
-    return false;
-  }
-
+class PictureMapper extends IMapper {
   /// External/Cache > Infra
-  static Result<PictureModel, InfraException> fromMapToModel(Map<String, String> map) {
+  Map<String, String> fromJsonToMap(String source) => json.decode(source);
+
+  Result<PictureModel, InfraException> fromMapToModel(Map<String, String> map) {
     try {
       if (!map.keys
         .toSet()
@@ -27,46 +15,48 @@ class PictureMapper {
           'date',
           'explanation',
           'hdurl',
-          // 'media_Type',
-          // 'service_version',
+          'media_type',
+          'service_version',
           'title',
           'url',
         ])) {
-        return Error(pictureMapperException);
+        return Error(exception);
       }
       return Success(PictureModel(
         date: map['date']!,
         explanation: map['explanation']!,
         hdurl: map['hdurl']!,
         mediaType: map['media_type']!,
-        serviceVersion: map['service_version'] ?? '',
+        serviceVersion: map['service_version']!,
         title: map['title']!,
         url: map['url']!,
       ));
     } catch(_) {
-      return Error(pictureMapperException);
+      return Error(exception);
     }
   }
 
   /// Infra > External/Cache
-  static Result<Map<String, String>, InfraException> fromModelToMap(PictureModel model) {
+  Result<Map<String, String>, InfraException> fromModelToMap(PictureModel model) {
     try {    
       return Success(<String, String>{
         'date': model.date,
         'explanation': model.explanation,
         'hdurl': model.hdurl,
-        'media_Type': model.mediaType,
+        'media_type': model.mediaType,
         'service_version': model.serviceVersion,
         'title': model.title,
         'url': model.url,
       });
     } catch(_) {
-      return Error(pictureMapperException);
+      return Error(exception);
     }
   }
 
+  String fromMaptoJson(PictureModel model) => json.encode(fromModelToMap(model));
+
   /// Data > Domain
-  static Result<PictureEntity, InfraException> fromModelToEntity(PictureModel model) {
+  Result<PictureEntity, InfraException> fromModelToEntity(PictureModel model) {
     try {
       return Success(PictureEntity(
         date: model.date,
@@ -78,12 +68,12 @@ class PictureMapper {
         url: model.url,
       ));
     } catch(_) {
-      return Error(pictureMapperException);
+      return Error(exception);
     }
   }
 
   /// Domain > Presenter
-  static Result<PictureViewModel, InfraException> fromEntityToViewModel(PictureEntity entity) {
+  Result<PictureViewModel, InfraException> fromEntityToViewModel(PictureEntity entity) {
     try {
       return Success(PictureViewModel(
         date: entity.date,
@@ -95,7 +85,7 @@ class PictureMapper {
         url: entity.url,
       ));
     } catch(_) {
-      return Error(pictureMapperException);
+      return Error(exception);
     }
   }
 }
