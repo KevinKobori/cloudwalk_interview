@@ -1,5 +1,6 @@
 import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_2.dart';
+import 'package:multiple_result/multiple_result.dart';
 
 mixin ILoadPicturesUseCase {
-  Future<List<PictureEntity>> call();
+  Future<Result<List<PictureEntity>, DomainException>> call();
 }
