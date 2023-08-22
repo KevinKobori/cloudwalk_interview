@@ -4,14 +4,16 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../../../../apod.dart';
 
 void main() {
+  late PicturesRepository repository;
   late RemoteLoadPicturesUsecase sut;
   late HttpClientSpy httpClient;
   late String url;
 
   setUp(() {
     httpClient = HttpClientSpy();
+    repository = PicturesRepository(httpClient: httpClient);
     url = ApodTest.faker.internet.httpUrl();
-    sut = RemoteLoadPicturesUsecase(httpClient: httpClient, url: url);
+    sut = RemoteLoadPicturesUsecase(picturesRepository: repository, url: url);
   });
 
   test('Should call HttpClient with correct values', () async {
@@ -59,8 +61,7 @@ void main() {
   });
 
   test('Should throw UnexpectedError if HttpClient not returns 200', () async {
-    httpClient
-        .mockRequestError(ApodResponsesFactory().generateNotFoundError());
+    httpClient.mockRequestError(ApodResponsesFactory().generateNotFoundError());
 
     final result = await sut.loadLastTenDaysData();
 

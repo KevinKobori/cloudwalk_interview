@@ -2,54 +2,20 @@ import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_
 import 'package:multiple_result/multiple_result.dart';
 
 class RemoteLoadPicturesUsecase implements ILoadPicturesUseCase {
-  final IHttpClient httpClient;
+  final PicturesRepository picturesRepository;
   final String url;
 
   RemoteLoadPicturesUsecase({
-    required this.httpClient,
+    required this.picturesRepository,
     required this.url,
   });
 
   @override
   Future<Result<List<PictureEntity>, DomainException>>
       loadLastTenDaysData() async {
-    final resultHttpClient = await httpClient.request(method: 'get', url: url);
+    final resultRepository = await picturesRepository.fetchLastTenDaysData(url);
 
-    // Infra/Datasource
-    final Result<dynamic, InfraException> resultDataSource =
-        resultHttpClient.when(
-      (body) {
-        if (PicturesMapper().bodyIsAListOfMap(body)) {
-          return Success(body);
-        } else {
-          return Error(InfraException(InfraErrorType.invalidData));
-        }
-      },
-      (externalException) =>
-          Error(InfraException(externalException.errorType.infraError)),
-    );
-
-    // Data/Repository
-    final Result<List<PictureModel>, DataException> resultRepository =
-        resultDataSource.when(
-      (mapList) {
-        final resultModel = PicturesMapper().fromMapListToModelList(mapList);
-        return resultModel.when(
-          (pictureModelList) {
-            return Success(pictureModelList);
-          },
-          (infraException) {
-            return Error(DataException(infraException.errorType.dataError));
-          },
-        );
-      },
-      (infraException) =>
-          Error(DataException(infraException.errorType.dataError)),
-    );
-
-    // Domain/UseCase
-    final Result<List<PictureEntity>, DomainException> resultUseCase =
-        resultRepository.when(
+    return resultRepository.when(
       (pictureModelList) {
         final resultEntity =
             PicturesMapper().fromModelListToEntityList(pictureModelList);
@@ -62,7 +28,5 @@ class RemoteLoadPicturesUsecase implements ILoadPicturesUseCase {
       (dataException) =>
           Error(DomainException(dataException.errorType.domainError)),
     );
-
-    return resultUseCase;
   }
 }
