@@ -4,16 +4,21 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../../../../apod.dart';
 
 void main() {
-  late PicturesRepository repository;
+  late PictureDatasource pictureDatasource;
+  late PictureRepository pictureRepository;
   late RemoteLoadPicturesUsecase sut;
   late HttpClientSpy httpClient;
   late String url;
 
   setUp(() {
     httpClient = HttpClientSpy();
-    repository = PicturesRepository(httpClient: httpClient);
+    pictureDatasource = PictureDatasource(httpClient);
+    pictureRepository = PictureRepository(pictureDatasource);
     url = ApodTest.faker.internet.httpUrl();
-    sut = RemoteLoadPicturesUsecase(picturesRepository: repository, url: url);
+    sut = RemoteLoadPicturesUsecase(
+      picturesRepository: pictureRepository,
+      url: url,
+    );
   });
 
   test('Should call HttpClient with correct values', () async {
