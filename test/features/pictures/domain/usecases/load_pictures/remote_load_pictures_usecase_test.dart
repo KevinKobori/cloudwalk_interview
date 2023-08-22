@@ -28,8 +28,8 @@ void main() {
     final data = ApodObjectsMock.apodObjects;
 
     final matcher = List<PictureEntity>.from(data.map((map) => 
-      PictureMapper.fromMapToModel(map).whenSuccess((model) => 
-        PictureMapper.fromModelToEntity(model).whenSuccess((entity) => entity)))).toList();
+      PictureMapper().fromMapToModel(map).whenSuccess((model) => 
+        PictureMapper().fromModelToEntity(model).whenSuccess((entity) => entity)))).toList();
 
     httpClient.mockRequestSuccess(data);
 
