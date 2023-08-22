@@ -20,8 +20,8 @@ class PictureMapper {
         date: map['date']!,
         explanation: map['explanation']!,
         hdurl: map['hdurl']!,
-        mediaType: map['mediaType'] ?? "",
-        serviceVersion: map['serviceVersion'] ?? "",
+        mediaType: map['mediaType'] ?? '',
+        serviceVersion: map['serviceVersion'] ?? '',
         title: map['title']!,
         url: map['url']!,
       ));
@@ -34,13 +34,13 @@ class PictureMapper {
   Result<Map<String, String>, Exception> fromModelToMap(PictureModel model) {
     try {    
       return Success(<String, String>{
-        "date": model.date,
-        "explanation": model.explanation,
-        "hdurl": model.hdurl,
-        "mediaType": model.mediaType,
-        "serviceVersion": model.serviceVersion,
-        "title": model.title,
-        "url": model.url,
+        'date': model.date,
+        'explanation': model.explanation,
+        'hdurl': model.hdurl,
+        'mediaType': model.mediaType,
+        'serviceVersion': model.serviceVersion,
+        'title': model.title,
+        'url': model.url,
       });
     } catch(_) {
       return Error(Exception());
