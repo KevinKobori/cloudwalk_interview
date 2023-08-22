@@ -1,20 +1,14 @@
-class PictureModel {
-  final String date;
-  final String explanation;
-  final String hdurl;
-  final String mediaType;
-  final String serviceVersion;  
-  final String title;
-  final String url;
+import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_2.dart';
 
+class PictureModel extends ApodObject {
   PictureModel({
-    required this.date,
-    required this.explanation,
-    required this.hdurl,
-    required this.mediaType,  
-    required this.serviceVersion,  
-    required this.title,
-    required this.url,
+    required super.date,
+    required super.explanation,
+    required super.hdurl,
+    required super.mediaType,  
+    required super.serviceVersion,  
+    required super.title,
+    required super.url,
   });
 
   PictureModel copyWith({
