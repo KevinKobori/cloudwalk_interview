@@ -9,8 +9,8 @@ void main() {
   late String url;
   late List<Map<String, String>> list;
 
-  setUp(() async {
-    list = [];
+  setUp(()  {
+    list = apodObjectsListMock;
     httpClient = HttpClientSpy();
     httpClient.mockRequest(list);
 
@@ -24,7 +24,9 @@ void main() {
     ApodTest.verify(() => httpClient.request(method: 'get', url: url));
   });
 
-  test('Should return pictures list on 200', () async {});
+  test('Should return pictures list on 200', () async {
+
+  });
 
   test('Should throw UnexpectedError if HttpClient returns 200 with invalid data', () async {});
 

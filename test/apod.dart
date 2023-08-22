@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart' as ft;
 import 'package:mocktail/mocktail.dart' as mt;
 
 export 'mocks/mocks.dart';
+export 'core/core.dart';
 
 class ApodTest {
   static ApodTest? _instance;
