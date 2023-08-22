@@ -2,6 +2,8 @@ import 'package:faker/faker.dart' as fk;
 import 'package:flutter_test/flutter_test.dart' as ft;
 import 'package:mocktail/mocktail.dart' as mt;
 
+export 'core/core.dart';
+
 class ApodTest {
   static ApodTest? _instance;
   static ApodTest get instance => _instance!;
