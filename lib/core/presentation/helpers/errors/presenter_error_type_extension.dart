@@ -5,8 +5,6 @@ extension PresenterErrorTypeExtension on PresenterErrorType {
     switch (this) {
       case PresenterErrorType.unexpected:
         return I18n.strings.unexpectedError;
-      default:
-        return I18n.strings.unexpectedError;
     }
   }
 }

@@ -37,8 +37,7 @@ class HttpClientAdapter implements IHttpClient {
     } catch (_) {
       return Error(ExternalException(ExternalErrorType.serverError));
     }
-    return _handleResponse(response).when(
-      (success) => Success(success), (error) => Error(error));
+    return _handleResponse(response);
   }
 
   Result<dynamic,ExternalException> _handleResponse(Response response) {
@@ -57,6 +56,8 @@ class HttpClientAdapter implements IHttpClient {
         return Error(ExternalException(ExternalErrorType.forbidden));
       case 404:
         return Error(ExternalException(ExternalErrorType.notFound));
+      case 500:
+        return Error(ExternalException(ExternalErrorType.serverError));
       default:
         return Error(ExternalException(ExternalErrorType.serverError));
     }
