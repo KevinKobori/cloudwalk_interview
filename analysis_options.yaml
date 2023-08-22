@@ -15,8 +15,8 @@ analyzer:
     # strict-casts: true
     strict-raw-types: true
     strict-inference: true
+    strict-casts: false
   strong-mode:
-    implicit-casts: false  
   errors:
     todo: ignore
     only_throw_errors: ignore

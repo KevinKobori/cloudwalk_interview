@@ -1,3 +1,8 @@
 enum ExternalErrorType {
-    unexpected,
+  badRequest,
+  notFound,
+  serverError,
+  unauthorized,
+  forbidden,
+  invalidData
 }

@@ -1,5 +1,8 @@
-abstract class IHttpClient {
-  Future<Map<String, dynamic>?> request({
+import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_2.dart';
+import 'package:multiple_result/multiple_result.dart';
+
+mixin IHttpClient {
+  Future<Result<dynamic, ExternalException>> request({
     required String url,
     required String method,
     Map<String, dynamic>? headers,
