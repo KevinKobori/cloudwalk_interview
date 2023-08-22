@@ -47,7 +47,7 @@ class HttpClientAdapter implements IHttpClient {
       case 201:
         return Success(response.body.isEmpty ? null : jsonDecode(response.body));
       case 204:
-        return Success(response.body.isEmpty ? null : jsonDecode(response.body));
+        return const Success(null);
       case 400:
         return Error(ExternalException(ExternalErrorType.badRequest));
       case 401:

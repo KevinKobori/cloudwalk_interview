@@ -3,23 +3,34 @@ import 'dart:convert';
 import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-class PictureMapper extends IMapper {
+class PicturesMapper extends IMapper {
   /// External/Cache > Infra
   Map<String, String> fromJsonToMap(String source) => json.decode(source);
 
+  Result<List<PictureModel>, InfraException> fromMapListToModelList(
+      List<Map<String, String>> mapList) {
+    try {
+      final result = List<PictureModel>.from(mapList.map((map) =>
+          PicturesMapper()
+              .fromMapToModel(map)
+              .whenSuccess((success) => success))).toList();
+      return Success(result);
+    } catch (_) {
+      return Error(exception);
+    }
+  }
+
   Result<PictureModel, InfraException> fromMapToModel(Map<String, String> map) {
     try {
-      if (!map.keys
-        .toSet()
-        .containsAll([
-          'date',
-          'explanation',
-          'hdurl',
-          'media_type',
-          'service_version',
-          'title',
-          'url',
-        ])) {
+      if (!map.keys.toSet().containsAll([
+        'date',
+        'explanation',
+        'hdurl',
+        'media_type',
+        'service_version',
+        'title',
+        'url',
+      ])) {
         return Error(exception);
       }
       return Success(PictureModel(
@@ -31,14 +42,15 @@ class PictureMapper extends IMapper {
         title: map['title']!,
         url: map['url']!,
       ));
-    } catch(_) {
+    } catch (_) {
       return Error(exception);
     }
   }
 
   /// Infra > External/Cache
-  Result<Map<String, String>, InfraException> fromModelToMap(PictureModel model) {
-    try {    
+  Result<Map<String, String>, InfraException> fromModelToMap(
+      PictureModel model) {
+    try {
       return Success(<String, String>{
         'date': model.date,
         'explanation': model.explanation,
@@ -48,14 +60,31 @@ class PictureMapper extends IMapper {
         'title': model.title,
         'url': model.url,
       });
-    } catch(_) {
+    } catch (_) {
       return Error(exception);
     }
   }
 
-  String fromMaptoJson(PictureModel model) => json.encode(fromModelToMap(model));
+  String fromMaptoJson(PictureModel model) =>
+      json.encode(fromModelToMap(model));
 
   /// Data > Domain
+  Result<List<PictureEntity>, InfraException> fromModelListToEntityList(
+      List<PictureModel> pictureModelList) {
+    try {
+      final result = List<PictureEntity>.from(pictureModelList.map(
+          (pictureModel) =>
+              PicturesMapper().fromModelToEntity(pictureModel).when(
+                    (pictureEntity) => pictureEntity,
+                    (infraException) =>
+                        InfraException(infraException.errorType),
+                  ))).toList();
+      return Success(result);
+    } catch (_) {
+      return Error(exception);
+    }
+  }
+
   Result<PictureEntity, InfraException> fromModelToEntity(PictureModel model) {
     try {
       return Success(PictureEntity(
@@ -67,13 +96,14 @@ class PictureMapper extends IMapper {
         title: model.title,
         url: model.url,
       ));
-    } catch(_) {
+    } catch (_) {
       return Error(exception);
     }
   }
 
   /// Domain > Presenter
-  Result<PictureViewModel, InfraException> fromEntityToViewModel(PictureEntity entity) {
+  Result<PictureViewModel, InfraException> fromEntityToViewModel(
+      PictureEntity entity) {
     try {
       return Success(PictureViewModel(
         date: entity.date,
@@ -84,7 +114,7 @@ class PictureMapper extends IMapper {
         title: entity.title,
         url: entity.url,
       ));
-    } catch(_) {
+    } catch (_) {
       return Error(exception);
     }
   }
