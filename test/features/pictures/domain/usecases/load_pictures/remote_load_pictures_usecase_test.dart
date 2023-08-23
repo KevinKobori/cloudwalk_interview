@@ -6,7 +6,7 @@ import '../../../../../apod.dart';
 void main() {
   late PictureDatasource pictureDatasource;
   late PictureRepository pictureRepository;
-  late RemoteLoadPicturesUsecase sut;
+  late RemoteLoadPicturesUseCase sut;
   late HttpClientSpy httpClient;
   late String url;
 
@@ -15,7 +15,7 @@ void main() {
     pictureDatasource = PictureDatasource(httpClient);
     pictureRepository = PictureRepository(pictureDatasource);
     url = ApodTest.faker.internet.httpUrl();
-    sut = RemoteLoadPicturesUsecase(
+    sut = RemoteLoadPicturesUseCase(
       picturesRepository: pictureRepository,
       url: url,
     );
