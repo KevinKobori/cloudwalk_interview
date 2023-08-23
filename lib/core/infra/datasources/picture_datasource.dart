@@ -7,8 +7,8 @@ class PictureDatasource implements IPictureDataSource {
   PictureDatasource(this.httpClient);
 
   @override
-  Future<Result<List<Map<String, String>>, InfraException>> getLastTenDaysData(
-      String url) async {
+  Future<Result<List<Map<String, String>>, InfraException>>
+      fetchLastTenDaysData(String url) async {
     final resultHttpClient = await httpClient.request(method: 'get', url: url);
 
     return resultHttpClient.when(

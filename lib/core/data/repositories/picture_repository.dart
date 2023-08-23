@@ -7,9 +7,9 @@ class PictureRepository implements IPictureRepository {
   PictureRepository(this.pictureDatasource);
 
   @override
-  Future<Result<List<PictureModel>, DataException>> fetchLastTenDaysData(
+  Future<Result<List<PictureModel>, DataException>> getLastTenDaysData(
       String url) async {
-    final resultDataSource = await pictureDatasource.getLastTenDaysData(url);
+    final resultDataSource = await pictureDatasource.fetchLastTenDaysData(url);
 
     return resultDataSource.when(
       (mapList) {

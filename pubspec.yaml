@@ -1,5 +1,5 @@
 name: cloudwalk_test_mobile_engineer_2
-description: A new Flutter project.
+description:
 
 publish_to: 'none' 
 
@@ -12,14 +12,18 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  # External Layer
   # HttpClientAdapter
   http: ^0.13.4
   # Error Handling
   multiple_result: ^5.1.0
-  # Cache Image
-  path_provider: ^2.1.0
-  
+  # Cache Storage
+  # path_provider: ^2.1.0
+  cached_network_image: ^3.2.3
+  # Local Storage
+  localstorage: ^4.0.1+4
+  # Modularity
+  flutter_modular: ^6.0.4+1
+
 dev_dependencies:
   # Tests
   flutter_test:
