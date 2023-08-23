@@ -154,25 +154,44 @@ void main() {
 
       await sut.saveLastTenDaysData(pictureEntityList);
 
-      final Result<List<Map<String, String>>, InfraException> result = await PicturesMapper()
-          .fromEntityListToModelList(pictureEntityList)
-          .when(
-            (pictureModelList) async => await PicturesMapper()
-                .fromModelListToMapList(pictureModelList)
-                .when(
-                  (map) => Success(map),
-                  (infraException) => Error(infraException),
-                ),
-            (infraException) => Error(infraException),
-          );
+      final Result<List<Map<String, String>>, InfraException> result =
+          await PicturesMapper()
+              .fromEntityListToModelList(pictureEntityList)
+              .when(
+                (pictureModelList) async => await PicturesMapper()
+                    .fromModelListToMapList(pictureModelList)
+                    .when(
+                      (map) => Success(map),
+                      (infraException) => Error(infraException),
+                    ),
+                (infraException) => Error(infraException),
+              );
 
-    final mapList = result.when((success) => success, (error) => error);
+      final mapList = result.when((success) => success, (error) => error);
 
       verify(() => localStorage.save(
           key: LocalLoadPicturesUseCase.itemKey, value: mapList)).called(1);
     });
 
     test('When save data should throw UnexpectedError if save throws',
-        () async {});
+        () async {
+      final data = DeviceLocalStorageFactory().generateValidApodObjectMapList();
+
+      localStorage.mockSaveError();
+
+      final pictureEntityList = List<PictureEntity>.from(data.map((map) =>
+          PicturesMapper().fromMapToModel(map).whenSuccess((model) =>
+              PicturesMapper()
+                  .fromModelToEntity(model)
+                  .whenSuccess((entity) => entity)))).toList();
+
+      final future = sut.saveLastTenDaysData(pictureEntityList);
+
+      expect(
+          future,
+          throwsA(predicate((e) =>
+              e is DomainException &&
+              e.errorType == DomainErrorType.unexpected)));
+    });
   });
 }
