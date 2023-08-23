@@ -13,7 +13,7 @@ void main() {
     sut = LocalLoadPicturesUseCase(localStorage: localStorage);
   });
 
-  group('load', () {
+  group('Loading', () {
     test('When load data should call localStorage with correct key', () async {
       final data = DeviceLocalStorageFactory().generateValidApodObjectMapList();
       localStorage.mockFetchSuccess(data);
@@ -40,8 +40,7 @@ void main() {
       expect(actual, matcher);
     });
 
-    test(
-        'When load data should throw UnexpectedError if localStorage is empty',
+    test('When load data should throw UnexpectedError if localStorage is empty',
         () async {
       localStorage.mockFetchSuccess(<Map<String, dynamic>>[]);
 
@@ -98,9 +97,13 @@ void main() {
     });
   });
 
-  group('validate', () {
+  group('Validating', () {
     test('When validate data should call localStorage with correct key',
-        () async {});
+        () async {
+      await sut.validateLastTenDaysData();
+
+      verify(() => localStorage.fetch('apod_objects')).called(1);
+    });
 
     test('When validate data should delete localStorage if it is invalid',
         () async {});
@@ -112,7 +115,7 @@ void main() {
         () async {});
   });
 
-  group('save', () {
+  group('Saving', () {
     test('When save data should call localStorage with correct values',
         () async {});
 

@@ -5,6 +5,8 @@ class LocalLoadPicturesUseCase implements ILoadPicturesUseCase {
 
   LocalLoadPicturesUseCase({required this.localStorage});
 
+  final String itemKey = 'apod_objects';
+
   /// Example showcasing the implementation without using
   /// "package:multiple_result" and without adding intermediary
   /// treatments between the layers: Domain, Data, Infrastructure,
@@ -12,12 +14,28 @@ class LocalLoadPicturesUseCase implements ILoadPicturesUseCase {
   @override
   Future<List<PictureEntity>> loadLastTenDaysData() async {
     try {
-      final data = await localStorage.fetch('apod_objects');
+      final data = await localStorage.fetch(itemKey);
       if (data?.isEmpty != false) {
         throw DomainException(DomainErrorType.unexpected);
       }
 
-      return await PicturesMapper().fromMapListToModelList(data).when(
+      return _getEntityList(data);
+    } catch (_) {
+      throw DomainException(DomainErrorType.unexpected);
+    }
+  }
+
+  Future<void> validateLastTenDaysData() async {
+    try {
+      final data = await localStorage.fetch(itemKey);
+      _getEntityList(data);
+    } catch (_) {
+      await localStorage.delete(itemKey);
+    }
+  }
+
+  Future<List<PictureEntity>> _getEntityList(dynamic data) async {
+    return await PicturesMapper().fromMapListToModelList(data).when(
             (pictureModel) =>
                 PicturesMapper().fromModelListToEntityList(pictureModel).when(
                       (pictureEntityList) => pictureEntityList,
@@ -27,8 +45,5 @@ class LocalLoadPicturesUseCase implements ILoadPicturesUseCase {
             (infraException) => throw DomainException(
                 infraException.errorType.dataError.domainError),
           );
-    } catch (_) {
-      throw DomainException(DomainErrorType.unexpected);
-    }
   }
 }
