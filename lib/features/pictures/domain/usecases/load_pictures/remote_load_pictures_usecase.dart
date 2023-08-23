@@ -13,7 +13,7 @@ class RemoteLoadPicturesUsecase implements ILoadPicturesUseCase {
   @override
   Future<Result<List<PictureEntity>, DomainException>>
       loadLastTenDaysData() async {
-    final resultRepository = await picturesRepository.fetchLastTenDaysData(url);
+    final resultRepository = await picturesRepository.getLastTenDaysData(url);
 
     return resultRepository.when(
       (pictureModelList) {
