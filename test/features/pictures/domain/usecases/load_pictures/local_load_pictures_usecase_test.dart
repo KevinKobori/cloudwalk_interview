@@ -72,7 +72,7 @@ void main() {
         'When load data should throw UnexpectedError if localStorage is incomplete',
         () async {
       localStorage.mockFetchSuccess(
-          DeviceLocalStorageFactory.generateIncompleteApodObjectMapList());
+          DeviceLocalStorageFactory().generateIncompleteApodObjectMapList());
 
       final future = sut.loadLastTenDaysData();
 
@@ -119,7 +119,14 @@ void main() {
         () async {});
 
     test('When validate data should delete localStorage if fetch fails',
-        () async {});
+        () async {
+      localStorage.mockFetchSuccess(
+          DeviceLocalStorageFactory().generateIncompleteApodObjectMapList());
+
+      await sut.validateLastTenDaysData();
+
+      verify(() => localStorage.delete('apod_objects')).called(1);
+    });
   });
 
   group('Saving', () {
