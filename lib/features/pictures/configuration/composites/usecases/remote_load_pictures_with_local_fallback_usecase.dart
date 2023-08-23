@@ -2,8 +2,8 @@ import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_
 
 class RemoteLoadPicturesWithLocalFallbackUseCase
     implements ILoadPicturesUseCase {
-  final RemoteLoadPicturesUseCase remoteUseCase;
-  final LocalLoadPicturesUseCase localUseCase;
+  final IRemoteLoadPicturesUseCase remoteUseCase;
+  final ILocalLoadPicturesUseCase localUseCase;
 
   RemoteLoadPicturesWithLocalFallbackUseCase({
     required this.remoteUseCase,
