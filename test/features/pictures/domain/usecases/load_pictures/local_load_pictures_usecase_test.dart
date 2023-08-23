@@ -42,7 +42,17 @@ void main() {
 
     test(
         'When load data should throw UnexpectedError if local storage is empty',
-        () async {});
+        () async {
+      localStorage.mockFetchSuccess(<Map<String, dynamic>>[]);
+
+      final future = sut.loadLastTenDaysData();
+
+      expect(
+          future,
+          throwsA(predicate((e) =>
+              e is DomainException &&
+              e.errorType == DomainErrorType.unexpected)));
+    });
 
     test(
         'When load data should throw UnexpectedError if local storage is isvalid',
