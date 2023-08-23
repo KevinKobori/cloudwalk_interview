@@ -3,7 +3,8 @@ import 'package:multiple_result/multiple_result.dart';
 
 class LocalLoadPicturesUsecase implements ILoadPicturesUseCase {
   @override
-  Future<Result<List<PictureEntity>, DomainException>> loadLastTenDaysData() async {
+  Future<Result<List<PictureEntity>, DomainException>>
+      loadLastTenDaysData() async {
     return Error(DomainException(DomainErrorType.unexpected));
   }
 }
