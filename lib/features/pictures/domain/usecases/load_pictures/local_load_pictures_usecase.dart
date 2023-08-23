@@ -1,6 +1,6 @@
 import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_2.dart';
 
-class LocalLoadPicturesUseCase implements ILoadPicturesUseCase {
+class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
   final ILocalStorage localStorage;
 
   LocalLoadPicturesUseCase({required this.localStorage});
@@ -25,6 +25,7 @@ class LocalLoadPicturesUseCase implements ILoadPicturesUseCase {
     }
   }
 
+  @override
   Future<void> validateLastTenDaysData() async {
     try {
       final data = await localStorage.fetch(itemKey);
@@ -34,6 +35,7 @@ class LocalLoadPicturesUseCase implements ILoadPicturesUseCase {
     }
   }
 
+  @override
   Future<void> saveLastTenDaysData(
       List<PictureEntity> pictureEntityList) async {
     try {
@@ -46,12 +48,13 @@ class LocalLoadPicturesUseCase implements ILoadPicturesUseCase {
 
   Future<List<PictureEntity>> _getEntityList(dynamic data) async {
     return await PicturesMapper().fromMapListToModelList(data).when(
-          (pictureModelList) async => await
-              PicturesMapper().fromModelListToEntityList(pictureModelList).when(
-                    (pictureEntityList) => pictureEntityList,
-                    (infraException) => throw DomainException(
-                        infraException.errorType.dataError.domainError),
-                  ),
+          (pictureModelList) async => await PicturesMapper()
+              .fromModelListToEntityList(pictureModelList)
+              .when(
+                (pictureEntityList) => pictureEntityList,
+                (infraException) => throw DomainException(
+                    infraException.errorType.dataError.domainError),
+              ),
           (infraException) => throw DomainException(
               infraException.errorType.dataError.domainError),
         );
@@ -62,12 +65,13 @@ class LocalLoadPicturesUseCase implements ILoadPicturesUseCase {
     return await PicturesMapper()
         .fromEntityListToModelList(pictureEntityList)
         .when(
-          (pictureModelList) async => await
-              PicturesMapper().fromModelListToMapList(pictureModelList).when(
-                    (map) => map,
-                    (infraException) => throw DomainException(
-                        infraException.errorType.dataError.domainError),
-                  ),
+          (pictureModelList) async => await PicturesMapper()
+              .fromModelListToMapList(pictureModelList)
+              .when(
+                (map) => map,
+                (infraException) => throw DomainException(
+                    infraException.errorType.dataError.domainError),
+              ),
           (infraException) => throw DomainException(
               infraException.errorType.dataError.domainError),
         );

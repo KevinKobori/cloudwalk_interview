@@ -51,8 +51,8 @@ class PicturesMapper extends IMapper {
   Result<List<Map<String, String>>, InfraException> fromModelListToMapList(
       List<PictureModel> pictureModelList) {
     try {
-      final result = List<Map<String, String>>.from(pictureModelList.map((pictureModel) =>
-          PicturesMapper()
+      final result = List<Map<String, String>>.from(pictureModelList.map(
+          (pictureModel) => PicturesMapper()
               .fromModelToMap(pictureModel)
               .whenSuccess((success) => success))).toList();
       return Success(result);
