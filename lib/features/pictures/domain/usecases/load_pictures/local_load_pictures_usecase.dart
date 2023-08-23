@@ -5,7 +5,7 @@ class LocalLoadPicturesUseCase implements ILoadPicturesUseCase {
 
   LocalLoadPicturesUseCase({required this.localStorage});
 
-  final String itemKey = 'apod_objects';
+  static const String itemKey = 'apod_objects';
 
   /// Example showcasing the implementation without using
   /// "package:multiple_result" and without adding intermediary
@@ -34,16 +34,42 @@ class LocalLoadPicturesUseCase implements ILoadPicturesUseCase {
     }
   }
 
+  Future<void> saveLastTenDaysData(
+      List<PictureEntity> pictureEntityList) async {
+    try {
+      final mapList = await _getMapList(pictureEntityList);
+      await localStorage.save(key: itemKey, value: mapList);
+    } catch (error) {
+      throw DomainException(DomainErrorType.unexpected);
+    }
+  }
+
   Future<List<PictureEntity>> _getEntityList(dynamic data) async {
     return await PicturesMapper().fromMapListToModelList(data).when(
-            (pictureModel) =>
-                PicturesMapper().fromModelListToEntityList(pictureModel).when(
-                      (pictureEntityList) => pictureEntityList,
-                      (infraException) => throw DomainException(
-                          infraException.errorType.dataError.domainError),
-                    ),
-            (infraException) => throw DomainException(
-                infraException.errorType.dataError.domainError),
-          );
+          (pictureModelList) async => await
+              PicturesMapper().fromModelListToEntityList(pictureModelList).when(
+                    (pictureEntityList) => pictureEntityList,
+                    (infraException) => throw DomainException(
+                        infraException.errorType.dataError.domainError),
+                  ),
+          (infraException) => throw DomainException(
+              infraException.errorType.dataError.domainError),
+        );
+  }
+
+  Future<List<Map<String, String>>> _getMapList(
+      List<PictureEntity> pictureEntityList) async {
+    return await PicturesMapper()
+        .fromEntityListToModelList(pictureEntityList)
+        .when(
+          (pictureModelList) async => await
+              PicturesMapper().fromModelListToMapList(pictureModelList).when(
+                    (map) => map,
+                    (infraException) => throw DomainException(
+                        infraException.errorType.dataError.domainError),
+                  ),
+          (infraException) => throw DomainException(
+              infraException.errorType.dataError.domainError),
+        );
   }
 }
