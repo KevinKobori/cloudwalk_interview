@@ -1,3 +1,3 @@
 enum PresenterErrorType {
-    unexpected,
+  unexpected,
 }

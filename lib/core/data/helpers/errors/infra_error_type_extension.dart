@@ -6,7 +6,9 @@ extension InfraErrorTypeExtension on InfraErrorType {
       case InfraErrorType.unexpected:
         return DataErrorType.unexpected;
       case InfraErrorType.invalidData:
-        return DataErrorType.unexpected;
+        return DataErrorType.invalidData;
+      case InfraErrorType.notFound:
+        return DataErrorType.notFound;
     }
   }
 }

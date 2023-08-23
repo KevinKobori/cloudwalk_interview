@@ -1,4 +1,3 @@
 enum DomainErrorType {
   unexpected,
-  invalidData,
 }

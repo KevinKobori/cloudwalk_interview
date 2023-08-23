@@ -7,6 +7,8 @@ extension DataErrorTypeExtension on DataErrorType {
         return DomainErrorType.unexpected;
       case DataErrorType.invalidData:
         return DomainErrorType.unexpected;
+      case DataErrorType.notFound:
+        return DomainErrorType.unexpected;
     }
   }
 }

@@ -1,3 +1,30 @@
 import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_2.dart';
+import 'package:multiple_result/multiple_result.dart';
 
-class PictureRespository implements IPictureRespository {}
+class PictureRepository implements IPictureRepository {
+  final PictureDatasource pictureDatasource;
+
+  PictureRepository(this.pictureDatasource);
+
+  @override
+  Future<Result<List<PictureModel>, DataException>> fetchLastTenDaysData(
+      String url) async {
+    final resultDataSource = await pictureDatasource.getLastTenDaysData(url);
+
+    return resultDataSource.when(
+      (mapList) {
+        final resultModel = PicturesMapper().fromMapListToModelList(mapList);
+        return resultModel.when(
+          (pictureModelList) {
+            return Success(pictureModelList);
+          },
+          (infraException) {
+            return Error(DataException(infraException.errorType.dataError));
+          },
+        );
+      },
+      (infraException) =>
+          Error(DataException(infraException.errorType.dataError)),
+    );
+  }
+}

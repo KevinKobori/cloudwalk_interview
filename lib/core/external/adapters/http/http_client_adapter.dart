@@ -40,14 +40,16 @@ class HttpClientAdapter implements IHttpClient {
     return _handleResponse(response);
   }
 
-  Result<dynamic,ExternalException> _handleResponse(Response response) {
+  Result<dynamic, ExternalException> _handleResponse(Response response) {
     switch (response.statusCode) {
       case 200:
-        return Success(response.body.isEmpty ? null : jsonDecode(response.body));
+        return Success(
+            response.body.isEmpty ? null : jsonDecode(response.body));
       case 201:
-        return Success(response.body.isEmpty ? null : jsonDecode(response.body));
+        return Success(
+            response.body.isEmpty ? null : jsonDecode(response.body));
       case 204:
-        return Success(response.body.isEmpty ? null : jsonDecode(response.body));
+        return const Success(null);
       case 400:
         return Error(ExternalException(ExternalErrorType.badRequest));
       case 401:
