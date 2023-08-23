@@ -19,7 +19,7 @@ class LocalLoadPicturesUseCase implements ILoadPicturesUseCase {
         throw DomainException(DomainErrorType.unexpected);
       }
 
-      return _getEntityList(data);
+      return await _getEntityList(data);
     } catch (_) {
       throw DomainException(DomainErrorType.unexpected);
     }
@@ -28,7 +28,7 @@ class LocalLoadPicturesUseCase implements ILoadPicturesUseCase {
   Future<void> validateLastTenDaysData() async {
     try {
       final data = await localStorage.fetch(itemKey);
-      _getEntityList(data);
+      await _getEntityList(data);
     } catch (_) {
       await localStorage.delete(itemKey);
     }

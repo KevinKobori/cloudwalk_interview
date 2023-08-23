@@ -106,7 +106,14 @@ void main() {
     });
 
     test('When validate data should delete localStorage if it is invalid',
-        () async {});
+        () async {
+      localStorage.mockFetchSuccess(
+          DeviceLocalStorageFactory().generateInvalidApodObjectMapList());
+
+      await sut.validateLastTenDaysData();
+
+      verify(() => localStorage.delete('apod_objects')).called(1);
+    });
 
     test('When validate data should delete localStorage if it is incomplete',
         () async {});
