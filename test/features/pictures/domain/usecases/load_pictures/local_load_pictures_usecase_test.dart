@@ -14,7 +14,7 @@ void main() {
   });
 
   group('load', () {
-    test('When load data should call cacheStorage with correct key', () async {
+    test('When load data should call localStorage with correct key', () async {
       final data = DeviceLocalStorageFactory().generateValidApodObjectMapList();
       localStorage.mockFetchSuccess(data);
 
@@ -23,7 +23,7 @@ void main() {
       verify(() => localStorage.fetch('apod_objects')).called(1);
     });
 
-    test('When load data should throw UnexpectedError if cache is empty',
+    test('When load data should return a list of pictures on success',
         () async {
       final data = DeviceLocalStorageFactory().generateValidApodObjectMapList();
 
@@ -40,31 +40,49 @@ void main() {
       expect(actual, matcher);
     });
 
-    test('When load data should throw UnexpectedError if cache is isvalid',
+    test(
+        'When load data should throw UnexpectedError if local storage is empty',
         () async {});
 
-    test('When load data should throw UnexpectedError if cache is incomplete',
+    test(
+        'When load data should throw UnexpectedError if local storage is isvalid',
+        () async {
+      // localStorage.mockFetchSuccess(
+      //     ApodResponsesFactory().generateInvalidApodObjectMapList());
+
+      // final future = sut.loadLastTenDaysData();
+
+      // expect(
+      //     future,
+      //     throwsA(predicate((e) =>
+      //         e is DomainException &&
+      //         e.errorType == DomainErrorType.unexpected)));
+    });
+
+    test(
+        'When load data should throw UnexpectedError if local storage is incomplete',
         () async {});
 
-    test('When load data should throw UnexpectedError if cache throws',
+    test('When load data should throw UnexpectedError if local storage throws',
         () async {});
   });
 
   group('validate', () {
-    test('When validate data should call cacheStorage with correct key',
+    test('When validate data should call localStorage with correct key',
         () async {});
 
-    test(
-        'When validate data should delete cache if it is invalid', () async {});
-
-    test('When validate data should delete cache if it is incomplete',
+    test('When validate data should delete local storage if it is invalid',
         () async {});
 
-    test('When validate data should delete cache if fetch fails', () async {});
+    test('When validate data should delete local storage if it is incomplete',
+        () async {});
+
+    test('When validate data should delete local storage if fetch fails',
+        () async {});
   });
 
   group('save', () {
-    test('When save data should call cacheStorage with correct values',
+    test('When save data should call localStorage with correct values',
         () async {});
 
     test('When save data should throw UnexpectedError if save throws',
