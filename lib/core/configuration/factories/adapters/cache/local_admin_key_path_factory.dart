@@ -1,0 +1,1 @@
+String localStorageConfigKeyPathFactory() => 'apod';
