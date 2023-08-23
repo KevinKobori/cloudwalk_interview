@@ -8,7 +8,8 @@ class LocalStorageSpy extends Mock implements ILocalStorage {
   }
 
   When<dynamic> mockFetchCall() => when(() => fetch(any()));
-  void mockFetchSuccess(dynamic json) => mockFetchCall().thenAnswer((_) async => json);
+  void mockFetchSuccess(dynamic json) =>
+      mockFetchCall().thenAnswer((_) async => json);
   void mockFetchError() => mockFetchCall().thenThrow(Exception());
 
   When<dynamic> mockDeleteCall() => when(() => delete(any()));
