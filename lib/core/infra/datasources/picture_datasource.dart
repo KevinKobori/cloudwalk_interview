@@ -1,7 +1,7 @@
 import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-class PictureDatasource implements IPictureDataSource {
+class PictureDatasource implements IPictureDatasource {
   final IHttpClient httpClient;
 
   PictureDatasource(this.httpClient);
