@@ -41,7 +41,7 @@ void main() {
     });
 
     test(
-        'When load data should throw UnexpectedError if local storage is empty',
+        'When load data should throw UnexpectedError if localStorage is empty',
         () async {
       localStorage.mockFetchSuccess(<Map<String, dynamic>>[]);
 
@@ -55,7 +55,7 @@ void main() {
     });
 
     test(
-        'When load data should throw UnexpectedError if local storage is isvalid',
+        'When load data should throw UnexpectedError if localStorage is isvalid',
         () async {
       localStorage.mockFetchSuccess(
           DeviceLocalStorageFactory().generateInvalidApodObjectMapList());
@@ -70,7 +70,7 @@ void main() {
     });
 
     test(
-        'When load data should throw UnexpectedError if local storage is incomplete',
+        'When load data should throw UnexpectedError if localStorage is incomplete',
         () async {
       localStorage.mockFetchSuccess(
           DeviceLocalStorageFactory.generateIncompleteApodObjectMapList());
@@ -84,21 +84,31 @@ void main() {
               e.errorType == DomainErrorType.unexpected)));
     });
 
-    test('When load data should throw UnexpectedError if local storage throws',
-        () async {});
+    test('When load data should throw UnexpectedError if localStorage throws',
+        () async {
+      localStorage.mockFetchError();
+
+      final future = sut.loadLastTenDaysData();
+
+      expect(
+          future,
+          throwsA(predicate((e) =>
+              e is DomainException &&
+              e.errorType == DomainErrorType.unexpected)));
+    });
   });
 
   group('validate', () {
     test('When validate data should call localStorage with correct key',
         () async {});
 
-    test('When validate data should delete local storage if it is invalid',
+    test('When validate data should delete localStorage if it is invalid',
         () async {});
 
-    test('When validate data should delete local storage if it is incomplete',
+    test('When validate data should delete localStorage if it is incomplete',
         () async {});
 
-    test('When validate data should delete local storage if fetch fails',
+    test('When validate data should delete localStorage if fetch fails',
         () async {});
   });
 
