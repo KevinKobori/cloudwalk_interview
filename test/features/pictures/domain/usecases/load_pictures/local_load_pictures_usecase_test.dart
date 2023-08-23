@@ -57,16 +57,16 @@ void main() {
     test(
         'When load data should throw UnexpectedError if local storage is isvalid',
         () async {
-      // localStorage.mockFetchSuccess(
-      //     ApodResponsesFactory().generateInvalidApodObjectMapList());
+      localStorage.mockFetchSuccess(
+          ApodResponsesFactory().generateInvalidApodObjectMapList());
 
-      // final future = sut.loadLastTenDaysData();
+      final future = sut.loadLastTenDaysData();
 
-      // expect(
-      //     future,
-      //     throwsA(predicate((e) =>
-      //         e is DomainException &&
-      //         e.errorType == DomainErrorType.unexpected)));
+      expect(
+          future,
+          throwsA(predicate((e) =>
+              e is DomainException &&
+              e.errorType == DomainErrorType.unexpected)));
     });
 
     test(
