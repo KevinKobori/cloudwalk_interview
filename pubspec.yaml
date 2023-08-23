@@ -23,6 +23,8 @@ dependencies:
   localstorage: ^4.0.1+4
   # Modularity
   flutter_modular: ^6.0.4+1
+  # State Management
+  provider: ^6.0.5
 
 dev_dependencies:
   # Tests
