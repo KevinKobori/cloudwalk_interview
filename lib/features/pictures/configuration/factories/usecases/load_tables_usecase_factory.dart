@@ -18,10 +18,6 @@ final dateNow = getDateFormat(now);
 var lastTenDays = DateTime(now.year, now.month, now.day - 10);
 final dateLastTenDays = getDateFormat(lastTenDays);
 
-
-
-
-
 RemoteLoadPicturesUseCase remoteLoadPicturesUseCaseFactory() =>
     RemoteLoadPicturesUseCase(
       url: apodApiUrlFactory(
