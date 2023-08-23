@@ -2,7 +2,7 @@ import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_
 import 'package:multiple_result/multiple_result.dart';
 
 class PictureRepository implements IPictureRepository {
-  final PictureDatasource pictureDatasource;
+  final IPictureDataSource pictureDatasource;
 
   PictureRepository(this.pictureDatasource);
 

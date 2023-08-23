@@ -4,7 +4,7 @@ import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_
 import 'package:multiple_result/multiple_result.dart';
 
 class PicturesMapper extends IMapper {
-  /// External/Cache > Infra
+  /// Infra > Data
   Map<String, String> fromJsonToMap(String source) => json.decode(source);
 
   Result<List<PictureModel>, InfraException> fromMapListToModelList(
@@ -42,6 +42,20 @@ class PicturesMapper extends IMapper {
         title: map['title']!,
         url: map['url']!,
       ));
+    } catch (_) {
+      return Error(exception);
+    }
+  }
+
+  /// Data > Infra
+  Result<List<Map<String, String>>, InfraException> fromModelListToMapList(
+      List<PictureModel> pictureModelList) {
+    try {
+      final result = List<Map<String, String>>.from(pictureModelList.map((pictureModel) =>
+          PicturesMapper()
+              .fromModelToMap(pictureModel)
+              .whenSuccess((success) => success))).toList();
+      return Success(result);
     } catch (_) {
       return Error(exception);
     }
@@ -114,6 +128,39 @@ class PicturesMapper extends IMapper {
         title: entity.title,
         url: entity.url,
       ));
+    } catch (_) {
+      return Error(exception);
+    }
+  }
+
+  /// Domain > Data
+  Result<PictureModel, InfraException> fromEntityToModel(PictureEntity entity) {
+    try {
+      return Success(PictureModel(
+        date: entity.date,
+        explanation: entity.explanation,
+        hdurl: entity.hdurl,
+        mediaType: entity.mediaType,
+        serviceVersion: entity.serviceVersion,
+        title: entity.title,
+        url: entity.url,
+      ));
+    } catch (_) {
+      return Error(exception);
+    }
+  }
+
+  Result<List<PictureModel>, InfraException> fromEntityListToModelList(
+      List<PictureEntity> pictureEntityList) {
+    try {
+      final result = List<PictureModel>.from(pictureEntityList.map(
+          (pictureEntity) =>
+              PicturesMapper().fromEntityToModel(pictureEntity).when(
+                    (pictureModel) => pictureModel,
+                    (infraException) =>
+                        InfraException(infraException.errorType),
+                  ))).toList();
+      return Success(result);
     } catch (_) {
       return Error(exception);
     }

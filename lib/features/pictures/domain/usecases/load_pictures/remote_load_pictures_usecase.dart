@@ -2,7 +2,7 @@ import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_
 import 'package:multiple_result/multiple_result.dart';
 
 class RemoteLoadPicturesUsecase implements ILoadPicturesUseCase {
-  final PictureRepository picturesRepository;
+  final IPictureRepository picturesRepository;
   final String url;
 
   RemoteLoadPicturesUsecase({
@@ -10,6 +10,7 @@ class RemoteLoadPicturesUsecase implements ILoadPicturesUseCase {
     required this.url,
   });
 
+  /// Example illustrating the use of the "package:multiple_result" library.
   @override
   Future<Result<List<PictureEntity>, DomainException>>
       loadLastTenDaysData() async {
