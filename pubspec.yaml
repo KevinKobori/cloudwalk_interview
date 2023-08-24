@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   # HttpClientAdapter
-  http: ^0.13.4
+  http: ^1.1.0
   # Error Handling
   multiple_result: ^5.1.0
   # Cache Storage
@@ -23,7 +23,10 @@ dependencies:
   localstorage: ^4.0.1+4
   # Modularity
   flutter_modular: ^6.0.4+1
-
+  alice: ^0.3.3
+  # State Management
+  provider: ^6.0.5
+  
 dev_dependencies:
   # Tests
   flutter_test:
@@ -38,8 +41,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  
-  
+fonts:
+  - family: Secular_One
+    fonts:
+      - asset: assets/fonts/Secular_One/SecularOne-Regular.ttf
+   
 
   
   

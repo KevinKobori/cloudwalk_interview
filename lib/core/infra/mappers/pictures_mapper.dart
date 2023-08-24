@@ -5,10 +5,10 @@ import 'package:multiple_result/multiple_result.dart';
 
 class PicturesMapper extends IMapper {
   /// Infra > Data
-  Map<String, String> fromJsonToMap(String source) => json.decode(source);
+  Map<String, dynamic> fromJsonToMap(String source) => json.decode(source);
 
   Result<List<PictureModel>, InfraException> fromMapListToModelList(
-      List<Map<String, String>> mapList) {
+      List<Map<String, dynamic>> mapList) {
     try {
       final result = List<PictureModel>.from(mapList.map((map) =>
           PicturesMapper()
@@ -20,7 +20,8 @@ class PicturesMapper extends IMapper {
     }
   }
 
-  Result<PictureModel, InfraException> fromMapToModel(Map<String, String> map) {
+  Result<PictureModel, InfraException> fromMapToModel(
+      Map<String, dynamic> map) {
     try {
       if (!map.keys.toSet().containsAll([
         'date',
@@ -48,10 +49,10 @@ class PicturesMapper extends IMapper {
   }
 
   /// Data > Infra
-  Result<List<Map<String, String>>, InfraException> fromModelListToMapList(
+  Result<List<Map<String, dynamic>>, InfraException> fromModelListToMapList(
       List<PictureModel> pictureModelList) {
     try {
-      final result = List<Map<String, String>>.from(pictureModelList.map(
+      final result = List<Map<String, dynamic>>.from(pictureModelList.map(
           (pictureModel) => PicturesMapper()
               .fromModelToMap(pictureModel)
               .whenSuccess((success) => success))).toList();
@@ -62,10 +63,10 @@ class PicturesMapper extends IMapper {
   }
 
   /// Infra > External/Cache
-  Result<Map<String, String>, InfraException> fromModelToMap(
+  Result<Map<String, dynamic>, InfraException> fromModelToMap(
       PictureModel model) {
     try {
-      return Success(<String, String>{
+      return Success(<String, dynamic>{
         'date': model.date,
         'explanation': model.explanation,
         'hdurl': model.hdurl,
@@ -164,5 +165,30 @@ class PicturesMapper extends IMapper {
     } catch (_) {
       return Error(exception);
     }
+  }
+
+  /// ???
+  Future<PictureEntity> fromMapToEntity(Map<String, dynamic> pictureMap) async {
+    return await PicturesMapper().fromMapToModel(pictureMap).when(
+          (pictureModel) async =>
+              await PicturesMapper().fromModelToEntity(pictureModel).when(
+                    (pictureEntity) => pictureEntity,
+                    (infraException) => throw DomainException(
+                        infraException.errorType.dataError.domainError),
+                  ),
+          (infraException) => throw DomainException(
+              infraException.errorType.dataError.domainError),
+        );
+  }
+
+  Future<PictureViewModel> fromMapToViewModel(
+      Map<String, dynamic> pictureMap) async {
+    final result = PicturesMapper()
+        .fromEntityToViewModel(await fromMapToEntity(pictureMap));
+    return await result.when(
+      (pictureViewModel) => pictureViewModel,
+      (infraException) =>
+          throw DomainException(infraException.errorType.dataError.domainError),
+    );
   }
 }

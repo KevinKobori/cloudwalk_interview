@@ -3,4 +3,5 @@ abstract class ITranslation {
   String get unexpectedError;
 
   /// Strings
+  String get reload;
 }

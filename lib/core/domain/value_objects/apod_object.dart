@@ -19,7 +19,7 @@ abstract class ApodObject {
 
   @override
   String toString() {
-    return 'ApodObject(date: $date, explanation: $explanation, hdurl: $hdurl, mediaType: $mediaType, serviceVersion: $serviceVersion, title: $title, url: $url)';
+    return 'ApodObject(date: $date, explanation: $explanation, hdurl: $hdurl, media_type: $mediaType, service_version: $serviceVersion, title: $title, url: $url)';
   }
 
   @override

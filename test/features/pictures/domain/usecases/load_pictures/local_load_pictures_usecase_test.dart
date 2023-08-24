@@ -21,8 +21,7 @@ void main() {
 
       await sut.loadLastTenDaysData();
 
-      verify(() => localStorage.fetch(LocalLoadPicturesUseCase.itemKey))
-          .called(1);
+      verify(() => localStorage.fetch('apod_objects')).called(1);
     });
 
     test('When load data should return a list of pictures on success',
@@ -104,8 +103,7 @@ void main() {
         () async {
       await sut.validateLastTenDaysData();
 
-      verify(() => localStorage.fetch(LocalLoadPicturesUseCase.itemKey))
-          .called(1);
+      verify(() => localStorage.fetch('apod_objects')).called(1);
     });
 
     test('When validate data should delete localStorage if it is invalid',
@@ -115,8 +113,7 @@ void main() {
 
       await sut.validateLastTenDaysData();
 
-      verify(() => localStorage.delete(LocalLoadPicturesUseCase.itemKey))
-          .called(1);
+      verify(() => localStorage.delete('apod_objects')).called(1);
     });
 
     test('When validate data should delete localStorage if it is incomplete',
@@ -126,8 +123,7 @@ void main() {
 
       await sut.validateLastTenDaysData();
 
-      verify(() => localStorage.delete(LocalLoadPicturesUseCase.itemKey))
-          .called(1);
+      verify(() => localStorage.delete('apod_objects')).called(1);
     });
 
     test('When validate data should delete localStorage if fetch fails',
@@ -136,8 +132,7 @@ void main() {
 
       await sut.validateLastTenDaysData();
 
-      verify(() => localStorage.delete(LocalLoadPicturesUseCase.itemKey))
-          .called(1);
+      verify(() => localStorage.delete('apod_objects')).called(1);
     });
   });
 
@@ -154,7 +149,7 @@ void main() {
 
       await sut.saveLastTenDaysData(pictureEntityList);
 
-      final Result<List<Map<String, String>>, InfraException> result =
+      final Result<List<Map<String, dynamic>>, InfraException> result =
           await PicturesMapper()
               .fromEntityListToModelList(pictureEntityList)
               .when(
@@ -169,8 +164,8 @@ void main() {
 
       final mapList = result.when((success) => success, (error) => error);
 
-      verify(() => localStorage.save(
-          key: LocalLoadPicturesUseCase.itemKey, value: mapList)).called(1);
+      verify(() => localStorage.save(key: 'apod_objects', value: mapList))
+          .called(1);
     });
 
     test('When save data should throw UnexpectedError if save throws',
