@@ -8,6 +8,7 @@ mixin IPicturesPresenter implements Listenable {
   late ValueNotifier<PictureViewModel?> pictureFound;
   Future<void> loadData();
   Future<void> searchPictureByDate(String date);
-  void goToPictureDetails(String pictureDate);
+  void goToPictureDetails(String pictureDate,
+      {required PictureViewModel pictureViewModel});
   void dispose();
 }

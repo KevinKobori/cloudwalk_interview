@@ -12,8 +12,8 @@ class AppModule extends Module {
   void routes(r) {
     r.child('/', child: (_) => picturesListPageFactory());
     r.child('/pictures/:pictureDate',
-        child: (context) =>
-            pictureDetailsFactory(r.args.params['pictureDate']!));
+        child: (context) => pictureDetailsFactory(r.args.params['pictureDate']!,
+            pictureViewModel: r.args.data));
   }
 }
 
