@@ -13,16 +13,18 @@ String getDateFormat(DateTime time) {
 }
 
 final now = DateTime.now();
-final dateNow = getDateFormat(now);
 
-var lastTenDays = DateTime(now.year, now.month, now.day - 10);
-final dateLastTenDays = getDateFormat(lastTenDays);
+final nowUS = DateTime(now.year, now.month, now.day, now.hour - 1);
+final dateNowUS = getDateFormat(nowUS);
+
+var lastTenDaysUS = DateTime(now.year, now.month, now.day - 10, now.hour - 1);
+final dateLastTenDaysUS = getDateFormat(lastTenDaysUS);
 
 RemoteLoadPicturesUseCase remoteLoadPicturesUseCaseFactory() =>
     RemoteLoadPicturesUseCase(
       url: apodApiUrlFactory(
         apiKey: 'Ieuiin5UvhSz44qMh9rboqVMfOkYbkNebhwEtxPF',
-        requestPath: '&start_date=2023-08-11&end_date=2023-08-12',
+        requestPath: '&start_date=$dateLastTenDaysUS&end_date=$dateNowUS',
       ),
       picturesRepository: pictureRepositoryFactory(),
     );

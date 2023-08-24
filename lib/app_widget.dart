@@ -16,7 +16,7 @@ class AppWidget extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepPurple,
       ),
       routerConfig: Modular.routerConfig,
     );

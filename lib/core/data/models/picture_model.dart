@@ -2,7 +2,6 @@ import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_
 
 class PictureModel extends ApodObject {
   PictureModel({
-    super.copyright,
     required super.date,
     required super.explanation,
     required super.hdurl,

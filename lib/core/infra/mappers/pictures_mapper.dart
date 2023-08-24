@@ -34,7 +34,6 @@ class PicturesMapper extends IMapper {
         return Error(exception);
       }
       return Success(PictureModel(
-        copyright: map['copyright'] ?? '',
         date: map['date']!,
         explanation: map['explanation']!,
         hdurl: map['hdurl']!,
@@ -67,7 +66,6 @@ class PicturesMapper extends IMapper {
       PictureModel model) {
     try {
       return Success(<String, dynamic>{
-        'copyright': model.copyright ?? '',
         'date': model.date,
         'explanation': model.explanation,
         'hdurl': model.hdurl,
@@ -104,7 +102,6 @@ class PicturesMapper extends IMapper {
   Result<PictureEntity, InfraException> fromModelToEntity(PictureModel model) {
     try {
       return Success(PictureEntity(
-        copyright: model.copyright,
         date: model.date,
         explanation: model.explanation,
         hdurl: model.hdurl,
@@ -123,7 +120,6 @@ class PicturesMapper extends IMapper {
       PictureEntity entity) {
     try {
       return Success(PictureViewModel(
-        copyright: entity.copyright,
         date: entity.date,
         explanation: entity.explanation,
         hdurl: entity.hdurl,
@@ -141,7 +137,6 @@ class PicturesMapper extends IMapper {
   Result<PictureModel, InfraException> fromEntityToModel(PictureEntity entity) {
     try {
       return Success(PictureModel(
-        copyright: entity.copyright,
         date: entity.date,
         explanation: entity.explanation,
         hdurl: entity.hdurl,

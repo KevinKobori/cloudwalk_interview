@@ -1,7 +1,4 @@
-
-
 abstract class ApodObject {
-  final String? copyright;
   final String date;
   final String explanation;
   final String hdurl;
@@ -9,9 +6,8 @@ abstract class ApodObject {
   final String serviceVersion;
   final String title;
   final String url;
-  
+
   ApodObject({
-    this.copyright,
     required this.date,
     required this.explanation,
     required this.hdurl,
@@ -23,15 +19,14 @@ abstract class ApodObject {
 
   @override
   String toString() {
-    return 'ApodObject(copyright: $copyright, date: $date, explanation: $explanation, hdurl: $hdurl, media_type: $mediaType, service_version: $serviceVersion, title: $title, url: $url)';
+    return 'ApodObject(date: $date, explanation: $explanation, hdurl: $hdurl, media_type: $mediaType, service_version: $serviceVersion, title: $title, url: $url)';
   }
 
   @override
   bool operator ==(covariant ApodObject other) {
     if (identical(this, other)) return true;
 
-    return other.copyright == copyright &&
-        other.date == date &&
+    return other.date == date &&
         other.explanation == explanation &&
         other.hdurl == hdurl &&
         other.mediaType == mediaType &&
@@ -42,8 +37,7 @@ abstract class ApodObject {
 
   @override
   int get hashCode {
-    return copyright.hashCode ^
-        date.hashCode ^
+    return date.hashCode ^
         explanation.hashCode ^
         hdurl.hashCode ^
         mediaType.hashCode ^
