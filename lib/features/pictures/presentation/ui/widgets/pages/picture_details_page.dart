@@ -25,32 +25,8 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
         .indexWhere((pictureMap) => pictureMap['date'] == widget.pictureDate);
     final pictureMap = pictureMapList[pictureMapIndex];
 
-    final result = await fromMapToViewModel(pictureMap);
-    return result;
-  }
-
-  Future<PictureEntity> fromMapToEntity(Map<String, dynamic> pictureMap) async {
-    return await PicturesMapper().fromMapToModel(pictureMap).when(
-          (pictureModel) async =>
-              await PicturesMapper().fromModelToEntity(pictureModel).when(
-                    (pictureEntity) => pictureEntity,
-                    (infraException) => throw DomainException(
-                        infraException.errorType.dataError.domainError),
-                  ),
-          (infraException) => throw DomainException(
-              infraException.errorType.dataError.domainError),
-        );
-  }
-
-  Future<PictureViewModel> fromMapToViewModel(
-      Map<String, dynamic> pictureMap) async {
-    final result = PicturesMapper()
-        .fromEntityToViewModel(await fromMapToEntity(pictureMap));
-    return await result.when(
-      (pictureViewModel) => pictureViewModel,
-      (infraException) =>
-          throw DomainException(infraException.errorType.dataError.domainError),
-    );
+    final pictureViewModel = await PicturesMapper().fromMapToViewModel(pictureMap);
+    return pictureViewModel;
   }
 
   @override

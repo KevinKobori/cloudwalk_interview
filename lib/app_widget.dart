@@ -19,6 +19,7 @@ class AppWidget extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         fontFamily: 'Secular_One',
       ),
+      restorationScopeId: 'app',
       routerConfig: Modular.routerConfig,
     );
   }

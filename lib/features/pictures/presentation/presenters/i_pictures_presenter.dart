@@ -5,8 +5,9 @@ mixin IPicturesPresenter implements Listenable {
   Stream<bool> get isLoadingStream;
   Stream<List<PictureViewModel>?> get picturesStream;
   Stream<String?> get navigateToStream;
-
+  late ValueNotifier<PictureViewModel?> pictureFound;
   Future<void> loadData();
+  Future<void> searchPictureByDate(String date);
   void goToPictureDetails(String pictureDate);
   void dispose();
 }

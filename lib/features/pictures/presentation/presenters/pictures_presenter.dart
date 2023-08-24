@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_2.dart';
+import 'package:flutter/widgets.dart';
 
 class PicturesState {
   List<PictureViewModel>? pictureViewModelList;
@@ -69,4 +69,20 @@ class PicturesPresenter
 
   @override
   void removeListener(VoidCallback listener) {}
+
+  @override
+  final pictureFound = ValueNotifier<PictureViewModel?>(null);
+
+  @override
+  Future<void> searchPictureByDate(String date) async {
+    final datasource = PictureDatasource(httpClientAdapterFactory());
+    final pictureMap = await datasource.fetchByDate(apodApiUrlFactory(
+        apiKey: 'Ieuiin5UvhSz44qMh9rboqVMfOkYbkNebhwEtxPF',
+        requestPath: '&date=$date'));
+
+    pictureFound.value = await PicturesMapper().fromMapToViewModel(pictureMap);
+  }
+
+  @override
+  set pictureFound(ValueNotifier<PictureViewModel?> pictureFound) {}
 }

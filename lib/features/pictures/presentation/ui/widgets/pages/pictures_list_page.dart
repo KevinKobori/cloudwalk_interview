@@ -31,7 +31,7 @@ class _PicturesListPageState extends State<PicturesListPage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(backgroundColor: Colors.black, title: const TextField()),
+      appBar: DatePickerComponent(widget.picturesPresenter),
       body: Builder(builder: (context) {
         handleLoading(context, widget.picturesPresenter.isLoadingStream);
         handleNavigation(context,
@@ -40,32 +40,43 @@ class _PicturesListPageState extends State<PicturesListPage>
           await widget.picturesPresenter.loadData();
         });
 
-        return StreamBuilder<List<PictureViewModel>?>(
-          stream: widget.picturesPresenter.picturesStream,
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return ReloadScreen(
-                error: '${snapshot.error}',
-                reload: widget.picturesPresenter.loadData,
-              );
-            }
-            if (snapshot.hasData) {
-              return ListenableProvider(
-                create: (_) => widget.picturesPresenter,
-                child: ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    return PictureTile(
-                      picturesPresenter: widget.picturesPresenter,
-                      viewModel: snapshot.data![index],
+        return ValueListenableBuilder(
+            valueListenable: widget.picturesPresenter.pictureFound,
+            builder: (_, value, __) {
+              if (value != null) {
+                return PictureTile(
+                  picturesPresenter: widget.picturesPresenter,
+                  viewModel: value,
+                );
+              }
+
+              return StreamBuilder<List<PictureViewModel>?>(
+                stream: widget.picturesPresenter.picturesStream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return ReloadScreen(
+                      error: '${snapshot.error}',
+                      reload: widget.picturesPresenter.loadData,
                     );
-                  },
-                ),
+                  }
+                  if (snapshot.hasData) {
+                    return ListenableProvider(
+                      create: (_) => widget.picturesPresenter,
+                      child: ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          return PictureTile(
+                            picturesPresenter: widget.picturesPresenter,
+                            viewModel: snapshot.data![index],
+                          );
+                        },
+                      ),
+                    );
+                  }
+                  return const SizedBox();
+                },
               );
-            }
-            return const SizedBox();
-          },
-        );
+            });
       }),
     );
   }

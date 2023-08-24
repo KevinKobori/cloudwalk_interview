@@ -4,4 +4,6 @@ import 'package:multiple_result/multiple_result.dart';
 mixin IPictureDatasource {
   Future<Result<List<Map<String, dynamic>>, InfraException>>
       fetchLastTenDaysData(String url);
+
+  Future<Map<String, dynamic>> fetchByDate(String url);
 }

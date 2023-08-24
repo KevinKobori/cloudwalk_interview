@@ -166,4 +166,29 @@ class PicturesMapper extends IMapper {
       return Error(exception);
     }
   }
+
+  /// ???
+  Future<PictureEntity> fromMapToEntity(Map<String, dynamic> pictureMap) async {
+    return await PicturesMapper().fromMapToModel(pictureMap).when(
+          (pictureModel) async =>
+              await PicturesMapper().fromModelToEntity(pictureModel).when(
+                    (pictureEntity) => pictureEntity,
+                    (infraException) => throw DomainException(
+                        infraException.errorType.dataError.domainError),
+                  ),
+          (infraException) => throw DomainException(
+              infraException.errorType.dataError.domainError),
+        );
+  }
+
+  Future<PictureViewModel> fromMapToViewModel(
+      Map<String, dynamic> pictureMap) async {
+    final result = PicturesMapper()
+        .fromEntityToViewModel(await fromMapToEntity(pictureMap));
+    return await result.when(
+      (pictureViewModel) => pictureViewModel,
+      (infraException) =>
+          throw DomainException(infraException.errorType.dataError.domainError),
+    );
+  }
 }

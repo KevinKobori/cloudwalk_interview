@@ -31,4 +31,26 @@ class PictureDatasource implements IPictureDatasource {
           Error(InfraException(externalException.errorType.infraError)),
     );
   }
+
+  @override
+  Future<Map<String, dynamic>> fetchByDate(String url) async {
+    final resultHttpClient = await httpClient.request(method: 'get', url: url);
+    return resultHttpClient.when(
+      (data) {
+        final map = PicturesMapper().tryDecode(data);
+
+        final Map<String, dynamic> mapTypped =
+            Map<String, dynamic>.from((map as dynamic));
+
+        try {
+          return mapTypped;
+        } catch (_) {
+          throw DomainException(
+              InfraErrorType.invalidData.dataError.domainError);
+        }
+      },
+      (externalException) => throw DomainException(
+          externalException.errorType.infraError.dataError.domainError),
+    );
+  }
 }
