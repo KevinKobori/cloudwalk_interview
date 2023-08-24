@@ -65,7 +65,8 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                 fadeInDuration: const Duration(milliseconds: 1),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,

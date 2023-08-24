@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_2.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class PicturesState {
   List<PictureViewModel>? pictureViewModelList;
@@ -42,7 +43,9 @@ class PicturesPresenter
                 title: pictureEntity.title,
                 url: pictureEntity.url,
               ))
-          .toList().reversed.toList();
+          .toList()
+          .reversed
+          .toList();
     } on DomainException catch (error) {
       _state.pictureViewModelList = [];
       _controller.addError(error.errorType.presentationError.i18nError);
@@ -54,7 +57,8 @@ class PicturesPresenter
 
   @override
   void goToPictureDetails(String pictureDate) {
-    navigateTo = '/pictures/$pictureDate';
+    // navigateTo = '/pictures/$pictureDate';
+    Modular.to.pushNamed('/pictures/$pictureDate');
   }
 
   @override
