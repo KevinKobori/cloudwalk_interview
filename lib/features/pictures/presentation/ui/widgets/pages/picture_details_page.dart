@@ -25,7 +25,8 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
         .indexWhere((pictureMap) => pictureMap['date'] == widget.pictureDate);
     final pictureMap = pictureMapList[pictureMapIndex];
 
-    final pictureViewModel = await PicturesMapper().fromMapToViewModel(pictureMap);
+    final pictureViewModel =
+        await PicturesMapper().fromMapToViewModel(pictureMap);
     return pictureViewModel;
   }
 
@@ -39,32 +40,73 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: rxPictureViewModel,
-      builder: (_, value, __) {
-        return Hero(
-          tag: 'apod_object',
-          child: Container(
-            child: CachedNetworkImage(
-              imageUrl: value!.url,
-              placeholder: (_, __) => Container(
-                color: Colors.black,
-                height: 240,
-                width: double.infinity,
-                child: const Center(child: CircularProgressIndicator()),
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: ValueListenableBuilder(
+        valueListenable: rxPictureViewModel,
+        builder: (_, viewModel, __) {
+          return ListView(
+            children: [
+              CachedNetworkImage(
+                imageUrl: viewModel!.url,
+                placeholder: (_, __) => Container(
+                  color: Colors.black,
+                  height: 240,
+                  width: double.infinity,
+                  child: const Center(child: CircularProgressIndicator()),
+                ),
+                errorWidget: (_, __, ___) => Container(
+                  color: Colors.deepOrange,
+                  height: 240,
+                  width: double.infinity,
+                  child: const Icon(Icons.error),
+                ),
+                fadeOutDuration: const Duration(milliseconds: 1),
+                fadeInDuration: const Duration(milliseconds: 1),
               ),
-              errorWidget: (_, __, ___) => Container(
-                color: Colors.deepOrange,
-                height: 240,
-                width: double.infinity,
-                child: const Icon(Icons.error),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const SizedBox(height: 16),
+                    Text(
+                      viewModel.date,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Secular_One',
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      viewModel.title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontFamily: 'Secular_One',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      viewModel.explanation,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontFamily: 'Secular_One',
+                          fontWeight: FontWeight.w400),
+                    ),
+                    const SizedBox(height: 32),
+                  ],
+                ),
               ),
-              fadeOutDuration: const Duration(milliseconds: 1),
-              fadeInDuration: const Duration(milliseconds: 1),
-            ),
-          ),
-        );
-      },
+            ],
+          );
+        },
+      ),
     );
   }
 }

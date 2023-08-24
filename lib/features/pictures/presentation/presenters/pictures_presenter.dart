@@ -42,7 +42,7 @@ class PicturesPresenter
                 title: pictureEntity.title,
                 url: pictureEntity.url,
               ))
-          .toList();
+          .toList().reversed.toList();
     } on DomainException catch (error) {
       _state.pictureViewModelList = [];
       _controller.addError(error.errorType.presentationError.i18nError);
