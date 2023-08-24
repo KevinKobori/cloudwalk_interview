@@ -60,7 +60,7 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
         );
   }
 
-  Future<List<Map<String, String>>> _getMapList(
+  Future<List<Map<String, dynamic>>> _getMapList(
       List<PictureEntity> pictureEntityList) async {
     return await PicturesMapper()
         .fromEntityListToModelList(pictureEntityList)

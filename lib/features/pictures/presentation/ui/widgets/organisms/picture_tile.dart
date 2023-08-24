@@ -1,17 +1,21 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_2.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class PictureTile extends StatelessWidget {
   final PictureViewModel viewModel;
+  final IPicturesPresenter picturesPresenter;
 
-  const PictureTile(this.viewModel, {super.key});
+  const PictureTile({
+    super.key,
+    required this.viewModel,
+    required this.picturesPresenter,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final presenter = Provider.of<IPicturesPresenter>(context);
     return GestureDetector(
-      onTap: () => presenter.goToPictureDetails(viewModel.date),
+      onTap: () => picturesPresenter.goToPictureDetails(viewModel.date),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5),
         child: Container(
@@ -30,6 +34,23 @@ class PictureTile extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              CachedNetworkImage(
+                imageUrl: viewModel.url,
+                placeholder: (_, __) => Container(
+                  color: Colors.black,
+                  height: 240,
+                  width: double.infinity,
+                  child: const Center(child: CircularProgressIndicator()),
+                ),
+                errorWidget: (_, __, ___) => Container(
+                  color: Colors.deepOrange,
+                  height: 240,
+                  width: double.infinity,
+                  child: const Icon(Icons.error),
+                ),
+                fadeOutDuration: const Duration(milliseconds: 1),
+                fadeInDuration: const Duration(milliseconds: 1),
+              ),
               Text(
                 viewModel.title,
                 style: const TextStyle(

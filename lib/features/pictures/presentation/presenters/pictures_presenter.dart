@@ -34,6 +34,7 @@ class PicturesPresenter
           await loadPictures.loadLastTenDaysData();
       _state.pictureViewModelList = pictureEntityList
           .map((pictureEntity) => PictureViewModel(
+                copyright: pictureEntity.copyright,
                 date: pictureEntity.date,
                 explanation: pictureEntity.explanation,
                 hdurl: pictureEntity.hdurl,

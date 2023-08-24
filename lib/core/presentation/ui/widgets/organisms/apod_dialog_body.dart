@@ -13,8 +13,8 @@ class ApodDialogBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: const BorderRadius.all(
-    Radius.circular(8),
-  ),
+        Radius.circular(8),
+      ),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
         child: Container(

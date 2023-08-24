@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   # HttpClientAdapter
-  http: ^0.13.4
+  http: ^1.1.0
   # Error Handling
   multiple_result: ^5.1.0
   # Cache Storage
@@ -23,6 +23,7 @@ dependencies:
   localstorage: ^4.0.1+4
   # Modularity
   flutter_modular: ^6.0.4+1
+  alice: ^0.3.3
   # State Management
   provider: ^6.0.5
 

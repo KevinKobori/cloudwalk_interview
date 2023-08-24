@@ -12,7 +12,7 @@ abstract class IMapper {
   }
 
   bool bodyIsAListOfMap(dynamic body) {
-    if (body is List<Map<String, String>> || (body is List && body.isEmpty)) {
+    if (body is List<Map<String, dynamic>> || (body is List && body.isEmpty)) {
       return true;
     }
     return false;

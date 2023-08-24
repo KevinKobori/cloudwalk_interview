@@ -2,62 +2,62 @@ import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class PicturesView extends StatefulWidget {
-  final IPicturesPresenter presenter;
+class PicturesListPage extends StatefulWidget {
+  final IPicturesPresenter picturesPresenter;
 
-  const PicturesView(this.presenter, {super.key});
+  const PicturesListPage(this.picturesPresenter, {super.key});
 
   @override
-  State<PicturesView> createState() => _PicturesViewState();
+  State<PicturesListPage> createState() => _PicturesListPageState();
 }
 
-class _PicturesViewState extends State<PicturesView>
-    with
-        LoadingStateManager,
-        NavigationStateManager,
-        RouteAware {
+class _PicturesListPageState extends State<PicturesListPage>
+    with LoadingStateManager, NavigationStateManager, RouteAware {
   @override
   void didPopNext() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await widget.presenter.loadData();
+      await widget.picturesPresenter.loadData();
     });
     super.didPopNext();
   }
 
   @override
   void dispose() {
-    widget.presenter.dispose();
+    widget.picturesPresenter.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(title: Text(I18n.strings.pictures)),
+      appBar: AppBar(title: const Text('I18n.strings.pictures')),
       body: Builder(builder: (context) {
-        handleLoading(context, widget.presenter.isLoadingStream);
+        // handleLoading(context, widget.picturesPresenter.isLoadingStream);
         handleNavigation(context,
-            streamView: widget.presenter.navigateToStream);
+            streamView: widget.picturesPresenter.navigateToStream);
         WidgetsBinding.instance.addPostFrameCallback((_) async {
-          await widget.presenter.loadData();
+          await widget.picturesPresenter.loadData();
         });
 
         return StreamBuilder<List<PictureViewModel>?>(
-          stream: widget.presenter.picturesStream,
+          stream: widget.picturesPresenter.picturesStream,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return ReloadScreen(
                 error: '${snapshot.error}',
-                reload: widget.presenter.loadData,
+                reload: widget.picturesPresenter.loadData,
               );
             }
             if (snapshot.hasData) {
               return ListenableProvider(
-                create: (_) => widget.presenter,
+                create: (_) => widget.picturesPresenter,
                 child: ListView.builder(
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
-                    return PictureTile(snapshot.data![index]);
+                    return PictureTile(
+                      picturesPresenter: widget.picturesPresenter,
+                      viewModel: snapshot.data![index],
+                    );
                   },
                 ),
               );
