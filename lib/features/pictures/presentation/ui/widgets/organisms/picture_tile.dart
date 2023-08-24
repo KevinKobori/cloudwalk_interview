@@ -3,25 +3,26 @@ import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_
 import 'package:flutter/material.dart';
 
 class PictureTile extends StatelessWidget {
-  final PictureViewModel viewModel;
+  final PictureViewModel pictureViewModel;
   final IPicturesPresenter picturesPresenter;
 
   const PictureTile({
     super.key,
-    required this.viewModel,
+    required this.pictureViewModel,
     required this.picturesPresenter,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => picturesPresenter.goToPictureDetails(viewModel.date),
+      onTap: () => picturesPresenter.goToPictureDetails(pictureViewModel.date,
+          pictureViewModel: pictureViewModel),
       child: Container(
         height: 180,
         margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: CachedNetworkImageProvider(viewModel.url),
+            image: CachedNetworkImageProvider(pictureViewModel.url),
             fit: BoxFit.cover,
           ),
           boxShadow: [
@@ -59,7 +60,7 @@ class PictureTile extends StatelessWidget {
                 children: [
                   const SizedBox(height: 16),
                   Text(
-                    viewModel.date,
+                    pictureViewModel.date,
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20,
@@ -68,7 +69,7 @@ class PictureTile extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    viewModel.title,
+                    pictureViewModel.title,
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 22,

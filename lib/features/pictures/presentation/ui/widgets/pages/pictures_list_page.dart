@@ -46,7 +46,7 @@ class _PicturesListPageState extends State<PicturesListPage>
               if (value != null) {
                 return PictureTile(
                   picturesPresenter: widget.picturesPresenter,
-                  viewModel: value,
+                  pictureViewModel: value,
                 );
               }
 
@@ -67,7 +67,7 @@ class _PicturesListPageState extends State<PicturesListPage>
                         itemBuilder: (context, index) {
                           return PictureTile(
                             picturesPresenter: widget.picturesPresenter,
-                            viewModel: snapshot.data![index],
+                            pictureViewModel: snapshot.data![index],
                           );
                         },
                       ),

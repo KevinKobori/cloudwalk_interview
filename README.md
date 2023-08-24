@@ -43,8 +43,6 @@ The main layer serves as the entry point of the application. It initializes the 
 
 ## Architecture
 
-![architecture_layers](documentation/architecture/architecture_layers.png)
-
 ![architecture_classes](documentation/architecture/architecture_classes.png)
 
 ![architecture_objects](documentation/architecture/architecture_objects.png)

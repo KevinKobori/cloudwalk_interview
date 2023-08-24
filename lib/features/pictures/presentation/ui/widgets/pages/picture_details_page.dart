@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 
 class PictureDetailsPage extends StatefulWidget {
+  final PictureViewModel? pictureViewModel;
   final String pictureDate;
 
-  const PictureDetailsPage(this.pictureDate, {super.key});
+  const PictureDetailsPage(this.pictureDate,
+      {super.key, required this.pictureViewModel});
 
   @override
   State<PictureDetailsPage> createState() => _PictureDetailsPageState();
@@ -33,7 +35,9 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      rxPictureViewModel.value = await getPictureViewModelFromLocalStorage();
+      if (widget.pictureViewModel == null) {
+        rxPictureViewModel.value = await getPictureViewModelFromLocalStorage();
+      }
     });
     super.initState();
   }
@@ -45,10 +49,11 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
       body: ValueListenableBuilder(
         valueListenable: rxPictureViewModel,
         builder: (_, viewModel, __) {
+          final picture = widget.pictureViewModel ?? viewModel;
           return ListView(
             children: [
               CachedNetworkImage(
-                imageUrl: viewModel!.url,
+                imageUrl: picture!.url,
                 placeholder: (_, __) => Container(
                   color: Colors.black,
                   height: 240,
@@ -73,7 +78,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                   children: [
                     const SizedBox(height: 16),
                     Text(
-                      viewModel.date,
+                      picture.date,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -83,7 +88,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      viewModel.title,
+                      picture.title,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 22,
@@ -93,7 +98,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                     ),
                     const SizedBox(height: 24),
                     Text(
-                      viewModel.explanation,
+                      picture.explanation,
                       style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,

@@ -56,9 +56,10 @@ class PicturesPresenter
   }
 
   @override
-  void goToPictureDetails(String pictureDate) {
+  void goToPictureDetails(String pictureDate,
+      {required PictureViewModel pictureViewModel}) {
     // navigateTo = '/pictures/$pictureDate';
-    Modular.to.pushNamed('/pictures/$pictureDate');
+    Modular.to.pushNamed('/pictures/$pictureDate', arguments: pictureViewModel);
   }
 
   @override
