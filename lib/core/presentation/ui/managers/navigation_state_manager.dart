@@ -12,7 +12,7 @@ mixin NavigationStateManager {
           if (clear == true) {
             Modular.to.navigate(view);
           } else {
-            Modular.to.navigate(view); // TODO: NOW TO PUSH?
+            Modular.to.pushNamed(view);
           }
         }
       },

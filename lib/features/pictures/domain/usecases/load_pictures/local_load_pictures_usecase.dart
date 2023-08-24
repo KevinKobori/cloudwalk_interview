@@ -5,7 +5,7 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
 
   LocalLoadPicturesUseCase({required this.localStorage});
 
-  static const String itemKey = 'apod_objects';
+  String itemKey = 'apod_objects';
 
   /// Example showcasing the implementation without using
   /// "package:multiple_result" and without adding intermediary

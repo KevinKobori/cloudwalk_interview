@@ -54,7 +54,7 @@ class PicturesPresenter
 
   @override
   void goToPictureDetails(String pictureDate) {
-    navigateTo = '/pictures/$pictureDate/details';
+    navigateTo = '/pictures/$pictureDate';
   }
 
   @override

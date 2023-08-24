@@ -21,7 +21,7 @@ void main() {
 
       await sut.loadLastTenDaysData();
 
-      verify(() => localStorage.fetch(LocalLoadPicturesUseCase.itemKey))
+      verify(() => localStorage.fetch('apod_objects'))
           .called(1);
     });
 
@@ -104,7 +104,7 @@ void main() {
         () async {
       await sut.validateLastTenDaysData();
 
-      verify(() => localStorage.fetch(LocalLoadPicturesUseCase.itemKey))
+      verify(() => localStorage.fetch('apod_objects'))
           .called(1);
     });
 
@@ -115,7 +115,7 @@ void main() {
 
       await sut.validateLastTenDaysData();
 
-      verify(() => localStorage.delete(LocalLoadPicturesUseCase.itemKey))
+      verify(() => localStorage.delete('apod_objects'))
           .called(1);
     });
 
@@ -126,7 +126,7 @@ void main() {
 
       await sut.validateLastTenDaysData();
 
-      verify(() => localStorage.delete(LocalLoadPicturesUseCase.itemKey))
+      verify(() => localStorage.delete('apod_objects'))
           .called(1);
     });
 
@@ -136,7 +136,7 @@ void main() {
 
       await sut.validateLastTenDaysData();
 
-      verify(() => localStorage.delete(LocalLoadPicturesUseCase.itemKey))
+      verify(() => localStorage.delete('apod_objects'))
           .called(1);
     });
   });
@@ -170,7 +170,7 @@ void main() {
       final mapList = result.when((success) => success, (error) => error);
 
       verify(() => localStorage.save(
-          key: LocalLoadPicturesUseCase.itemKey, value: mapList)).called(1);
+          key: 'apod_objects', value: mapList)).called(1);
     });
 
     test('When save data should throw UnexpectedError if save throws',

@@ -14,9 +14,9 @@ class AppModule extends Module {
         child: (_) =>
             // const HomePage());
             picturesListPageFactory());
-    r.child('/pictures/:pictureDate/details',
+    r.child('/pictures/:pictureDate',
         child: (context) =>
-            pictureDetailsFactory(r.args.queryParams['pictureDate'] ?? ''));
+            pictureDetailsFactory(r.args.params['pictureDate']!));
   }
 }
 

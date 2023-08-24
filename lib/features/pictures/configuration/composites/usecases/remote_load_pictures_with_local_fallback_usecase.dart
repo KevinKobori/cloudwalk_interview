@@ -23,9 +23,7 @@ class RemoteLoadPicturesWithLocalFallbackUseCase
       );
 
       await localUseCase.saveLastTenDaysData(pictureEntityList);
-      // return pictureEntityList;
-      await localUseCase.validateLastTenDaysData();
-      return await localUseCase.loadLastTenDaysData();
+      return pictureEntityList;
     } catch (_) {
       await localUseCase.validateLastTenDaysData();
       return await localUseCase.loadLastTenDaysData();
