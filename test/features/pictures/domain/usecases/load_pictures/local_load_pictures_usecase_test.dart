@@ -154,7 +154,7 @@ void main() {
 
       await sut.saveLastTenDaysData(pictureEntityList);
 
-      final Result<List<Map<String, String>>, InfraException> result =
+      final Result<List<Map<String, dynamic>>, InfraException> result =
           await PicturesMapper()
               .fromEntityListToModelList(pictureEntityList)
               .when(

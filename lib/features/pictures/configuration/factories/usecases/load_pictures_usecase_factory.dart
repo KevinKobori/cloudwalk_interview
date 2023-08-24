@@ -22,7 +22,7 @@ RemoteLoadPicturesUseCase remoteLoadPicturesUseCaseFactory() =>
     RemoteLoadPicturesUseCase(
       url: apodApiUrlFactory(
         apiKey: 'Ieuiin5UvhSz44qMh9rboqVMfOkYbkNebhwEtxPF',
-        requestPath: '&start_date=2023-08-09&end_date=2023-08-18',
+        requestPath: '&start_date=2023-08-11&end_date=2023-08-12',
       ),
       picturesRepository: pictureRepositoryFactory(),
     );
