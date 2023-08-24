@@ -66,22 +66,27 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
     return ValueListenableBuilder(
       valueListenable: rxPictureViewModel,
       builder: (_, value, __) {
-        return CachedNetworkImage(
-          imageUrl: value!.url,
-          placeholder: (_, __) => Container(
-            color: Colors.black,
-            height: 240,
-            width: double.infinity,
-            child: const Center(child: CircularProgressIndicator()),
+        return Hero(
+          tag: 'apod_object',
+          child: Container(
+            child: CachedNetworkImage(
+              imageUrl: value!.url,
+              placeholder: (_, __) => Container(
+                color: Colors.black,
+                height: 240,
+                width: double.infinity,
+                child: const Center(child: CircularProgressIndicator()),
+              ),
+              errorWidget: (_, __, ___) => Container(
+                color: Colors.deepOrange,
+                height: 240,
+                width: double.infinity,
+                child: const Icon(Icons.error),
+              ),
+              fadeOutDuration: const Duration(milliseconds: 1),
+              fadeInDuration: const Duration(milliseconds: 1),
+            ),
           ),
-          errorWidget: (_, __, ___) => Container(
-            color: Colors.deepOrange,
-            height: 240,
-            width: double.infinity,
-            child: const Icon(Icons.error),
-          ),
-          fadeOutDuration: const Duration(milliseconds: 1),
-          fadeInDuration: const Duration(milliseconds: 1),
         );
       },
     );

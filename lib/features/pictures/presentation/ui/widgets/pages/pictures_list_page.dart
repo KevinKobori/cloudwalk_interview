@@ -30,9 +30,10 @@ class _PicturesListPageState extends State<PicturesListPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('I18n.strings.pictures')),
+      backgroundColor: Colors.black,
+      appBar: AppBar(backgroundColor: Colors.black, title: const TextField()),
       body: Builder(builder: (context) {
-        // handleLoading(context, widget.picturesPresenter.isLoadingStream);
+        handleLoading(context, widget.picturesPresenter.isLoadingStream);
         handleNavigation(context,
             streamView: widget.picturesPresenter.navigateToStream);
         WidgetsBinding.instance.addPostFrameCallback((_) async {

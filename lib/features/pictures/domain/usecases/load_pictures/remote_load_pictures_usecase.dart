@@ -16,7 +16,7 @@ class RemoteLoadPicturesUseCase implements IRemoteLoadPicturesUseCase {
       loadLastTenDaysData() async {
     final resultRepository = await picturesRepository.getLastTenDaysData(url);
 
-    return resultRepository.when( // TODO: NOW
+    return resultRepository.when(
       (pictureModelList) {
         final resultEntity =
             PicturesMapper().fromModelListToEntityList(pictureModelList);

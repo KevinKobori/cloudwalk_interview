@@ -10,10 +10,7 @@ class AppModule extends Module {
 
   @override
   void routes(r) {
-    r.child('/',
-        child: (_) =>
-            // const HomePage());
-            picturesListPageFactory());
+    r.child('/', child: (_) => picturesListPageFactory());
     r.child('/pictures/:pictureDate',
         child: (context) =>
             pictureDetailsFactory(r.args.params['pictureDate']!));

@@ -17,6 +17,7 @@ class AppWidget extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         primarySwatch: Colors.deepPurple,
+        fontFamily: 'Secular_One',
       ),
       routerConfig: Modular.routerConfig,
     );

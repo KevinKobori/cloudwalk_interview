@@ -16,52 +16,71 @@ class PictureTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => picturesPresenter.goToPictureDetails(viewModel.date),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Hero(
+        tag: 'apod_object',
         child: Container(
-          padding: const EdgeInsets.all(20),
+          height: 180,
+          margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           decoration: BoxDecoration(
-              color: Theme.of(context).primaryColorDark,
-              boxShadow: const [
-                BoxShadow(
-                  offset: Offset(0, 1),
-                  spreadRadius: 0,
-                  blurRadius: 2,
-                  color: Colors.black,
-                )
-              ],
-              borderRadius: const BorderRadius.all(Radius.circular(10))),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            image: DecorationImage(
+              image: CachedNetworkImageProvider(viewModel.url),
+              fit: BoxFit.cover,
+            ),
+            boxShadow: [
+              BoxShadow(
+                offset: const Offset(0, 0),
+                spreadRadius: 5,
+                blurRadius: 10,
+                color: Colors.grey.shade700,
+              )
+            ],
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
+          ),
+          child: Stack(
+            fit: StackFit.expand,
             children: [
-              CachedNetworkImage(
-                imageUrl: viewModel.url,
-                placeholder: (_, __) => Container(
-                  color: Colors.black,
-                  height: 240,
-                  width: double.infinity,
-                  child: const Center(child: CircularProgressIndicator()),
-                ),
-                errorWidget: (_, __, ___) => Container(
-                  color: Colors.deepOrange,
-                  height: 240,
-                  width: double.infinity,
-                  child: const Icon(Icons.error),
-                ),
-                fadeOutDuration: const Duration(milliseconds: 1),
-                fadeInDuration: const Duration(milliseconds: 1),
+              Container(
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      stops: [0, 0.1, 0.6],
+                      colors: [
+                        Colors.black,
+                        Colors.black87,
+                        Colors.transparent,
+                      ],
+                    )),
               ),
-              Text(
-                viewModel.title,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                viewModel.date,
-                style: const TextStyle(color: Colors.white, fontSize: 24),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const SizedBox(height: 16),
+                    Text(
+                      viewModel.date,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Secular_One',
+                      ),
+                    ),
+                    Text(
+                      viewModel.title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontFamily: 'Secular_One',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

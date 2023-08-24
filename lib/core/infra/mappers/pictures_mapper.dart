@@ -20,7 +20,8 @@ class PicturesMapper extends IMapper {
     }
   }
 
-  Result<PictureModel, InfraException> fromMapToModel(Map<String, dynamic> map) {
+  Result<PictureModel, InfraException> fromMapToModel(
+      Map<String, dynamic> map) {
     try {
       if (!map.keys.toSet().containsAll([
         'date',
