@@ -45,6 +45,10 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.deepPurpleAccent,
+      ),
       backgroundColor: Colors.black,
       body: ValueListenableBuilder(
         valueListenable: rxPictureViewModel,

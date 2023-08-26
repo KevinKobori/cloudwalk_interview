@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_2.dart';
 import 'package:http/http.dart';
 import 'package:multiple_result/multiple_result.dart';
@@ -18,7 +16,7 @@ class HttpClientAdapter implements IHttpClient {
     final defaultHeaders = headers?.cast<String, String>() ?? {}
       ..addAll(
           {'content-type': 'application/json', 'accept': 'application/json'});
-    final jsonBody = body != null ? jsonEncode(body) : null;
+    final jsonBody = body != null ? Json.tryEncode(body) : null;
     var response = Response('', 500);
     Future<Response>? futureResponse;
     try {
@@ -43,9 +41,13 @@ class HttpClientAdapter implements IHttpClient {
   Result<dynamic, ExternalException> _handleResponse(Response response) {
     switch (response.statusCode) {
       case 200:
-        return Success(response.body.isEmpty ? null : response.body);
+        return Success(response.body.isEmpty
+            ? null
+            : Json.tryDecode(response.body));
       case 201:
-        return Success(response.body.isEmpty ? null : response.body);
+        return Success(response.body.isEmpty
+            ? null
+            : Json.tryDecode(response.body));
       case 204:
         return const Success(null);
       case 400:

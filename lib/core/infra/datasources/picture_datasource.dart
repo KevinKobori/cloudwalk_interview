@@ -10,17 +10,14 @@ class PictureDatasource implements IPictureDatasource {
   Future<Result<List<Map<String, dynamic>>, InfraException>>
       fetchLastTenDaysData(String url) async {
     final resultHttpClient = await httpClient.request(method: 'get', url: url);
-    
+
     return await resultHttpClient.when(
       (data) {
         try {
-          final mapList = PicturesMapper().tryDecode(data);
-
           final List<Map<String, dynamic>> mapListTypped =
               List<Map<String, dynamic>>.from(
-            (mapList as List<dynamic>).map(
-              (dynamic map) => map as Map<String, dynamic>,
-            ),
+            (data as List<dynamic>)
+                .map((dynamic map) => map as Map<String, dynamic>),
           ).toList();
           return Success(mapListTypped);
         } catch (_) {
@@ -37,10 +34,8 @@ class PictureDatasource implements IPictureDatasource {
     final resultHttpClient = await httpClient.request(method: 'get', url: url);
     return resultHttpClient.when(
       (data) {
-        final map = PicturesMapper().tryDecode(data);
-
         final Map<String, dynamic> mapTypped =
-            Map<String, dynamic>.from((map as dynamic));
+            Map<String, dynamic>.from((data as dynamic));
 
         try {
           return mapTypped;

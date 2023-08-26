@@ -1,26 +1,23 @@
 import 'dart:convert';
 
-import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_2.dart';
-
-abstract class IMapper {
-  InfraException get exception => InfraException(InfraErrorType.invalidData);
-
+class Json {
   /// Validations
-  bool dataIsAMap(dynamic data) {
+  static bool dataIsAMap(dynamic data) {
     if (data is Map<String, dynamic>) {
       return true;
     }
     return false;
   }
 
-  bool dataIsAListOfMap(dynamic data) {
+  static bool dataIsAListOfMap(dynamic data) {
     if (data is List<Map<String, dynamic>> || (data is List && data.isEmpty)) {
       return true;
     }
     return false;
   }
 
-  String? tryEncode(dynamic data) {
+  /// Encoders
+  static String? tryEncode(dynamic data) {
     try {
       return json.encode(data);
     } catch (_) {
@@ -28,7 +25,7 @@ abstract class IMapper {
     }
   }
 
-  dynamic tryDecode(dynamic data) {
+  static dynamic tryDecode(dynamic data) {
     try {
       return json.decode(data);
     } catch (_) {
