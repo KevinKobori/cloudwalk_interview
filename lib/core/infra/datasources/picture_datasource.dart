@@ -10,18 +10,18 @@ class PictureDatasource implements IPictureDatasource {
   Future<Result<List<Map<String, dynamic>>, InfraException>>
       fetchLastTenDaysData(String url) async {
     final resultHttpClient = await httpClient.request(method: 'get', url: url);
-    return resultHttpClient.when(
+    
+    return await resultHttpClient.when(
       (data) {
-        final mapList = PicturesMapper().tryDecode(data);
-
-        final List<Map<String, dynamic>> mapListTypped =
-            List<Map<String, dynamic>>.from(
-          (mapList as List<dynamic>).map(
-            (dynamic map) => map as Map<String, dynamic>,
-          ),
-        ).toList();
-
         try {
+          final mapList = PicturesMapper().tryDecode(data);
+
+          final List<Map<String, dynamic>> mapListTypped =
+              List<Map<String, dynamic>>.from(
+            (mapList as List<dynamic>).map(
+              (dynamic map) => map as Map<String, dynamic>,
+            ),
+          ).toList();
           return Success(mapListTypped);
         } catch (_) {
           return Error(InfraException(InfraErrorType.invalidData));
