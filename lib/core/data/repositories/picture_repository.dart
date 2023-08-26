@@ -18,8 +18,8 @@ class PictureRepository implements IPictureRepository {
           (pictureModelList) {
             return Success(pictureModelList);
           },
-          (infraException) {
-            return Error(DataException(infraException.errorType.dataError));
+          (dataException) {
+            return Error(dataException);
           },
         );
       },

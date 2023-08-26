@@ -52,11 +52,10 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
               .fromModelListToEntityList(pictureModelList)
               .when(
                 (pictureEntityList) => pictureEntityList,
-                (infraException) => throw DomainException(
-                    infraException.errorType.dataError.domainError),
+                (domainException) => throw domainException,
               ),
-          (infraException) => throw DomainException(
-              infraException.errorType.dataError.domainError),
+          (dataException) =>
+              throw DomainException(dataException.errorType.domainError),
         );
   }
 

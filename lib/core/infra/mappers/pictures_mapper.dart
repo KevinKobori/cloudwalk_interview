@@ -2,17 +2,10 @@ import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_
 import 'package:multiple_result/multiple_result.dart';
 
 class PicturesMapper {
-  InfraException get exception => InfraException(InfraErrorType.invalidData);
-
-  // /// External/Cache > Infra
-  // Map<String, dynamic> fromJsonToMap(String source) => json.decode(source);
-
-  // /// Infra > External/Cache
-  // String fromMaptoJson(PictureModel model) =>
-  //     json.encode(fromModelToMap(model));
+  InfraErrorType get errorType => InfraErrorType.invalidData;
 
   /// Infra > Data
-  Result<List<PictureModel>, InfraException> fromMapListToModelList(
+  Result<List<PictureModel>, DataException> fromMapListToModelList(
       List<Map<String, dynamic>> mapList) {
     try {
       final result = List<PictureModel>.from(mapList.map((map) =>
@@ -21,13 +14,12 @@ class PicturesMapper {
               .whenSuccess((success) => success))).toList();
       return Success(result);
     } catch (_) {
-      return Error(exception);
+      return Error(DataException(errorType.dataError));
     }
   }
 
   /// Infra > Data
-  Result<PictureModel, InfraException> fromMapToModel(
-      Map<String, dynamic> map) {
+  Result<PictureModel, DataException> fromMapToModel(Map<String, dynamic> map) {
     try {
       if (!map.keys.toSet().containsAll([
         'date',
@@ -38,7 +30,7 @@ class PicturesMapper {
         'title',
         'url',
       ])) {
-        return Error(exception);
+        return Error(DataException(errorType.dataError));
       }
       return Success(PictureModel(
         date: map['date']!,
@@ -50,7 +42,7 @@ class PicturesMapper {
         url: map['url']!,
       ));
     } catch (_) {
-      return Error(exception);
+      return Error(DataException(errorType.dataError));
     }
   }
 
@@ -60,45 +52,49 @@ class PicturesMapper {
           (pictureModel) async =>
               await PicturesMapper().fromModelToEntity(pictureModel).when(
                     (pictureEntity) => pictureEntity,
-                    (infraException) => throw DomainException(
-                        infraException.errorType.dataError.domainError),
+                    (domainException) => throw domainException,
                   ),
-          (infraException) => throw DomainException(
-              infraException.errorType.dataError.domainError),
+          (dataException) =>
+              throw DomainException((dataException.errorType.domainError)),
         );
   }
 
   /// Infra > Presenter [REMOVE_THIS]
   Future<PictureViewModel> fromMapToViewModel(
       Map<String, dynamic> pictureMap) async {
-    final result = PicturesMapper()
-        .fromEntityToViewModel(await fromMapToEntity(pictureMap));
-    return await result.when(
-      (pictureViewModel) => pictureViewModel,
-      (infraException) =>
-          throw DomainException(infraException.errorType.dataError.domainError),
-    );
-  }
-
-  /// Data > Domain
-  Result<List<PictureEntity>, InfraException> fromModelListToEntityList(
-      List<PictureModel> pictureModelList) {
     try {
-      final result = List<PictureEntity>.from(pictureModelList.map(
-          (pictureModel) =>
-              PicturesMapper().fromModelToEntity(pictureModel).when(
-                    (pictureEntity) => pictureEntity,
-                    (infraException) =>
-                        InfraException(infraException.errorType),
-                  ))).toList();
-      return Success(result);
+      final result = PicturesMapper()
+          .fromEntityToViewModel(await fromMapToEntity(pictureMap));
+      return await result.when(
+        (pictureViewModel) => pictureViewModel,
+        (presenterException) => throw presenterException,
+      );
     } catch (_) {
-      return Error(exception);
+      throw PresenterException(PresenterErrorType.invalidData);
     }
   }
 
   /// Data > Domain
-  Result<PictureEntity, InfraException> fromModelToEntity(PictureModel model) {
+  Result<List<PictureEntity>, DomainException> fromModelListToEntityList(
+      List<PictureModel> pictureModelList) {
+    try {
+      final result = List<PictureEntity>.from(
+        pictureModelList.map(
+          (pictureModel) =>
+              PicturesMapper().fromModelToEntity(pictureModel).when(
+                    (pictureEntity) => pictureEntity,
+                    (domainException) => domainException,
+                  ),
+        ),
+      ).toList();
+      return Success(result);
+    } catch (_) {
+      return Error(DomainException(errorType.dataError.domainError));
+    }
+  }
+
+  /// Data > Domain
+  Result<PictureEntity, DomainException> fromModelToEntity(PictureModel model) {
     try {
       return Success(PictureEntity(
         date: model.date,
@@ -110,7 +106,7 @@ class PicturesMapper {
         url: model.url,
       ));
     } catch (_) {
-      return Error(exception);
+      return Error(DomainException(errorType.dataError.domainError));
     }
   }
 
@@ -124,7 +120,7 @@ class PicturesMapper {
               .whenSuccess((success) => success))).toList();
       return Success(result);
     } catch (_) {
-      return Error(exception);
+      return Error(InfraException(errorType));
     }
   }
 
@@ -142,12 +138,12 @@ class PicturesMapper {
         'url': model.url,
       });
     } catch (_) {
-      return Error(exception);
+      return Error(InfraException(errorType));
     }
   }
 
   /// Domain > Presenter
-  Result<PictureViewModel, InfraException> fromEntityToViewModel(
+  Result<PictureViewModel, PresenterException> fromEntityToViewModel(
       PictureEntity entity) {
     try {
       return Success(PictureViewModel(
@@ -160,7 +156,8 @@ class PicturesMapper {
         url: entity.url,
       ));
     } catch (_) {
-      return Error(exception);
+      return Error(PresenterException(
+          errorType.dataError.domainError.presentationError));
     }
   }
 
@@ -177,7 +174,7 @@ class PicturesMapper {
         url: entity.url,
       ));
     } catch (_) {
-      return Error(exception);
+      return Error(InfraException(errorType));
     }
   }
 
@@ -189,12 +186,11 @@ class PicturesMapper {
           (pictureEntity) =>
               PicturesMapper().fromEntityToModel(pictureEntity).when(
                     (pictureModel) => pictureModel,
-                    (infraException) =>
-                        InfraException(infraException.errorType),
+                    (dataException) => dataException,
                   ))).toList();
       return Success(result);
     } catch (_) {
-      return Error(exception);
+      return Error(InfraException(errorType));
     }
   }
 }

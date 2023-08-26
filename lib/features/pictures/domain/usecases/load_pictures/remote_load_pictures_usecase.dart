@@ -22,8 +22,7 @@ class RemoteLoadPicturesUseCase implements IRemoteLoadPicturesUseCase {
             PicturesMapper().fromModelListToEntityList(pictureModelList);
         return resultEntity.when(
           (pictureEntityList) => Success(pictureEntityList),
-          (infraException) => Error(
-              DomainException(infraException.errorType.dataError.domainError)),
+          (domainException) => Error(domainException),
         );
       },
       (dataException) =>
