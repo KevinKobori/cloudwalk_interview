@@ -149,20 +149,26 @@ void main() {
 
       await sut.saveLastTenDaysData(pictureEntityList);
 
-      final Result<List<Map<String, dynamic>>, InfraException> result =
+      final Result<List<PictureModel>, DataException> result =
           await PicturesMapper()
               .fromEntityListToModelList(pictureEntityList)
               .when(
-                (pictureModelList) async => await PicturesMapper()
-                    .fromModelListToMapList(pictureModelList)
-                    .when(
-                      (map) => Success(map),
-                      (infraException) => Error(infraException),
-                    ),
-                (infraException) => Error(infraException),
+                (pictureModelList) => Success(pictureModelList),
+                (dataException) => Error(dataException),
               );
 
-      final mapList = result.when((success) => success, (error) => error);
+      final Result<List<Map<String, dynamic>>, InfraException> result2 =
+          await result.when(
+        (pictureModelList) =>
+            PicturesMapper().fromModelListToMapList(pictureModelList).when(
+                  (mapList) => Success(mapList),
+                  (infraException) => Error(infraException),
+                ),
+        (dataException) => Error(InfraException(InfraErrorType.invalidData)),
+      );
+
+      final mapList =
+          result.when((mapList) => mapList, (infraException) => infraException);
 
       verify(() => localStorage.save(key: 'apod_objects', value: mapList))
           .called(1);

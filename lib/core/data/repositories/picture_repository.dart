@@ -12,17 +12,7 @@ class PictureRepository implements IPictureRepository {
     final resultDataSource = await pictureDatasource.fetchLastTenDaysData(url);
 
     return resultDataSource.when(
-      (mapList) {
-        final resultModel = PicturesMapper().fromMapListToModelList(mapList);
-        return resultModel.when(
-          (pictureModelList) {
-            return Success(pictureModelList);
-          },
-          (dataException) {
-            return Error(dataException);
-          },
-        );
-      },
+      (mapList) => PicturesMapper().fromMapListToModelList(mapList),
       (infraException) =>
           Error(DataException(infraException.errorType.dataError)),
     );

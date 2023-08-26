@@ -71,8 +71,8 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
                 (infraException) => throw DomainException(
                     infraException.errorType.dataError.domainError),
               ),
-          (infraException) => throw DomainException(
-              infraException.errorType.dataError.domainError),
+          (dataException) =>
+              throw DomainException(dataException.errorType.domainError),
         );
   }
 }

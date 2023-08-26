@@ -162,7 +162,7 @@ class PicturesMapper {
   }
 
   /// Domain > Data
-  Result<PictureModel, InfraException> fromEntityToModel(PictureEntity entity) {
+  Result<PictureModel, DataException> fromEntityToModel(PictureEntity entity) {
     try {
       return Success(PictureModel(
         date: entity.date,
@@ -174,12 +174,12 @@ class PicturesMapper {
         url: entity.url,
       ));
     } catch (_) {
-      return Error(InfraException(errorType));
+      return Error(DataException(errorType.dataError));
     }
   }
 
   /// Domain > Data
-  Result<List<PictureModel>, InfraException> fromEntityListToModelList(
+  Result<List<PictureModel>, DataException> fromEntityListToModelList(
       List<PictureEntity> pictureEntityList) {
     try {
       final result = List<PictureModel>.from(pictureEntityList.map(
@@ -190,7 +190,7 @@ class PicturesMapper {
                   ))).toList();
       return Success(result);
     } catch (_) {
-      return Error(InfraException(errorType));
+      return Error(DataException(errorType.dataError));
     }
   }
 }
