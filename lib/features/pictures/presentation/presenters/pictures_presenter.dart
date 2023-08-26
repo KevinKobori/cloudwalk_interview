@@ -56,27 +56,12 @@ class PicturesPresenter
   }
 
   @override
-  void goToPictureDetails(String pictureDate,
-      {required PictureViewModel pictureViewModel}) {
-    // navigateTo = '/pictures/$pictureDate';
-    Modular.to.pushNamed('/pictures/$pictureDate', arguments: pictureViewModel);
+  ValueNotifier<PictureViewModel?> get pictureFound =>
+      ValueNotifier<PictureViewModel?>(null);
+  @override
+  set pictureFound(ValueNotifier<PictureViewModel?> pictureFound) {
+    pictureFound = pictureFound;
   }
-
-  @override
-  void dispose() {
-    _controller.close();
-    disposeNavigationPresenterManager();
-    disposeLoadingPresenterManager();
-  }
-
-  @override
-  void addListener(VoidCallback listener) {}
-
-  @override
-  void removeListener(VoidCallback listener) {}
-
-  @override
-  final pictureFound = ValueNotifier<PictureViewModel?>(null);
 
   @override
   Future<void> searchPictureByDate(String date) async {
@@ -89,5 +74,23 @@ class PicturesPresenter
   }
 
   @override
-  set pictureFound(ValueNotifier<PictureViewModel?> pictureFound) {}
+  void goToPictureDetails(String pictureDate,
+      {required PictureViewModel pictureViewModel}) {
+    // navigateTo = '/pictures/$pictureDate';
+    Modular.to.pushNamed('/pictures/$pictureDate', arguments: pictureViewModel);
+  }
+
+  @override
+  void dispose() {
+    pictureFound.dispose();
+    _controller.close();
+    disposeNavigationPresenterManager();
+    disposeLoadingPresenterManager();
+  }
+
+  @override
+  void addListener(VoidCallback listener) {}
+
+  @override
+  void removeListener(VoidCallback listener) {}
 }
