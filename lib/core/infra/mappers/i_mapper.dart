@@ -23,7 +23,7 @@ abstract class IMapper {
   String? tryEncode(dynamic data) {
     try {
       return json.encode(data);
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }
@@ -31,7 +31,7 @@ abstract class IMapper {
   dynamic tryDecode(dynamic data) {
     try {
       return json.decode(data);
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }

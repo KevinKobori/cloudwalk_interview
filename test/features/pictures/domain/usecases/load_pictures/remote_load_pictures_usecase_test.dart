@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_2.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -22,7 +24,7 @@ void main() {
   });
 
   test('Should call HttpClient with correct values', () async {
-    final data = <Map<String, String>>{};
+    final data = <Map<String, dynamic>>{};
 
     httpClient.mockRequestSuccess(data);
 
@@ -33,6 +35,7 @@ void main() {
 
   test('Should return pictures list on 200 with valid data', () async {
     final data = ApodResponsesFactory().generateValidApodObjectMapList();
+    final dataEncoded = json.encode(data);
 
     final matcher = List<PictureEntity>.from(data.map((map) => PicturesMapper()
         .fromMapToModel(map)
@@ -40,7 +43,7 @@ void main() {
             .fromModelToEntity(model)
             .whenSuccess((entity) => entity)))).toList();
 
-    httpClient.mockRequestSuccess(data);
+    httpClient.mockRequestSuccess(dataEncoded);
 
     final result = await sut.loadLastTenDaysData();
 

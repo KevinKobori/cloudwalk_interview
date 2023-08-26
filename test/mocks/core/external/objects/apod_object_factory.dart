@@ -1,27 +1,25 @@
 mixin ApodObjectFactory {
-  Map<String, String> generateValidApodObjectMap() => {
-        'date': '2023-08-20',
+  Map<String, dynamic> generateValidApodObjectMap() => {
+        'copyright': 'Roberto Ortu',
+        'date': '2023-08-26',
         'explanation':
-            'What kind of cloud is this?  A type of arcus cloud called a roll cloud.  These rare long clouds may form near advancing cold fronts.   In particular, a downdraft from an advancing storm front can cause moist warm air to rise, cool below its dew point, and so form a cloud.  When this happens uniformly along an extended front, a roll cloud may form.  Roll clouds may actually have air circulating along the long horizontal axis of the cloud.  A roll cloud is not thought to be able to morph into a tornado.  Unlike a similar shelf cloud, a roll cloud is completely detached from their parent  cumulonimbus cloud.  Pictured here, a roll cloud extends far into the distance as a storm approaches in 2007 in Racine, Wisconsin, USA.',
-        'hdurl':
-            'https://apod.nasa.gov/apod/image/2308/rollcloud_hanrahan_3072.jpg',
+            "Just as the Moon goes through phases, Venus' visible sunlit hemisphere waxes and wanes. This sequence of telescopic images illustrates the steady changes for Venus during its recent 2023 apparition as our evening star. Gliding along its interior orbit between Earth and Sun, Venus grows larger during that period because it is approaching planet Earth. Its crescent narrows though, as the inner planet swings closer to our line-of-sight to the Sun. Closest to the Earth-Sun line but passing about 8 degrees south of the Sun, on August 13 Venus reached its (non-judgmental) inferior conjunction. And now Venus shines above the eastern horizon in predawn skies, completing its transition to planet Earth's morning star. On August 21, NASA's Parker Solar Probe completed its sixth gravity assist flyby of Venus, using the encounter to maneuver the probe toward its closest approach yet to the Sun.",
+        'hdurl': 'https://apod.nasa.gov/apod/image/2308/fasidivenere.jpg',
         'media_type': 'image',
         'service_version': 'v1',
-        'title': 'A Roll Cloud Over Wisconsin',
-        'url':
-            'https://apod.nasa.gov/apod/image/2308/rollcloud_hanrahan_960.jpg'
+        'title': 'Crescents of Venus',
+        'url': 'https://apod.nasa.gov/apod/image/2308/fasidivenere.jpg'
       };
-
-  Map<String, String> generateInvalidApodObjectMap() => {
+  Map<String, dynamic> generateInvalidApodObjectMap() => {
         'invalid_key': 'invalid_value',
       };
 
-  List<Map<String, String>> generateValidApodObjectMapList() => [
+  List<Map<String, dynamic>> generateValidApodObjectMapList() => [
         generateValidApodObjectMap(),
         generateValidApodObjectMap(),
       ];
 
-  List<Map<String, String>> generateInvalidApodObjectMapList() => [
+  List<Map<String, dynamic>> generateInvalidApodObjectMapList() => [
         generateInvalidApodObjectMap(),
         generateInvalidApodObjectMap(),
       ];
