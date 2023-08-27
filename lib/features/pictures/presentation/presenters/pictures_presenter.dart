@@ -56,12 +56,10 @@ class PicturesPresenter
   }
 
   @override
-  ValueNotifier<PictureViewModel?> get pictureFound =>
-      ValueNotifier<PictureViewModel?>(null);
+  final pictureFound = ValueNotifier<PictureViewModel?>(null);
   @override
-  set pictureFound(ValueNotifier<PictureViewModel?> pictureFound) {
-    pictureFound = pictureFound;
-  }
+  set pictureFound(ValueNotifier<PictureViewModel?> pictureFound) =>
+      pictureFound = pictureFound;
 
   @override
   Future<void> searchPictureByDate(String date) async {
