@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class PicturesState {
-  List<PictureViewModel>? pictureViewModelList;
+  List<ApodObjectViewModel>? pictureViewModelList;
 }
 
 class PicturesPresenter
@@ -24,18 +24,18 @@ class PicturesPresenter
   void _update() => _controller.add(_state);
 
   @override
-  Stream<List<PictureViewModel>?> get picturesStream =>
+  Stream<List<ApodObjectViewModel>?> get picturesStream =>
       _controller.stream.map((state) => state.pictureViewModelList).distinct();
 
   @override
   Future<void> loadData() async {
     try {
       isLoading = true;
-      final List<PictureEntity> pictureEntityList =
+      final List<ApodObjectEntity> pictureEntityList =
           await loadPictures.loadLastTenDaysData();
       _state.pictureViewModelList = pictureEntityList
-          .map((pictureEntity) => PictureViewModel(
-                date: pictureEntity.date,
+          .map((pictureEntity) => ApodObjectViewModel(
+                date: pictureEntity.date.value,
                 explanation: pictureEntity.explanation,
                 hdurl: pictureEntity.hdurl,
                 mediaType: pictureEntity.mediaType,
@@ -56,24 +56,24 @@ class PicturesPresenter
   }
 
   @override
-  final pictureFound = ValueNotifier<PictureViewModel?>(null);
+  final pictureFound = ValueNotifier<ApodObjectViewModel?>(null);
   @override
-  set pictureFound(ValueNotifier<PictureViewModel?> pictureFound) =>
+  set pictureFound(ValueNotifier<ApodObjectViewModel?> pictureFound) =>
       pictureFound = pictureFound;
 
   @override
-  Future<void> searchPictureByDate(String date) async {
+  Future<void> searchPictureByDate(ApodDate date) async {
     final datasource = PictureDatasource(httpClientAdapterFactory());
     final pictureMap = await datasource.fetchByDate(apodApiUrlFactory(
         apiKey: 'Ieuiin5UvhSz44qMh9rboqVMfOkYbkNebhwEtxPF',
-        requestPath: '&date=$date'));
+        requestPath: '&date=${date.value}'));
 
     pictureFound.value = await PicturesMapper().fromMapToViewModel(pictureMap);
   }
 
   @override
   void goToPictureDetails(String pictureDate,
-      {required PictureViewModel pictureViewModel}) {
+      {required ApodObjectViewModel pictureViewModel}) {
     // navigateTo = '/pictures/$pictureDate';
     Modular.to.pushNamed('/pictures/$pictureDate', arguments: pictureViewModel);
   }

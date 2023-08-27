@@ -2,7 +2,7 @@ import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_
 
 mixin ILocalLoadPicturesUseCase implements ILoadPicturesUseCase {
   @override
-  Future<List<PictureEntity>> loadLastTenDaysData();
+  Future<List<ApodObjectEntity>> loadLastTenDaysData();
   Future<void> validateLastTenDaysData();
-  Future<void> saveLastTenDaysData(List<PictureEntity> pictureEntityList);
+  Future<void> saveLastTenDaysData(List<ApodObjectEntity> pictureEntityList);
 }

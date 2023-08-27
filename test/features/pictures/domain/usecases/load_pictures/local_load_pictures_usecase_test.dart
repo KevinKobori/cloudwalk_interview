@@ -28,7 +28,7 @@ void main() {
         () async {
       final data = DeviceLocalStorageFactory().generateValidApodObjectMapList();
 
-      final matcher = List<PictureEntity>.from(data.map((map) =>
+      final matcher = List<ApodObjectEntity>.from(data.map((map) =>
           PicturesMapper().fromMapToModel(map).whenSuccess((model) =>
               PicturesMapper()
                   .fromModelToEntity(model)
@@ -141,7 +141,7 @@ void main() {
         () async {
       final data = DeviceLocalStorageFactory().generateValidApodObjectMapList();
 
-      final pictureEntityList = List<PictureEntity>.from(data.map((map) =>
+      final pictureEntityList = List<ApodObjectEntity>.from(data.map((map) =>
           PicturesMapper().fromMapToModel(map).whenSuccess((model) =>
               PicturesMapper()
                   .fromModelToEntity(model)
@@ -149,7 +149,7 @@ void main() {
 
       await sut.saveLastTenDaysData(pictureEntityList);
 
-      final Result<List<PictureModel>, DataException> result =
+      final Result<List<ApodObjectModel>, DataException> result =
           await PicturesMapper()
               .fromEntityListToModelList(pictureEntityList)
               .when(
@@ -180,7 +180,7 @@ void main() {
 
       localStorage.mockSaveError();
 
-      final pictureEntityList = List<PictureEntity>.from(data.map((map) =>
+      final pictureEntityList = List<ApodObjectEntity>.from(data.map((map) =>
           PicturesMapper().fromMapToModel(map).whenSuccess((model) =>
               PicturesMapper()
                   .fromModelToEntity(model)

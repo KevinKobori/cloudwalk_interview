@@ -2,5 +2,5 @@ import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_
 import 'package:flutter/material.dart';
 
 StatefulWidget pictureDetailsFactory(String pictureDate,
-        {PictureViewModel? pictureViewModel}) =>
+        {ApodObjectViewModel? pictureViewModel}) =>
     PictureDetailsPage(pictureDate, pictureViewModel: pictureViewModel);

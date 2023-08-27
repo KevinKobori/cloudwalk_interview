@@ -3,12 +3,12 @@ import 'package:flutter/widgets.dart';
 
 mixin IPicturesPresenter implements Listenable {
   Stream<bool> get isLoadingStream;
-  Stream<List<PictureViewModel>?> get picturesStream;
+  Stream<List<ApodObjectViewModel>?> get picturesStream;
   Stream<String?> get navigateToStream;
-  late ValueNotifier<PictureViewModel?> pictureFound;
+  late ValueNotifier<ApodObjectViewModel?> pictureFound;
   Future<void> loadData();
-  Future<void> searchPictureByDate(String date);
+  Future<void> searchPictureByDate(ApodDate date);
   void goToPictureDetails(String pictureDate,
-      {required PictureViewModel pictureViewModel});
+      {required ApodObjectViewModel pictureViewModel});
   void dispose();
 }

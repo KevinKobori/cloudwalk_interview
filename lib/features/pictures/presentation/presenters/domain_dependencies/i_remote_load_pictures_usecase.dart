@@ -3,5 +3,5 @@ import 'package:multiple_result/multiple_result.dart';
 
 mixin IRemoteLoadPicturesUseCase implements ILoadPicturesUseCase {
   @override
-  Future<Result<List<PictureEntity>, DomainException>> loadLastTenDaysData();
+  Future<Result<List<ApodObjectEntity>, DomainException>> loadLastTenDaysData();
 }

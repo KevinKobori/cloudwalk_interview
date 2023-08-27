@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 
 class PictureDetailsPage extends StatefulWidget {
-  final PictureViewModel? pictureViewModel;
+  final ApodObjectViewModel? pictureViewModel;
   final String pictureDate;
 
   const PictureDetailsPage(this.pictureDate,
@@ -15,10 +15,10 @@ class PictureDetailsPage extends StatefulWidget {
 }
 
 class _PictureDetailsPageState extends State<PictureDetailsPage> {
-  final ValueNotifier<PictureViewModel?> rxPictureViewModel =
-      ValueNotifier<PictureViewModel?>(null);
+  final ValueNotifier<ApodObjectViewModel?> rxPictureViewModel =
+      ValueNotifier<ApodObjectViewModel?>(null);
 
-  Future<PictureViewModel> getPictureViewModelFromLocalStorage() async {
+  Future<ApodObjectViewModel> getPictureViewModelFromLocalStorage() async {
     final pictureMapList =
         await LocalStorage(localStorageConfigKeyPathFactory())
             .getItem(localLoadPicturesUseCaseFactory().itemKey);

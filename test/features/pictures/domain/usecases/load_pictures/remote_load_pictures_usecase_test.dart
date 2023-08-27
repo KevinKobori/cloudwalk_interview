@@ -34,7 +34,7 @@ void main() {
   test('Should return pictures list on 200 with valid data', () async {
     final data = ApodResponsesFactory().generateValidApodObjectMapList();
 
-    final matcher = List<PictureEntity>.from(data.map((map) => PicturesMapper()
+    final matcher = List<ApodObjectEntity>.from(data.map((map) => PicturesMapper()
         .fromMapToModel(map)
         .whenSuccess((model) => PicturesMapper()
             .fromModelToEntity(model)

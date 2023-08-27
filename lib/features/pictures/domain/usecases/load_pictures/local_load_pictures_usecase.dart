@@ -12,7 +12,7 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
   /// treatments between the layers: Domain, Data, Infrastructure,
   /// and External.
   @override
-  Future<List<PictureEntity>> loadLastTenDaysData() async {
+  Future<List<ApodObjectEntity>> loadLastTenDaysData() async {
     try {
       final data = await localStorage.fetch(itemKey);
       if (data?.isEmpty != false) {
@@ -37,7 +37,7 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
 
   @override
   Future<void> saveLastTenDaysData(
-      List<PictureEntity> pictureEntityList) async {
+      List<ApodObjectEntity> pictureEntityList) async {
     try {
       final mapList = await _getMapList(pictureEntityList);
       await localStorage.save(key: itemKey, value: mapList);
@@ -46,7 +46,7 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
     }
   }
 
-  Future<List<PictureEntity>> _getEntityList(dynamic data) async {
+  Future<List<ApodObjectEntity>> _getEntityList(dynamic data) async {
     return await PicturesMapper().fromMapListToModelList(data).when(
           (pictureModelList) async => await PicturesMapper()
               .fromModelListToEntityList(pictureModelList)
@@ -60,7 +60,7 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
   }
 
   Future<List<Map<String, dynamic>>> _getMapList(
-      List<PictureEntity> pictureEntityList) async {
+      List<ApodObjectEntity> pictureEntityList) async {
     return await PicturesMapper()
         .fromEntityListToModelList(pictureEntityList)
         .when(

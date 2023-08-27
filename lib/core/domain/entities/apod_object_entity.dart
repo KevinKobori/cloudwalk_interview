@@ -1,5 +1,5 @@
-abstract class ApodObject {
-  final String date;
+class ApodObjectEntity {
+  final ApodDate date;
   final String explanation;
   final String hdurl;
   final String mediaType;
@@ -7,7 +7,7 @@ abstract class ApodObject {
   final String title;
   final String url;
 
-  ApodObject({
+  ApodObjectEntity({
     required this.date,
     required this.explanation,
     required this.hdurl,
@@ -23,7 +23,7 @@ abstract class ApodObject {
   }
 
   @override
-  bool operator ==(covariant ApodObject other) {
+  bool operator ==(covariant ApodObjectEntity other) {
     if (identical(this, other)) return true;
 
     return other.date == date &&
@@ -45,4 +45,18 @@ abstract class ApodObject {
         title.hashCode ^
         url.hashCode;
   }
+}
+
+class ApodDate {
+  final int year;
+  final int month;
+  final int day;
+
+  String get value => '$year-$month-$day';
+
+  ApodDate({
+    required this.year,
+    required this.month,
+    required this.day,
+  });
 }

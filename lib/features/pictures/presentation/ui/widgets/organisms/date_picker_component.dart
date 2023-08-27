@@ -71,10 +71,12 @@ class _DatePickerComponentState extends State<DatePickerComponent>
     if (newSelectedDate != null) {
       setState(() async {
         _selectedDate.value = newSelectedDate;
-        // TODO: NOW
-        final dateFormatted =
-            '${_selectedDate.value.year}-${_selectedDate.value.month}-${_selectedDate.value.day}';
-        await widget.picturesPresenter.searchPictureByDate(dateFormatted);
+
+        await widget.picturesPresenter.searchPictureByDate(ApodDate(
+          year: _selectedDate.value.year,
+          month: _selectedDate.value.month,
+          day: _selectedDate.value.day,
+        ));
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
               'Selected: ${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}'),
