@@ -1,4 +1,4 @@
-export 'datasources/datasources.dart';
+export 'datasources/i_picture_datasource.dart';
 export 'helpers/errors/data_error_type.dart';
 export 'helpers/errors/data_error_type_extension.dart';
 export 'helpers/errors/data_exception.dart';
