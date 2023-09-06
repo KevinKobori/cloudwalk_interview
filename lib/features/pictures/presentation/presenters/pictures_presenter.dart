@@ -45,22 +45,17 @@ class PicturesPresenter
       isLoading = true;
       final List<PictureEntity> pictureEntityList =
           await loadPictures.loadLastTenDaysData();
-      _state.pictureViewModelList = pictureEntityList
-          .map((pictureEntity) => PictureViewModel(
-                date: pictureEntity.date.value,
-                explanation: pictureEntity.explanation,
-                hdurl: pictureEntity.hdurl,
-                mediaType: pictureEntity.mediaType,
-                serviceVersion: pictureEntity.serviceVersion,
-                title: pictureEntity.title,
-                url: pictureEntity.url,
-              ))
-          .toList()
-          .reversed
-          .toList();
+
+      _state.pictureViewModelList = PictureMapper()
+          .fromEntityListToViewModelList(pictureEntityList)
+          .when((success) {
+        return success.toList().reversed.toList();
+      }, (error) {
+        return null;
+      });
     } on DomainException catch (error) {
       _state.pictureViewModelList = [];
-      _controller.addError(error.errorType.presentationError.i18nError);
+      _controller.addError(error.errorType.presenterError.i18nError);
     } finally {
       isLoading = false;
       _update();
@@ -80,8 +75,7 @@ class PicturesPresenter
         apiKey: 'Ieuiin5UvhSz44qMh9rboqVMfOkYbkNebhwEtxPF',
         requestPath: '&date=${date.value}'));
 
-    pictureFound.value =
-        await PictureMapper().fromModelToViewModel(pictureMap);
+    pictureFound.value = await PictureMapper().fromModelToViewModel(pictureMap);
   }
 
   @override

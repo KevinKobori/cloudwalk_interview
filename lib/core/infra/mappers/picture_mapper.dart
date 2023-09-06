@@ -48,16 +48,14 @@ class PictureMapper {
   }
 
   /// Infra > Domain [REMOVE_THIS]
-  Future<PictureEntity> fromMapToEntity(
-      Map<String, dynamic> pictureMap) async {
+  Future<PictureEntity> fromMapToEntity(Map<String, dynamic> pictureMap) async {
     return await PictureMapper().fromMapToModel(pictureMap).when(
           (pictureModel) async =>
               await PictureMapper().fromModelToEntity(pictureModel).when(
                     (pictureEntity) => pictureEntity,
                     (domainException) => throw domainException,
                   ),
-          (domainException) =>
-              throw domainException,
+          (domainException) => throw domainException,
         );
   }
 
@@ -81,8 +79,9 @@ class PictureMapper {
       PictureModel pictureModel) async {
     try {
       final result = PictureMapper()
-      // TODO: NOW
-          .fromEntityToViewModel(await fromModelToEntity(pictureModel).whenSuccess((success) => success)!);
+          // TODO: NOW
+          .fromEntityToViewModel(await fromModelToEntity(pictureModel)
+              .whenSuccess((success) => success)!);
       return await result.when(
         (pictureViewModel) => pictureViewModel,
         (presenterException) => throw presenterException,
@@ -112,8 +111,7 @@ class PictureMapper {
   }
 
   /// Data > Domain
-  Result<PictureEntity, DomainException> fromModelToEntity(
-      PictureModel model) {
+  Result<PictureEntity, DomainException> fromModelToEntity(PictureModel model) {
     try {
       return Success(PictureEntity(
         date: model.date,
@@ -176,7 +174,26 @@ class PictureMapper {
       ));
     } catch (_) {
       return Error(PresenterException(
-          errorType.dataError.domainError.presentationError));
+          errorType.dataError.domainError.presenterError));
+    }
+  }
+
+  /// Domain > Presenter
+  Result<List<PictureViewModel>, PresenterException> fromEntityListToViewModelList(
+      List<PictureEntity> pictureEntityList) {
+    try {
+      final result = List<PictureViewModel>.from(
+        pictureEntityList.map(
+          (pictureEntity) =>
+              PictureMapper().fromEntityToViewModel(pictureEntity).when(
+                    (pictureEntity) => pictureEntity,
+                    (domainException) => domainException,
+                  ),
+        ),
+      ).toList();
+      return Success(result);
+    } catch (_) {
+      return Error(PresenterException(errorType.dataError.domainError.presenterError));
     }
   }
 
