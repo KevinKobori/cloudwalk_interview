@@ -13,14 +13,6 @@ class RemoteLoadPicturesUseCase implements IRemoteLoadPicturesUseCase {
   /// Example illustrating the use of the "package:multiple_result" library.
   @override
   Future<Result<List<ApodObjectEntity>, DomainException>>
-      loadLastTenDaysData() async {
-    final resultRepository = await picturesRepository.getLastTenDaysData(url);
-
-    return resultRepository.when(
-      (pictureModelList) =>
-          PicturesMapper().fromModelListToEntityList(pictureModelList),
-      (dataException) =>
-          Error(DomainException(dataException.errorType.domainError)),
-    );
-  }
+      loadLastTenDaysData() async =>
+          await picturesRepository.getLastTenDaysData(url);
 }

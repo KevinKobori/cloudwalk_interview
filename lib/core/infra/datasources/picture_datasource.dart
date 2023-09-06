@@ -7,38 +7,39 @@ class PictureDatasource implements IPictureDatasource {
   PictureDatasource(this.httpClient);
 
   @override
-  Future<Result<List<Map<String, dynamic>>, InfraException>>
+  Future<Result<List<ApodObjectModel>, DataException>>
       fetchLastTenDaysData(String url) async {
     final resultHttpClient = await httpClient.request(method: 'get', url: url);
 
     return resultHttpClient.when(
       (data) {
         try {
-          return Success(List<Map<String, dynamic>>.from((data as List<dynamic>)
-              .map((dynamic map) => map as Map<String, dynamic>)).toList());
+          return Success(List<ApodObjectModel>.from((data as List<dynamic>)
+              .map((dynamic map) => map as ApodObjectModel)).toList());
         } catch (_) {
-          return Error(InfraException(InfraErrorType.invalidData));
+          return Error(DataException(DataErrorType.invalidData));
         }
       },
-      (externalException) =>
-          Error(InfraException(externalException.errorType.infraError)),
+      (infraException) =>
+          Error(DataException(infraException.errorType.dataError)),
     );
   }
 
   @override
-  Future<Map<String, dynamic>> fetchByDate(String url) async { // TODO: Repository and Usecase Layers
+  Future<ApodObjectModel> fetchByDate(String url) async { // TODO: Repository and Usecase Layers
     final resultHttpClient = await httpClient.request(method: 'get', url: url);
     return resultHttpClient.when(
       (data) {
         try {
-          return Map<String, dynamic>.from((data as dynamic));
+          // TODO: NOW
+          return PicturesMapper().fromMapToModel((data as dynamic)).whenSuccess((success) => success)!;
         } catch (_) {
           throw DomainException(
-              InfraErrorType.invalidData.dataError.domainError);
+              DataErrorType.invalidData.domainError);
         }
       },
-      (externalException) => throw DomainException(
-          externalException.errorType.infraError.dataError.domainError),
+      (infraException) => throw DomainException(
+          infraException.errorType.dataError.domainError),
     );
   }
 }

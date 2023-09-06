@@ -5,7 +5,7 @@ class PicturesMapper {
   InfraErrorType get errorType => InfraErrorType.invalidData;
 
   /// Infra > Data
-  Result<List<ApodObjectModel>, DataException> fromMapListToModelList(
+  Result<List<ApodObjectModel>, DomainException> fromMapListToModelList(
       List<Map<String, dynamic>> mapList) {
     try {
       final result = List<ApodObjectModel>.from(mapList.map((map) =>
@@ -14,12 +14,12 @@ class PicturesMapper {
               .whenSuccess((success) => success))).toList();
       return Success(result);
     } catch (_) {
-      return Error(DataException(errorType.dataError));
+      return Error(DomainException(errorType.dataError.domainError));
     }
   }
 
   /// Infra > Data
-  Result<ApodObjectModel, DataException> fromMapToModel(
+  Result<ApodObjectModel, DomainException> fromMapToModel(
       Map<String, dynamic> map) {
     try {
       if (!map.keys.toSet().containsAll([
@@ -31,7 +31,7 @@ class PicturesMapper {
         'title',
         'url',
       ])) {
-        return Error(DataException(errorType.dataError));
+        return Error(DomainException(errorType.dataError.domainError));
       }
       return Success(ApodObjectModel(
         date: map['date']!,
@@ -43,7 +43,7 @@ class PicturesMapper {
         url: map['url']!,
       ));
     } catch (_) {
-      return Error(DataException(errorType.dataError));
+      return Error(DomainException(errorType.dataError.domainError));
     }
   }
 
@@ -56,8 +56,8 @@ class PicturesMapper {
                     (pictureEntity) => pictureEntity,
                     (domainException) => throw domainException,
                   ),
-          (dataException) =>
-              throw DomainException((dataException.errorType.domainError)),
+          (domainException) =>
+              throw domainException,
         );
   }
 
@@ -67,6 +67,22 @@ class PicturesMapper {
     try {
       final result = PicturesMapper()
           .fromEntityToViewModel(await fromMapToEntity(pictureMap));
+      return await result.when(
+        (pictureViewModel) => pictureViewModel,
+        (presenterException) => throw presenterException,
+      );
+    } catch (_) {
+      throw PresenterException(PresenterErrorType.invalidData);
+    }
+  }
+
+  /// Infra > Presenter [REMOVE_THIS]
+  Future<ApodObjectViewModel> fromModelToViewModel(
+      ApodObjectModel pictureModel) async {
+    try {
+      final result = PicturesMapper()
+      // TODO: NOW
+          .fromEntityToViewModel(await fromModelToEntity(pictureModel).whenSuccess((success) => success)!);
       return await result.when(
         (pictureViewModel) => pictureViewModel,
         (presenterException) => throw presenterException,
@@ -128,7 +144,7 @@ class PicturesMapper {
   }
 
   /// Data > Infra
-  Result<Map<String, dynamic>, InfraException> fromModelToMap(
+  Result<Map<String, dynamic>, DataException> fromModelToMap(
       ApodObjectModel model) {
     try {
       return Success(<String, dynamic>{
@@ -141,7 +157,7 @@ class PicturesMapper {
         'url': model.url,
       });
     } catch (_) {
-      return Error(InfraException(errorType));
+      return Error(DataException(errorType.dataError));
     }
   }
 
@@ -194,7 +210,7 @@ class PicturesMapper {
           (pictureEntity) =>
               PicturesMapper().fromEntityToModel(pictureEntity).when(
                     (pictureModel) => pictureModel,
-                    (dataException) => dataException,
+                    (domainException) => domainException,
                   ))).toList();
       return Success(result);
     } catch (_) {

@@ -3,7 +3,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 class HttpClientSpy extends Mock implements IHttpClient {
-  When<Future<Result<dynamic, ExternalException>>> mockRequestCall() =>
+  When<Future<Result<dynamic, InfraException>>> mockRequestCall() =>
       when(() => request(
           url: any(named: 'url'),
           method: any(named: 'method'),
@@ -13,6 +13,6 @@ class HttpClientSpy extends Mock implements IHttpClient {
   void mockRequestSuccess(dynamic data) =>
       mockRequestCall().thenAnswer((_) async => Success(data));
 
-  void mockRequestError(ExternalErrorType error) => mockRequestCall()
-      .thenAnswer((_) async => Error(ExternalException(error)));
+  void mockRequestError(InfraErrorType error) => mockRequestCall()
+      .thenAnswer((_) async => Error(InfraException(error)));
 }

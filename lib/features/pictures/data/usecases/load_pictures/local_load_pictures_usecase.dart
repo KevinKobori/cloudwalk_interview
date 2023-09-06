@@ -54,8 +54,7 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
                 (pictureEntityList) => pictureEntityList,
                 (domainException) => throw domainException,
               ),
-          (dataException) =>
-              throw DomainException(dataException.errorType.domainError),
+          (domainException) => throw domainException,
         );
   }
 
@@ -68,11 +67,10 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
               .fromModelListToMapList(pictureModelList)
               .when(
                 (map) => map,
-                (infraException) => throw DomainException(
-                    infraException.errorType.dataError.domainError),
+                (dataException) =>
+                    throw DomainException(dataException.errorType.dataError.domainError),
               ),
-          (dataException) =>
-              throw DomainException(dataException.errorType.domainError),
+          (domainException) => throw domainException,
         );
   }
 }

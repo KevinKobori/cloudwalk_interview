@@ -7,14 +7,14 @@ class PictureRepository implements IPictureRepository {
   PictureRepository(this.pictureDatasource);
 
   @override
-  Future<Result<List<ApodObjectModel>, DataException>> getLastTenDaysData(
+  Future<Result<List<ApodObjectEntity>, DomainException>> getLastTenDaysData(
       String url) async {
     final resultDataSource = await pictureDatasource.fetchLastTenDaysData(url);
 
     return resultDataSource.when(
-      (mapList) => PicturesMapper().fromMapListToModelList(mapList),
-      (infraException) =>
-          Error(DataException(infraException.errorType.dataError)),
+      (mapList) => PicturesMapper().fromModelListToEntityList(mapList),
+      (dataException) =>
+          Error(DomainException(dataException.errorType.domainError)),
     );
   }
 }

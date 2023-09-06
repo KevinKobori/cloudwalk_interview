@@ -2,6 +2,6 @@ import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_
 import 'package:multiple_result/multiple_result.dart';
 
 mixin IPictureRepository {
-  Future<Result<List<ApodObjectModel>, DataException>> getLastTenDaysData(
+  Future<Result<List<ApodObjectEntity>, DomainException>> getLastTenDaysData(
       String url);
 }

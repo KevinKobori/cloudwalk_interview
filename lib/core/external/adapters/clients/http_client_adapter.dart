@@ -8,7 +8,7 @@ class HttpClientAdapter implements IHttpClient {
   HttpClientAdapter(this.client);
 
   @override
-  Future<Result<dynamic, ExternalException>> request(
+  Future<Result<dynamic, InfraException>> request(
       {required String url,
       required String method,
       Map<String, dynamic>? body,
@@ -33,12 +33,12 @@ class HttpClientAdapter implements IHttpClient {
         response = await futureResponse.timeout(const Duration(seconds: 10));
       }
     } catch (_) {
-      return Error(ExternalException(ExternalErrorType.serverError));
+      return Error(InfraException(ExternalErrorType.serverError.infraError));
     }
     return _handleResponse(response);
   }
 
-  Result<dynamic, ExternalException> _handleResponse(Response response) {
+  Result<dynamic, InfraException> _handleResponse(Response response) {
     switch (response.statusCode) {
       case 200:
         return Success(response.body.isEmpty
@@ -51,17 +51,17 @@ class HttpClientAdapter implements IHttpClient {
       case 204:
         return const Success(null);
       case 400:
-        return Error(ExternalException(ExternalErrorType.badRequest));
+        return Error(InfraException(ExternalErrorType.badRequest.infraError));
       case 401:
-        return Error(ExternalException(ExternalErrorType.unauthorized));
+        return Error(InfraException(ExternalErrorType.unauthorized.infraError));
       case 403:
-        return Error(ExternalException(ExternalErrorType.forbidden));
+        return Error(InfraException(ExternalErrorType.forbidden.infraError));
       case 404:
-        return Error(ExternalException(ExternalErrorType.notFound));
+        return Error(InfraException(ExternalErrorType.notFound.infraError));
       case 500:
-        return Error(ExternalException(ExternalErrorType.serverError));
+        return Error(InfraException(ExternalErrorType.serverError.infraError));
       default:
-        return Error(ExternalException(ExternalErrorType.serverError));
+        return Error(InfraException(ExternalErrorType.serverError.infraError));
     }
   }
 }

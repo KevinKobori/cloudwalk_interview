@@ -2,8 +2,8 @@ import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_
 import 'package:multiple_result/multiple_result.dart';
 
 mixin IPictureDatasource {
-  Future<Result<List<Map<String, dynamic>>, InfraException>>
+  Future<Result<List<ApodObjectModel>, DataException>>
       fetchLastTenDaysData(String url);
 
-  Future<Map<String, dynamic>> fetchByDate(String url);
+  Future<ApodObjectModel> fetchByDate(String url);
 }

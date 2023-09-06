@@ -68,7 +68,7 @@ class PicturesPresenter
         apiKey: 'Ieuiin5UvhSz44qMh9rboqVMfOkYbkNebhwEtxPF',
         requestPath: '&date=${date.value}'));
 
-    pictureFound.value = await PicturesMapper().fromMapToViewModel(pictureMap);
+    pictureFound.value = await PicturesMapper().fromModelToViewModel(pictureMap);
   }
 
   @override
