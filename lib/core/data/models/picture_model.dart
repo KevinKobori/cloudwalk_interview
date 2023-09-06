@@ -1,7 +1,7 @@
 import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_2.dart';
 
-class ApodObjectModel extends ApodObjectEntity {
-  ApodObjectModel({
+class PictureModel extends PictureEntity {
+  PictureModel({
     required DateTime date,
     required super.explanation,
     required super.hdurl,
@@ -19,6 +19,6 @@ class ApodObjectModel extends ApodObjectEntity {
 
   @override
   String toString() {
-    return 'ApodObjectModel(date: $date, explanation: $explanation, hdurl: $hdurl, mediaType: $mediaType, serviceVersion: $serviceVersion, title: $title, url: $url)';
+    return 'PictureModel(date: $date, explanation: $explanation, hdurl: $hdurl, mediaType: $mediaType, serviceVersion: $serviceVersion, title: $title, url: $url)';
   }
 }

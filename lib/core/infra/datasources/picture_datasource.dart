@@ -7,15 +7,15 @@ class PictureDatasource implements IPictureDatasource {
   PictureDatasource(this.httpClient);
 
   @override
-  Future<Result<List<ApodObjectModel>, DataException>>
+  Future<Result<List<PictureModel>, DataException>>
       fetchLastTenDaysData(String url) async {
     final resultHttpClient = await httpClient.request(method: 'get', url: url);
 
     return resultHttpClient.when(
       (data) {
         try {
-          return Success(List<ApodObjectModel>.from((data as List<dynamic>)
-              .map((dynamic map) => map as ApodObjectModel)).toList());
+          return Success(List<PictureModel>.from((data as List<dynamic>)
+              .map((dynamic map) => map as PictureModel)).toList());
         } catch (_) {
           return Error(DataException(DataErrorType.invalidData));
         }
@@ -26,13 +26,13 @@ class PictureDatasource implements IPictureDatasource {
   }
 
   @override
-  Future<ApodObjectModel> fetchByDate(String url) async { // TODO: Repository and Usecase Layers
+  Future<PictureModel> fetchByDate(String url) async { // TODO: Repository and Usecase Layers
     final resultHttpClient = await httpClient.request(method: 'get', url: url);
     return resultHttpClient.when(
       (data) {
         try {
           // TODO: NOW
-          return PicturesMapper().fromMapToModel((data as dynamic)).whenSuccess((success) => success)!;
+          return PictureMapper().fromMapToModel((data as dynamic)).whenSuccess((success) => success)!;
         } catch (_) {
           throw DomainException(
               DataErrorType.invalidData.domainError);

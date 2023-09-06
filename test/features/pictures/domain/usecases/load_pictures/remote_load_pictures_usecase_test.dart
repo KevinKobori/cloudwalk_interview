@@ -32,11 +32,11 @@ void main() {
   });
 
   test('Should return pictures list on 200 with valid data', () async {
-    final data = ApodResponsesFactory().generateValidApodObjectMapList();
+    final data = ApodResponsesFactory().generateValidPictureMapList();
 
-    final matcher = List<ApodObjectEntity>.from(data.map((map) => PicturesMapper()
+    final matcher = List<PictureEntity>.from(data.map((map) => PictureMapper()
         .fromMapToModel(map)
-        .whenSuccess((model) => PicturesMapper()
+        .whenSuccess((model) => PictureMapper()
             .fromModelToEntity(model)
             .whenSuccess((entity) => entity)))).toList();
 
@@ -53,7 +53,7 @@ void main() {
       'Should throw UnexpectedError if HttpClient returns 200 with invalid data',
       () async {
     httpClient.mockRequestSuccess(
-        ApodResponsesFactory().generateInvalidApodObjectMapList());
+        ApodResponsesFactory().generateInvalidPictureMapList());
 
     final result = await sut.loadLastTenDaysData();
 

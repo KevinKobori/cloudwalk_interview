@@ -12,7 +12,7 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
   /// treatments between the layers: Domain, Data, Infrastructure,
   /// and External.
   @override
-  Future<List<ApodObjectEntity>> loadLastTenDaysData() async {
+  Future<List<PictureEntity>> loadLastTenDaysData() async {
     try {
       final data = await localStorage.fetch(itemKey);
       if (data?.isEmpty != false) {
@@ -37,7 +37,7 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
 
   @override
   Future<void> saveLastTenDaysData(
-      List<ApodObjectEntity> pictureEntityList) async {
+      List<PictureEntity> pictureEntityList) async {
     try {
       final mapList = await _getMapList(pictureEntityList);
       await localStorage.save(key: itemKey, value: mapList);
@@ -46,9 +46,9 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
     }
   }
 
-  Future<List<ApodObjectEntity>> _getEntityList(dynamic data) async {
-    return await PicturesMapper().fromMapListToModelList(data).when(
-          (pictureModelList) async => await PicturesMapper()
+  Future<List<PictureEntity>> _getEntityList(dynamic data) async {
+    return await PictureMapper().fromMapListToModelList(data).when(
+          (pictureModelList) async => await PictureMapper()
               .fromModelListToEntityList(pictureModelList)
               .when(
                 (pictureEntityList) => pictureEntityList,
@@ -59,11 +59,11 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
   }
 
   Future<List<Map<String, dynamic>>> _getMapList(
-      List<ApodObjectEntity> pictureEntityList) async {
-    return await PicturesMapper()
+      List<PictureEntity> pictureEntityList) async {
+    return await PictureMapper()
         .fromEntityListToModelList(pictureEntityList)
         .when(
-          (pictureModelList) async => await PicturesMapper()
+          (pictureModelList) async => await PictureMapper()
               .fromModelListToMapList(pictureModelList)
               .when(
                 (map) => map,

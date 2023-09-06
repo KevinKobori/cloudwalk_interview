@@ -50,7 +50,7 @@ class _PicturesListPageState extends State<PicturesListPage>
                 );
               }
 
-              return StreamBuilder<List<ApodObjectViewModel>?>(
+              return StreamBuilder<List<PictureViewModel>?>(
                 stream: widget.picturesPresenter.picturesStream,
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {

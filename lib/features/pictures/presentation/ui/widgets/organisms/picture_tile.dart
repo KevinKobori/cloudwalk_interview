@@ -3,7 +3,7 @@ import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_
 import 'package:flutter/material.dart';
 
 class PictureTile extends StatelessWidget {
-  final ApodObjectViewModel pictureViewModel;
+  final PictureViewModel pictureViewModel;
   final IPicturesPresenter picturesPresenter;
 
   const PictureTile({

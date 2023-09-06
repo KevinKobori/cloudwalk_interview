@@ -13,11 +13,11 @@ class RemoteLoadPicturesWithLocalFallbackUseCase
   /// Example showcasing the implementation without using
   /// "package:multiple_result"
   @override
-  Future<List<ApodObjectEntity>> loadLastTenDaysData() async {
+  Future<List<PictureEntity>> loadLastTenDaysData() async {
     try {
       final result = await remoteUseCase.loadLastTenDaysData();
 
-      final List<ApodObjectEntity> pictureEntityList = result.when(
+      final List<PictureEntity> pictureEntityList = result.when(
         (pictureEntityList) => pictureEntityList,
         (domainException) => throw domainException,
       );

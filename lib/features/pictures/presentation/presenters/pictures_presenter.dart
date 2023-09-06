@@ -6,18 +6,18 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 mixin IPicturesPresenter implements Listenable {
   Stream<bool> get isLoadingStream;
-  Stream<List<ApodObjectViewModel>?> get picturesStream;
+  Stream<List<PictureViewModel>?> get picturesStream;
   Stream<String?> get navigateToStream;
-  late ValueNotifier<ApodObjectViewModel?> pictureFound;
+  late ValueNotifier<PictureViewModel?> pictureFound;
   Future<void> loadData();
   Future<void> searchPictureByDate(ApodDate date);
   void goToPictureDetails(String pictureDate,
-      {required ApodObjectViewModel pictureViewModel});
+      {required PictureViewModel pictureViewModel});
   void dispose();
 }
 
 class PicturesState {
-  List<ApodObjectViewModel>? pictureViewModelList;
+  List<PictureViewModel>? pictureViewModelList;
 }
 
 class PicturesPresenter
@@ -36,17 +36,17 @@ class PicturesPresenter
   void _update() => _controller.add(_state);
 
   @override
-  Stream<List<ApodObjectViewModel>?> get picturesStream =>
+  Stream<List<PictureViewModel>?> get picturesStream =>
       _controller.stream.map((state) => state.pictureViewModelList).distinct();
 
   @override
   Future<void> loadData() async {
     try {
       isLoading = true;
-      final List<ApodObjectEntity> pictureEntityList =
+      final List<PictureEntity> pictureEntityList =
           await loadPictures.loadLastTenDaysData();
       _state.pictureViewModelList = pictureEntityList
-          .map((pictureEntity) => ApodObjectViewModel(
+          .map((pictureEntity) => PictureViewModel(
                 date: pictureEntity.date.value,
                 explanation: pictureEntity.explanation,
                 hdurl: pictureEntity.hdurl,
@@ -68,9 +68,9 @@ class PicturesPresenter
   }
 
   @override
-  final pictureFound = ValueNotifier<ApodObjectViewModel?>(null);
+  final pictureFound = ValueNotifier<PictureViewModel?>(null);
   @override
-  set pictureFound(ValueNotifier<ApodObjectViewModel?> pictureFound) =>
+  set pictureFound(ValueNotifier<PictureViewModel?> pictureFound) =>
       pictureFound = pictureFound;
 
   @override
@@ -81,12 +81,12 @@ class PicturesPresenter
         requestPath: '&date=${date.value}'));
 
     pictureFound.value =
-        await PicturesMapper().fromModelToViewModel(pictureMap);
+        await PictureMapper().fromModelToViewModel(pictureMap);
   }
 
   @override
   void goToPictureDetails(String pictureDate,
-      {required ApodObjectViewModel pictureViewModel}) {
+      {required PictureViewModel pictureViewModel}) {
     // navigateTo = '/pictures/$pictureDate';
     Modular.to.pushNamed('/pictures/$pictureDate', arguments: pictureViewModel);
   }

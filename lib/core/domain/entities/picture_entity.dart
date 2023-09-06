@@ -1,4 +1,4 @@
-class ApodObjectEntity {
+class PictureEntity {
   final ApodDate date;
   final String explanation;
   final String hdurl;
@@ -7,7 +7,7 @@ class ApodObjectEntity {
   final String title;
   final String url;
 
-  ApodObjectEntity({
+  PictureEntity({
     required this.date,
     required this.explanation,
     required this.hdurl,
@@ -19,11 +19,11 @@ class ApodObjectEntity {
 
   @override
   String toString() {
-    return 'ApodObject(date: $date, explanation: $explanation, hdurl: $hdurl, media_type: $mediaType, service_version: $serviceVersion, title: $title, url: $url)';
+    return 'PictureEntity(date: $date, explanation: $explanation, hdurl: $hdurl, media_type: $mediaType, service_version: $serviceVersion, title: $title, url: $url)';
   }
 
   @override
-  bool operator ==(covariant ApodObjectEntity other) {
+  bool operator ==(covariant PictureEntity other) {
     if (identical(this, other)) return true;
 
     return other.date == date &&

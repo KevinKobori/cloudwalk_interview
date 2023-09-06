@@ -16,7 +16,7 @@ void main() {
 
   group('Loading', () {
     test('When load data should call localStorage with correct key', () async {
-      final data = DeviceLocalStorageFactory().generateValidApodObjectMapList();
+      final data = DeviceLocalStorageFactory().generateValidPictureMapList();
       localStorage.mockFetchSuccess(data);
 
       await sut.loadLastTenDaysData();
@@ -26,11 +26,11 @@ void main() {
 
     test('When load data should return a list of pictures on success',
         () async {
-      final data = DeviceLocalStorageFactory().generateValidApodObjectMapList();
+      final data = DeviceLocalStorageFactory().generateValidPictureMapList();
 
-      final matcher = List<ApodObjectEntity>.from(data.map((map) =>
-          PicturesMapper().fromMapToModel(map).whenSuccess((model) =>
-              PicturesMapper()
+      final matcher = List<PictureEntity>.from(data.map((map) =>
+          PictureMapper().fromMapToModel(map).whenSuccess((model) =>
+              PictureMapper()
                   .fromModelToEntity(model)
                   .whenSuccess((entity) => entity)))).toList();
 
@@ -58,7 +58,7 @@ void main() {
         'When load data should throw UnexpectedError if localStorage is isvalid',
         () async {
       localStorage.mockFetchSuccess(
-          DeviceLocalStorageFactory().generateInvalidApodObjectMapList());
+          DeviceLocalStorageFactory().generateInvalidPictureMapList());
 
       final future = sut.loadLastTenDaysData();
 
@@ -73,7 +73,7 @@ void main() {
         'When load data should throw UnexpectedError if localStorage is incomplete',
         () async {
       localStorage.mockFetchSuccess(
-          DeviceLocalStorageFactory().generateIncompleteApodObjectMapList());
+          DeviceLocalStorageFactory().generateIncompletePictureMapList());
 
       final future = sut.loadLastTenDaysData();
 
@@ -109,7 +109,7 @@ void main() {
     test('When validate data should delete localStorage if it is invalid',
         () async {
       localStorage.mockFetchSuccess(
-          DeviceLocalStorageFactory().generateInvalidApodObjectMapList());
+          DeviceLocalStorageFactory().generateInvalidPictureMapList());
 
       await sut.validateLastTenDaysData();
 
@@ -119,7 +119,7 @@ void main() {
     test('When validate data should delete localStorage if it is incomplete',
         () async {
       localStorage.mockFetchSuccess(
-          DeviceLocalStorageFactory().generateIncompleteApodObjectMapList());
+          DeviceLocalStorageFactory().generateIncompletePictureMapList());
 
       await sut.validateLastTenDaysData();
 
@@ -139,33 +139,23 @@ void main() {
   group('Saving', () {
     test('When save data should call localStorage with correct values',
         () async {
-      final data = DeviceLocalStorageFactory().generateValidApodObjectMapList();
+      final data = DeviceLocalStorageFactory().generateValidPictureMapList();
 
-      final pictureEntityList = List<ApodObjectEntity>.from(data.map((map) =>
-          PicturesMapper().fromMapToModel(map).whenSuccess((model) =>
-              PicturesMapper()
+      final pictureEntityList = List<PictureEntity>.from(data.map((map) =>
+          PictureMapper().fromMapToModel(map).whenSuccess((model) =>
+              PictureMapper()
                   .fromModelToEntity(model)
                   .whenSuccess((entity) => entity)))).toList();
 
       await sut.saveLastTenDaysData(pictureEntityList);
 
-      final Result<List<ApodObjectModel>, DataException> result =
-          await PicturesMapper()
+      final Result<List<PictureModel>, DataException> result =
+          await PictureMapper()
               .fromEntityListToModelList(pictureEntityList)
               .when(
                 (pictureModelList) => Success(pictureModelList),
                 (dataException) => Error(dataException),
               );
-
-      final Result<List<Map<String, dynamic>>, InfraException> result2 =
-          await result.when(
-        (pictureModelList) =>
-            PicturesMapper().fromModelListToMapList(pictureModelList).when(
-                  (mapList) => Success(mapList),
-                  (infraException) => Error(infraException),
-                ),
-        (dataException) => Error(InfraException(InfraErrorType.invalidData)),
-      );
 
       final mapList =
           result.when((mapList) => mapList, (infraException) => infraException);
@@ -176,13 +166,13 @@ void main() {
 
     test('When save data should throw UnexpectedError if save throws',
         () async {
-      final data = DeviceLocalStorageFactory().generateValidApodObjectMapList();
+      final data = DeviceLocalStorageFactory().generateValidPictureMapList();
 
       localStorage.mockSaveError();
 
-      final pictureEntityList = List<ApodObjectEntity>.from(data.map((map) =>
-          PicturesMapper().fromMapToModel(map).whenSuccess((model) =>
-              PicturesMapper()
+      final pictureEntityList = List<PictureEntity>.from(data.map((map) =>
+          PictureMapper().fromMapToModel(map).whenSuccess((model) =>
+              PictureMapper()
                   .fromModelToEntity(model)
                   .whenSuccess((entity) => entity)))).toList();
 

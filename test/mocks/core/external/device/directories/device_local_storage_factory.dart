@@ -1,7 +1,7 @@
 import '../../../../../apod.dart';
 
-class DeviceLocalStorageFactory with ApodObjectFactory {
-  List<Map<String, dynamic>> generateIncompleteApodObjectMapList() => [
+class DeviceLocalStorageFactory with PictureFactory {
+  List<Map<String, dynamic>> generateIncompletePictureMapList() => [
         {
           'date': '2023-08-20',
           'explanation':

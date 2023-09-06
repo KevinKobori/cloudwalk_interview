@@ -2,6 +2,6 @@ import 'package:cloudwalk_test_mobile_engineer_2/cloudwalk_test_mobile_engineer_
 
 import '../../../../../apod.dart';
 
-class ApodResponsesFactory with ApodObjectFactory {
+class ApodResponsesFactory with PictureFactory {
   InfraErrorType generateNotFoundError() => InfraErrorType.notFound;
 }

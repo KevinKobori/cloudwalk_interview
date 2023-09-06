@@ -1,4 +1,4 @@
-class ApodObjectViewModel {
+class PictureViewModel {
   final String date;
   final String explanation;
   final String hdurl;
@@ -7,7 +7,7 @@ class ApodObjectViewModel {
   final String title;
   final String url;
 
-  ApodObjectViewModel({
+  PictureViewModel({
     required this.date,
     required this.explanation,
     required this.hdurl,
@@ -19,6 +19,6 @@ class ApodObjectViewModel {
 
   @override
   String toString() {
-    return 'ApodObjectViewModel(date: $date, explanation: $explanation, hdurl: $hdurl, mediaType: $mediaType, serviceVersion: $serviceVersion, title: $title, url: $url)';
+    return 'PictureViewModel(date: $date, explanation: $explanation, hdurl: $hdurl, mediaType: $mediaType, serviceVersion: $serviceVersion, title: $title, url: $url)';
   }
 }

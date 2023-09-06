@@ -1,5 +1,5 @@
-mixin ApodObjectFactory {
-  Map<String, dynamic> generateValidApodObjectMap() => {
+mixin PictureFactory {
+  Map<String, dynamic> generateValidPictureMap() => {
         'copyright': 'Roberto Ortu',
         'date': '2023-08-26',
         'explanation':
@@ -10,17 +10,17 @@ mixin ApodObjectFactory {
         'title': 'Crescents of Venus',
         'url': 'https://apod.nasa.gov/apod/image/2308/fasidivenere.jpg'
       };
-  Map<String, dynamic> generateInvalidApodObjectMap() => {
+  Map<String, dynamic> generateInvalidPictureMap() => {
         'invalid_key': 'invalid_value',
       };
 
-  List<Map<String, dynamic>> generateValidApodObjectMapList() => [
-        generateValidApodObjectMap(),
-        generateValidApodObjectMap(),
+  List<Map<String, dynamic>> generateValidPictureMapList() => [
+        generateValidPictureMap(),
+        generateValidPictureMap(),
       ];
 
-  List<Map<String, dynamic>> generateInvalidApodObjectMapList() => [
-        generateInvalidApodObjectMap(),
-        generateInvalidApodObjectMap(),
+  List<Map<String, dynamic>> generateInvalidPictureMapList() => [
+        generateInvalidPictureMap(),
+        generateInvalidPictureMap(),
       ];
 }
