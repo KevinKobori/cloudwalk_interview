@@ -1,5 +1,5 @@
-import 'package:nasa_apod_app/nasa_apod_app.dart';
 import 'package:multiple_result/multiple_result.dart';
+import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class PictureRepository implements IPictureRepository {
   final IPictureDatasource pictureDatasource;
@@ -11,10 +11,10 @@ class PictureRepository implements IPictureRepository {
       String url) async {
     final resultDataSource = await pictureDatasource.fetchLastTenDaysData(url);
 
-    return resultDataSource.when(
-      (mapList) => PictureMapper().fromModelListToEntityList(mapList),
-      (dataException) =>
-          Error(DomainException(dataException.errorType.domainError)),
-    );
+    return resultDataSource.when((modelList) {
+      return PictureMapper().fromModelListToEntityList(modelList);
+    }, (dataException) {
+      return Error(DomainException(dataException.errorType.domainError));
+    });
   }
 }

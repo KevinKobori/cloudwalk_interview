@@ -23,24 +23,26 @@ class PictureMapper {
       Map<String, dynamic> map) {
     try {
       if (!map.keys.toSet().containsAll([
-        'date',
-        'explanation',
-        'hdurl',
-        'media_type',
-        'service_version',
-        'title',
-        'url',
+        // 'date',
+        // 'explanation',
+        // 'hdurl',
+        // 'media_type',
+        // 'service_version',
+        // 'title',
+        // 'url',
       ])) {
         return Error(DomainException(errorType.dataError.domainError));
       }
       return Success(PictureModel(
-        date: map['date']!,
-        explanation: map['explanation']!,
-        hdurl: map['hdurl']!,
-        mediaType: map['media_type']!,
-        serviceVersion: map['service_version']!,
-        title: map['title']!,
-        url: map['url']!,
+        date:
+            map['date'] != null ? DateTime.parse(map['date']) : DateTime.now(),
+        // map['date'] ?? DateTime.now(),
+        explanation: map['explanation'] ?? "",
+        hdurl: map['hdurl'] ?? "",
+        mediaType: map['media_type'] ?? "",
+        serviceVersion: map['service_version'] ?? "",
+        title: map['title'] ?? "",
+        url: map['url'] ?? "",
       ));
     } catch (_) {
       return Error(DomainException(errorType.dataError.domainError));
@@ -94,13 +96,12 @@ class PictureMapper {
       List<PictureModel> pictureModelList) {
     try {
       final result = List<PictureEntity>.from(
-        pictureModelList.map(
-          (pictureModel) =>
-              PictureMapper().fromModelToEntity(pictureModel).when(
-                    (pictureEntity) => pictureEntity,
-                    (domainException) => domainException,
-                  ),
-        ),
+        pictureModelList.map((pictureModel) {
+          return PictureMapper().fromModelToEntity(pictureModel).when(
+                (pictureEntity) => pictureEntity,
+                (domainException) => domainException,
+              );
+        }),
       ).toList();
       return Success(result);
     } catch (_) {

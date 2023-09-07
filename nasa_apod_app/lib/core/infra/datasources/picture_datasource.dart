@@ -29,10 +29,16 @@ class PictureDatasource implements IPictureDatasource {
         try {
           final mapList = Json.tryDecode(data);
 
+          final List<Map<String, dynamic>> mapListTypped =
+              List<Map<String, dynamic>>.from(
+            (mapList as List<dynamic>).map(
+              (dynamic map) => map as Map<String, dynamic>,
+            ),
+          ).toList();
+
           final List<PictureModel> modelList = List<PictureModel>.from(
-              (mapList as List<Map<String, dynamic>>)
-                  .map((Map<String, dynamic> map) {
-                    final res = PictureMapper()
+              (mapListTypped).map((Map<String, dynamic> map) {
+            final res = PictureMapper()
                 .fromMapToModel(map)
                 .whenSuccess((success) => success
                     // map as Map<String, dynamic>,
@@ -40,6 +46,22 @@ class PictureDatasource implements IPictureDatasource {
             return res;
           })).toList();
           return Success(modelList);
+
+          // return Success(mapListTypped);
+
+          // final mapList = Json.tryDecode(data);
+
+          // final List<PictureModel> modelList = List<PictureModel>.from(
+          //     (mapList as List<Map<String, dynamic>>)
+          //         .map((Map<String, dynamic> map) {
+          //           final res = PictureMapper()
+          //       .fromMapToModel(map)
+          //       .whenSuccess((success) => success
+          //           // map as Map<String, dynamic>,
+          //           );
+          //   return res;
+          // })).toList();
+          // return Success(modelList);
 
           // return
 
@@ -52,7 +74,7 @@ class PictureDatasource implements IPictureDatasource {
 
           //     )!;
         } catch (_) {
-          return Error(DataException(DataErrorType.invalidData));
+           return Error(DataException(DataErrorType.invalidData));
         }
       },
       (externalException) =>
