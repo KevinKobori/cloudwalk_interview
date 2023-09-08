@@ -7,6 +7,8 @@ extension InfraErrorTypeExtension on InfraErrorType {
         return DataErrorType.unexpected;
       case InfraErrorType.invalidData:
         return DataErrorType.invalidData;
+      case InfraErrorType.invalidJson:
+        return DataErrorType.invalidData;
       case InfraErrorType.notFound:
         return DataErrorType.notFound;
     }

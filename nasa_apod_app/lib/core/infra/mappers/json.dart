@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:nasa_apod_app/core/core.dart';
+
 class Json {
   /// Validations
   static bool dataIsAMap(dynamic data) {
@@ -21,7 +23,7 @@ class Json {
     try {
       return json.encode(data);
     } catch (_) {
-      return null;
+      throw InfraException(InfraErrorType.invalidJson);
     }
   }
 
@@ -29,7 +31,7 @@ class Json {
     try {
       return json.decode(data);
     } catch (_) {
-      return null;
+      throw InfraException(InfraErrorType.invalidJson);
     }
   }
 }

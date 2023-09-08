@@ -23,20 +23,18 @@ class PictureMapper {
       Map<String, dynamic> map) {
     try {
       if (!map.keys.toSet().containsAll([
-        // 'date',
-        // 'explanation',
-        // 'hdurl',
-        // 'media_type',
-        // 'service_version',
-        // 'title',
-        // 'url',
+        'date',
+        'explanation',
+        'media_type',
+        'service_version',
+        'title',
+        'url',
       ])) {
         return Error(DomainException(errorType.dataError.domainError));
       }
       return Success(PictureModel(
         date:
             map['date'] != null ? DateTime.parse(map['date']) : DateTime.now(),
-        // map['date'] ?? DateTime.now(),
         explanation: map['explanation'] ?? "",
         hdurl: map['hdurl'] ?? "",
         mediaType: map['media_type'] ?? "",
@@ -113,7 +111,11 @@ class PictureMapper {
   Result<PictureEntity, DomainException> fromModelToEntity(PictureModel model) {
     try {
       return Success(PictureEntity(
-        date: model.date,
+        date: ApodDate(
+          day: model.date.day,
+          month: model.date.month,
+          year: model.date.year,
+        ),
         explanation: model.explanation,
         hdurl: model.hdurl,
         mediaType: model.mediaType,
@@ -145,7 +147,7 @@ class PictureMapper {
       PictureModel model) {
     try {
       return Success(<String, dynamic>{
-        'date': model.date,
+        'date': '${model.date.year}-${model.date.month}-${model.date.day}',
         'explanation': model.explanation,
         'hdurl': model.hdurl,
         'media_type': model.mediaType,
