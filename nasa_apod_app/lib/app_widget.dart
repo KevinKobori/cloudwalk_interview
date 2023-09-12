@@ -1,0 +1,33 @@
+import 'package:alice/alice.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+
+class AppWidget extends StatelessWidget {
+  final alice = Alice();
+
+  AppWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Modular.routerDelegate.setNavigatorKey(alice.getNavigatorKey());
+
+    return ResponsiveApp(
+      builder: (_) => MaterialApp.router(
+        title: 'Nasa Apod App',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          useMaterial3: true,
+          primarySwatch: Colors.deepPurple,
+          fontFamily: 'Secular_One',
+        ),
+        restorationScopeId: 'nasa_apod_app',
+        routerConfig: Modular.routerConfig,
+      ),
+    ).animate().fadeIn(
+          delay: const Duration(milliseconds: 50),
+          duration: const Duration(milliseconds: 400),
+        );
+  }
+}

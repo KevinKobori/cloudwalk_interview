@@ -1,0 +1,4 @@
+enum PresenterErrorType {
+  unexpected,
+  invalidData,
+}
