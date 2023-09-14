@@ -1,14 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 abstract class IPicturesPresenter implements Listenable {
   Stream<bool> get isLoadingStream;
   Stream<List<PictureViewModel>?> get picturesStream;
-  Stream<String?> get navigateToStream;
-  // late ValueNotifier<PictureViewModel?> pictureFound;
+  Stream<NavigateToParams?> get navigateToStream;
   Future<void> loadPictures();
   Future<void> searchPictureByDate(ApodDate date);
   void goToPictureDetails(String pictureDate,
@@ -57,7 +55,7 @@ class PicturesPresenter
         return null;
       });
     } on DomainException catch (error) {
-      _state.pictureViewModelList = [];
+      _state.pictureViewModelList = null;
       _controller.addError(error.errorType.presenterError.i18nError);
     } finally {
       isLoading = false;
@@ -65,20 +63,9 @@ class PicturesPresenter
     }
   }
 
-  // @override
-  // final pictureFound = ValueNotifier<PictureViewModel?>(null);
-  // @override
-  // set pictureFound(ValueNotifier<PictureViewModel?> pictureFound) =>
-  //     pictureFound = pictureFound;
-
   @override
   Future<void> searchPictureByDate(ApodDate date) async {
-    // final datasource = PictureDatasource(httpClientAdapterFactory());
-    // final pictureMap = await datasource.fetchByDate(apodApiUrlFactory(
-    //     apiKey: 'Ieuiin5UvhSz44qMh9rboqVMfOkYbkNebhwEtxPF',
-    //     requestPath: '&date=${date.value}'));
     await _loadPictureByDate(date);
-    // pictureFound.value = PictureMapper().fromModelToViewModel(pictureMap);
   }
 
   Future<void> _loadPictureByDate(ApodDate date) async {
@@ -90,18 +77,10 @@ class PicturesPresenter
           requestPath: '&date=${date.value}'));
 
       _state.pictureViewModelList = [
-        PictureMapper().fromModelToViewModel(pictureMap),
+        PictureMapper().fromModelToViewModel(pictureMap)
       ];
-
-      // PictureMapper()
-      //     .fromEntityListToViewModelList(pictureEntityList)
-      //     .when((success) {
-      //   return success.toList().reversed.toList();
-      // }, (error) {
-      //   return null;
-      // });
     } on DomainException catch (error) {
-      _state.pictureViewModelList = [];
+      _state.pictureViewModelList = null;
       _controller.addError(error.errorType.presenterError.i18nError);
     } finally {
       isLoading = false;
@@ -112,8 +91,10 @@ class PicturesPresenter
   @override
   void goToPictureDetails(String pictureDate,
       {required PictureViewModel pictureViewModel}) {
-    // navigateTo = '/$pictureDate';
-    Modular.to.pushNamed('/$pictureDate', arguments: pictureViewModel);
+    navigateTo = NavigateToParams(
+      routeName: '/$pictureDate',
+      arguments: pictureViewModel,
+    );
   }
 
   @override
