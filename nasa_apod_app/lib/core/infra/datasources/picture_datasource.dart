@@ -27,7 +27,7 @@ class PictureDatasource implements IPictureDatasource {
         //   })).toList();
         //   return Success(mapListTypped);
         try {
-          final mapList = Json.tryDecode(data);
+          final mapList = JsonMapper.tryDecode(data);
 
           final List<Map<String, dynamic>> mapListTypped =
               List<Map<String, dynamic>>.from(

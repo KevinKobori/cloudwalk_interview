@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:nasa_apod_app/core/core.dart';
 
-class Json {
+class JsonMapper {
   /// Validations
   static bool dataIsAMap(dynamic data) {
     if (data is Map<String, dynamic>) {
@@ -19,7 +19,7 @@ class Json {
   }
 
   /// Encoders
-  static String? tryEncode(dynamic data) {
+  static String tryEncode(dynamic data) {
     try {
       return json.encode(data);
     } catch (_) {

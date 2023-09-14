@@ -16,7 +16,7 @@ class HttpClientAdapter implements IHttpClient {
     final defaultHeaders = headers?.cast<String, String>() ?? {}
       ..addAll(
           {'content-type': 'application/json', 'accept': 'application/json'});
-    final jsonBody = body != null ? Json.tryEncode(body) : null;
+    final jsonBody = body != null ? JsonMapper.tryEncode(body) : null;
     var response = Response('', 500);
     Future<Response>? futureResponse;
     try {
