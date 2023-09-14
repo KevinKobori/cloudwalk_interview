@@ -13,11 +13,11 @@ class PicturesPage extends StatefulWidget {
 class _PicturesPageState extends State<PicturesPage>
     with LoadingStateManager, NavigationStateManager, RouteAware {
   @override
-  void didPopNext() {
+  void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await widget.picturesPresenter.loadPictures();
     });
-    super.didPopNext();
+    super.initState();
   }
 
   @override
@@ -27,50 +27,38 @@ class _PicturesPageState extends State<PicturesPage>
   }
 
   @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await widget.picturesPresenter.loadPictures();
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return
-     Builder(builder: (context) {
+    return Builder(builder: (context) {
       handleLoading(context, widget.picturesPresenter.isLoadingStream);
       handleNavigation(context,
           streamView: widget.picturesPresenter.navigateToStream);
-      // WidgetsBinding.instance.addPostFrameCallback((_) async {
-      //   await widget.picturesPresenter.loadPictures();
-      // });
-      return Container();
-      // StreamBuilder<List<PictureViewModel>?>(
-      //   stream: widget.picturesPresenter.picturesStream,
-      //   builder: (context, snapshot) {
-      //     if (snapshot.hasError) {
-      //       return ReloadScreen(
-      //         error: '${snapshot.error}',
-      //         reload: widget.picturesPresenter.loadPictures,
-      //       );
-      //     }
-      //     if (snapshot.hasData) {
-      //       return ListenableProvider(
-      //         create: (_) => widget.picturesPresenter,
-      //         child: ListView.builder(
-      //           itemCount: snapshot.data!.length,
-      //           itemBuilder: (context, index) {
-      //             return PictureTile(
-      //               picturesPresenter: widget.picturesPresenter,
-      //               pictureViewModel: snapshot.data![index],
-      //             );
-      //           },
-      //         ),
-      //       );
-      //     }
-      //     return const SizedBox();
-      //   },
-      // );
+      return Scaffold(
+        backgroundColor: Colors.black,
+        appBar: DatePickerComponent(widget.picturesPresenter),
+        body: StreamBuilder<List<PictureViewModel>?>(
+          stream: widget.picturesPresenter.picturesStream,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return ReloadScreen(
+                error: '${snapshot.error}',
+                reload: widget.picturesPresenter.loadPictures,
+              );
+            }
+            if (snapshot.hasData) {
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  return PictureTile(
+                    picturesPresenter: widget.picturesPresenter,
+                    pictureViewModel: snapshot.data![index],
+                  );
+                },
+              );
+            }
+            return const SizedBox();
+          },
+        ),
+      );
       //   return ScreenTypeLayout.builder(
       //     mobile: (_) => PicturesPageMobile(
       //       picturesPresenter: widget.picturesPresenter,

@@ -74,7 +74,6 @@
 // }
 import 'package:flutter/material.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
-import 'package:provider/provider.dart';
 
 class PicturesPageDesktop extends StatelessWidget {
   final IPicturesPresenter picturesPresenter;
@@ -93,17 +92,14 @@ class PicturesPageDesktop extends StatelessWidget {
           );
         }
         if (snapshot.hasData) {
-          return ListenableProvider(
-            create: (_) => picturesPresenter,
-            child: ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                return PictureTile(
-                  picturesPresenter: picturesPresenter,
-                  pictureViewModel: snapshot.data![index],
-                );
-              },
-            ),
+          return ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              return PictureTile(
+                picturesPresenter: picturesPresenter,
+                pictureViewModel: snapshot.data![index],
+              );
+            },
           );
         }
         return const SizedBox();

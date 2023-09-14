@@ -74,7 +74,7 @@ class PictureDatasource implements IPictureDatasource {
 
           //     )!;
         } catch (_) {
-           return Error(DataException(DataErrorType.invalidData));
+          return Error(DataException(DataErrorType.invalidData));
         }
       },
       (externalException) =>
@@ -122,8 +122,10 @@ class PictureDatasource implements IPictureDatasource {
       (data) {
         try {
           // TODO: NOW
+          final map = JsonMapper.tryDecode(data);
+
           return PictureMapper()
-              .fromMapToModel((data as dynamic))
+              .fromMapToModel((map as Map<String, dynamic>))
               .whenSuccess((success) => success)!;
         } catch (_) {
           throw DomainException(DataErrorType.invalidData.domainError);

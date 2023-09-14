@@ -75,7 +75,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
-import 'package:provider/provider.dart';
 
 class PicturesPageMobile extends StatelessWidget {
   final IPicturesPresenter picturesPresenter;
@@ -94,9 +93,7 @@ class PicturesPageMobile extends StatelessWidget {
           );
         }
         if (snapshot.hasData) {
-          return ListenableProvider(
-            create: (_) => picturesPresenter,
-            child: ListView.builder(
+          return ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 return PictureTile(
@@ -104,7 +101,6 @@ class PicturesPageMobile extends StatelessWidget {
                   pictureViewModel: snapshot.data![index],
                 );
               },
-            ),
           );
         }
         return const SizedBox();
