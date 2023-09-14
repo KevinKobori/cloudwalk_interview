@@ -1,14 +1,14 @@
-import 'package:multiple_result/multiple_result.dart';
+import 'package:dartz/dartz.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class PictureMapper {
   InfraErrorType get errorType => InfraErrorType.invalidData;
 
   /// Data <<< FROM <<< Domain
-  Result<PictureModel, DomainException> fromEntityToModel(
+  Either<DomainException, PictureModel> fromEntityToModel(
       PictureEntity entity) {
     try {
-      return Success(PictureModel(
+      return Right(PictureModel(
         date: DateTime(
           entity.date.year,
           entity.date.month,
@@ -22,29 +22,31 @@ class PictureMapper {
         url: entity.url,
       ));
     } catch (_) {
-      return Error(DomainException(errorType.dataError.domainError));
+      return Left(DomainException(errorType.dataError.domainError));
     }
   }
 
-  Result<List<PictureModel>, DataException> fromEntityListToModelList(
+  Either<DataException, List<PictureModel>> fromEntityListToModelList(
       List<PictureEntity> pictureEntityList) {
     try {
-      final result = List<PictureModel>.from(pictureEntityList.map(
-          (pictureEntity) =>
-              PictureMapper().fromEntityToModel(pictureEntity).when(
-                    (pictureModel) => pictureModel,
-                    (domainException) => domainException,
-                  ))).toList();
-      return Success(result);
+      final result = List<PictureModel>.from(
+        pictureEntityList.map((pictureEntity) {
+          return PictureMapper().fromEntityToModel(pictureEntity).fold(
+                (pictureModel) => pictureModel,
+                (domainException) => domainException,
+              );
+        }),
+      ).toList();
+      return Right(result);
     } catch (_) {
-      return Error(DataException(errorType.dataError));
+      return Left(DataException(errorType.dataError));
     }
   }
 
   /// Data >>> TO >>> Domain
-  Result<PictureEntity, DomainException> fromModelToEntity(PictureModel model) {
+  Either<DomainException, PictureEntity> fromModelToEntity(PictureModel model) {
     try {
-      return Success(PictureEntity(
+      return Right(PictureEntity(
         date: ApodDate(
           day: model.date.day,
           month: model.date.month,
@@ -58,32 +60,32 @@ class PictureMapper {
         url: model.url,
       ));
     } catch (_) {
-      return Error(DomainException(errorType.dataError.domainError));
+      return Left(DomainException(errorType.dataError.domainError));
     }
   }
 
-  Result<List<PictureEntity>, DomainException> fromModelListToEntityList(
+  Either<DomainException, List<PictureEntity>> fromModelListToEntityList(
       List<PictureModel> pictureModelList) {
     try {
       final result = List<PictureEntity>.from(
         pictureModelList.map((pictureModel) {
-          return PictureMapper().fromModelToEntity(pictureModel).when(
+          return PictureMapper().fromModelToEntity(pictureModel).fold(
                 (pictureEntity) => pictureEntity,
                 (domainException) => domainException,
               );
         }),
       ).toList();
-      return Success(result);
+      return Right(result);
     } catch (_) {
-      return Error(DomainException(errorType.dataError.domainError));
+      return Left(DomainException(errorType.dataError.domainError));
     }
   }
 
   /// Presentation <<< FROM <<< Domain
-  Result<PictureViewModel, PresenterException> fromEntityToViewModel(
+  Either<PresenterException, PictureViewModel> fromEntityToViewModel(
       PictureEntity entity) {
     try {
-      return Success(PictureViewModel(
+      return Right(PictureViewModel(
         date: entity.date.value,
         explanation: entity.explanation,
         hdurl: entity.hdurl,
@@ -93,26 +95,26 @@ class PictureMapper {
         url: entity.url,
       ));
     } catch (_) {
-      return Error(
+      return Left(
           PresenterException(errorType.dataError.domainError.presenterError));
     }
   }
 
-  Result<List<PictureViewModel>, PresenterException>
+  Either<PresenterException, List<PictureViewModel>>
       fromEntityListToViewModelList(List<PictureEntity> pictureEntityList) {
     try {
       final result = List<PictureViewModel>.from(
         pictureEntityList.map(
           (pictureEntity) =>
-              PictureMapper().fromEntityToViewModel(pictureEntity).when(
+              PictureMapper().fromEntityToViewModel(pictureEntity).fold(
                     (pictureEntity) => pictureEntity,
                     (domainException) => domainException,
                   ),
         ),
       ).toList();
-      return Success(result);
+      return Right(result);
     } catch (_) {
-      return Error(
+      return Left(
           PresenterException(errorType.dataError.domainError.presenterError));
     }
   }
@@ -122,10 +124,10 @@ class PictureMapper {
   /// fromViewModelListToEntityList
   ///
   /// Infra <<< FROM <<< Data
-  Result<Map<String, dynamic>, DataException> fromModelToMap(
+  Either<DataException, Map<String, dynamic>> fromModelToMap(
       PictureModel model) {
     try {
-      return Success(<String, dynamic>{
+      return Right(<String, dynamic>{
         'date': '${model.date.year}-${model.date.month}-${model.date.day}',
         'explanation': model.explanation,
         'hdurl': model.hdurl,
@@ -135,25 +137,24 @@ class PictureMapper {
         'url': model.url,
       });
     } catch (_) {
-      return Error(DataException(errorType.dataError));
+      return Left(DataException(errorType.dataError));
     }
   }
 
-  Result<List<Map<String, dynamic>>, InfraException> fromModelListToMapList(
+  Either<InfraException, List<Map<String, dynamic>>> fromModelListToMapList(
       List<PictureModel> pictureModelList) {
     try {
       final result = List<Map<String, dynamic>>.from(pictureModelList.map(
-          (pictureModel) => PictureMapper()
-              .fromModelToMap(pictureModel)
-              .whenSuccess((success) => success))).toList();
-      return Success(result);
+              (pictureModel) => PictureMapper().fromModelToMap(pictureModel)))
+          .toList();
+      return Right(result);
     } catch (_) {
-      return Error(InfraException(errorType));
+      return Left(InfraException(errorType));
     }
   }
 
   /// Infra >>> TO >>> Data
-  Result<PictureModel, DomainException> fromMapToModel(
+  Either<DomainException, PictureModel> fromMapToModel(
       Map<String, dynamic> map) {
     try {
       if (!map.keys.toSet().containsAll([
@@ -164,9 +165,9 @@ class PictureMapper {
         'title',
         'url',
       ])) {
-        return Error(DomainException(errorType.dataError.domainError));
+        return Left(DomainException(errorType.dataError.domainError));
       }
-      return Success(PictureModel(
+      return Right(PictureModel(
         date:
             map['date'] != null ? DateTime.parse(map['date']) : DateTime.now(),
         explanation: map['explanation'] ?? '',
@@ -177,60 +178,60 @@ class PictureMapper {
         url: map['url'] ?? '',
       ));
     } catch (_) {
-      return Error(DomainException(errorType.dataError.domainError));
+      return Left(DomainException(errorType.dataError.domainError));
     }
   }
 
-  Result<List<PictureModel>, DataException> fromMapListToModelList(
+  Either<DataException, List<PictureModel>> fromMapListToModelList(
       List<Map<String, dynamic>> mapList) {
     try {
-      final result = List<PictureModel>.from(mapList.map((map) =>
-          PictureMapper()
-              .fromMapToModel(map)
-              .whenSuccess((success) => success))).toList();
-      return Success(result);
+      final result = List<PictureModel>.from(
+          mapList.map((map) => PictureMapper().fromMapToModel(map))).toList();
+      return Right(result);
     } catch (_) {
-      return Error(DataException(errorType.dataError));
+      return Left(DataException(errorType.dataError));
     }
   }
 
   /// [REMOVE_OTHERS]
   /// Infra > Domain [REMOVE_THIS]
   PictureEntity fromMapToEntity(Map<String, dynamic> pictureMap) {
-    return PictureMapper().fromMapToModel(pictureMap).when(
-          (pictureModel) =>
-              PictureMapper().fromModelToEntity(pictureModel).when(
-                    (pictureEntity) => pictureEntity,
-                    (domainException) => throw domainException,
-                  ),
+    return PictureMapper().fromMapToModel(pictureMap).fold(
           (domainException) => throw domainException,
+          (pictureModel) =>
+              PictureMapper().fromModelToEntity(pictureModel).fold(
+                    (domainException) => throw domainException,
+                    (pictureEntity) => pictureEntity,
+                  ),
         );
   }
 
   /// Infra > Presenter [REMOVE_THIS]
-  PictureViewModel fromMapToViewModel(Map<String, dynamic> pictureMap) {
+  Either<PresenterException, PictureViewModel> fromMapToViewModel(
+      Map<String, dynamic> pictureMap) {
     try {
       final result =
           PictureMapper().fromEntityToViewModel(fromMapToEntity(pictureMap));
-      return result.when(
-        (pictureViewModel) => pictureViewModel,
-        (presenterException) => throw presenterException,
-      );
+      return result;
     } catch (_) {
       throw PresenterException(PresenterErrorType.invalidData);
     }
   }
 
   /// Infra > Presenter [REMOVE_THIS]
-  PictureViewModel fromModelToViewModel(PictureModel pictureModel) {
+  Either<PresenterException, PictureViewModel> fromModelToViewModel(
+      PictureModel pictureModel) {
     try {
-      final result = PictureMapper()
-          // TODO: NOW
-          .fromEntityToViewModel(fromModelToEntity(pictureModel)
-              .whenSuccess((success) => success)!);
-      return result.when(
-        (pictureViewModel) => pictureViewModel,
-        (presenterException) => throw presenterException,
+      return fromModelToEntity(pictureModel).fold(
+        (domainException) {
+          return Left(
+              PresenterException(domainException.errorType.presenterError));
+        },
+        (pictureEntity) {
+          return PictureMapper()
+              // TODO: NOW
+              .fromEntityToViewModel(pictureEntity);
+        },
       );
     } catch (_) {
       throw PresenterException(PresenterErrorType.invalidData);

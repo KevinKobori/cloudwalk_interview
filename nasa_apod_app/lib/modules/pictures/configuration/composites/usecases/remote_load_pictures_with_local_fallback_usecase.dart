@@ -17,9 +17,9 @@ class RemoteLoadPicturesWithLocalFallbackUseCase
     try {
       final result = await remoteUseCase.loadLastTenDaysData();
 
-      final List<PictureEntity> pictureEntityList = result.when(
+      final List<PictureEntity> pictureEntityList = result.fold(
+        (domainException) => throw domainException, // TODO: NOW
         (pictureEntityList) => pictureEntityList,
-        (domainException) => throw domainException,
       );
 
       await localUseCase.saveLastTenDaysData(pictureEntityList);

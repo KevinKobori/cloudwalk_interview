@@ -1,7 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:nasa_apod_app/nasa_apod_app.dart';
+import 'package:cached_network_image/cached_network_image.dart' as cni;
+import 'package:dartz/dartz.dart' as dz;
 import 'package:flutter/material.dart';
-import 'package:localstorage/localstorage.dart';
+import 'package:localstorage/localstorage.dart' as ls;
+import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class PictureDetailsPage extends StatefulWidget {
   final PictureViewModel? pictureViewModel;
@@ -18,25 +19,31 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
   final ValueNotifier<PictureViewModel?> rxPictureViewModel =
       ValueNotifier<PictureViewModel?>(null);
 
-  Future<PictureViewModel> getPictureViewModelFromLocalStorage() async {
+  Future<dz.Either<PresenterException, PictureViewModel>>
+      getPictureViewModelFromLocalStorage() async {
     final pictureMapList =
-        await LocalStorage(localStorageConfigKeyPathFactory())
+        await ls.LocalStorage(localStorageConfigKeyPathFactory())
             .getItem(localLoadPicturesUseCaseFactory().itemKey);
 
-    int pictureMapIndex = pictureMapList
-        .indexWhere((dynamic pictureMap) => pictureMap['date'] == widget.pictureDate);
+    int pictureMapIndex = pictureMapList.indexWhere(
+        (dynamic pictureMap) => pictureMap['date'] == widget.pictureDate);
     final pictureMap = pictureMapList[pictureMapIndex];
 
-    final pictureViewModel =
-        await PictureMapper().fromMapToViewModel(pictureMap);
-    return pictureViewModel;
+    final result = PictureMapper().fromMapToViewModel(pictureMap);
+    return result;
   }
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (widget.pictureViewModel == null) {
-        rxPictureViewModel.value = await getPictureViewModelFromLocalStorage();
+        final result = await getPictureViewModelFromLocalStorage();
+        result.fold(
+          (presenterException) {},
+          (pictureViewModel) {
+            rxPictureViewModel.value = pictureViewModel;
+          },
+        );
       }
     });
     super.initState();
@@ -56,7 +63,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
           final picture = widget.pictureViewModel ?? viewModel;
           return ListView(
             children: [
-              CachedNetworkImage(
+              cni.CachedNetworkImage(
                 imageUrl: picture!.url,
                 placeholder: (_, __) => Container(
                   color: Colors.black,

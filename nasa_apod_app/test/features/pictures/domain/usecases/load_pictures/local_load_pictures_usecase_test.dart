@@ -1,6 +1,6 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:multiple_result/multiple_result.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 import '../../../../../apod.dart';
@@ -28,11 +28,11 @@ void main() {
         () async {
       final data = DeviceLocalStorageFactory().generateValidPictureMapList();
 
-      final matcher = List<PictureEntity>.from(data.map((map) =>
-          PictureMapper().fromMapToModel(map).whenSuccess((model) =>
-              PictureMapper()
-                  .fromModelToEntity(model)
-                  .whenSuccess((entity) => entity)))).toList();
+      final matcher = List<PictureEntity>.from(
+        data.map((map) {
+          return PictureMapper().fromMapToEntity(map);
+        }),
+      ).toList();
 
       localStorage.mockFetchSuccess(data);
 
@@ -141,24 +141,21 @@ void main() {
         () async {
       final data = DeviceLocalStorageFactory().generateValidPictureMapList();
 
-      final pictureEntityList = List<PictureEntity>.from(data.map((map) =>
-          PictureMapper().fromMapToModel(map).whenSuccess((model) =>
-              PictureMapper()
-                  .fromModelToEntity(model)
-                  .whenSuccess((entity) => entity)))).toList();
+      final pictureEntityList = List<PictureEntity>.from(
+        data.map((map) {
+          return PictureMapper().fromMapToEntity(map);
+        }),
+      ).toList();
 
       await sut.saveLastTenDaysData(pictureEntityList);
 
-      final Result<List<PictureModel>, DataException> result =
-          await PictureMapper()
-              .fromEntityListToModelList(pictureEntityList)
-              .when(
-                (pictureModelList) => Success(pictureModelList),
-                (dataException) => Error(dataException),
-              );
+      final Either<DataException, List<PictureModel>> result =
+          PictureMapper().fromEntityListToModelList(pictureEntityList);
 
-      final mapList =
-          result.when((mapList) => mapList, (infraException) => infraException);
+      final mapList = result.fold(
+        (l) => null,
+        (r) => null,
+      );
 
       verify(() => localStorage.save(key: 'apod_objects', value: mapList))
           .called(1);
@@ -170,11 +167,11 @@ void main() {
 
       localStorage.mockSaveError();
 
-      final pictureEntityList = List<PictureEntity>.from(data.map((map) =>
-          PictureMapper().fromMapToModel(map).whenSuccess((model) =>
-              PictureMapper()
-                  .fromModelToEntity(model)
-                  .whenSuccess((entity) => entity)))).toList();
+      final pictureEntityList = List<PictureEntity>.from(
+        data.map((map) {
+          return PictureMapper().fromMapToEntity(map);
+        }),
+      ).toList();
 
       final future = sut.saveLastTenDaysData(pictureEntityList);
 

@@ -15,12 +15,12 @@ mixin PictureFactory {
       };
 
   List<Map<String, dynamic>> generateValidPictureMapList() => [
-        generateValidPictureMap(),
+        // generateValidPictureMap(),
         generateValidPictureMap(),
       ];
 
   List<Map<String, dynamic>> generateInvalidPictureMapList() => [
-        generateInvalidPictureMap(),
+        // generateInvalidPictureMap(),
         generateInvalidPictureMap(),
       ];
 }

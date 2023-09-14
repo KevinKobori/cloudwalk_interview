@@ -1,9 +1,9 @@
-import 'package:nasa_apod_app/nasa_apod_app.dart';
+import 'package:dartz/dartz.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:multiple_result/multiple_result.dart';
+import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class HttpClientSpy extends Mock implements IHttpClient {
-  When<Future<Result<dynamic, InfraException>>> mockRequestCall() =>
+  When<Future<Either<InfraException, dynamic>>> mockRequestCall() =>
       when(() => request(
           url: any(named: 'url'),
           method: any(named: 'method'),
@@ -11,8 +11,8 @@ class HttpClientSpy extends Mock implements IHttpClient {
           headers: any(named: 'headers')));
 
   void mockRequestSuccess(dynamic data) =>
-      mockRequestCall().thenAnswer((_) async => Success(data));
+      mockRequestCall().thenAnswer((_) async => Right(data));
 
-  void mockRequestError(InfraErrorType error) => mockRequestCall()
-      .thenAnswer((_) async => Error(InfraException(error)));
+  void mockRequestError(InfraErrorType error) =>
+      mockRequestCall().thenAnswer((_) async => Left(InfraException(error)));
 }

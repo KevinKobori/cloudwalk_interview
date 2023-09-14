@@ -34,17 +34,22 @@ void main() {
   test('Should return pictures list on 200 with valid data', () async {
     final data = ApodResponsesFactory().generateValidPictureMapList();
 
-    final matcher = List<PictureEntity>.from(data.map((map) => PictureMapper()
-        .fromMapToModel(map)
-        .whenSuccess((model) => PictureMapper()
-            .fromModelToEntity(model)
-            .whenSuccess((entity) => entity)))).toList();
+    // final matcher = List<PictureEntity>.from(data.map((map) => PictureMapper()
+    //     .fromMapToModel(map)
+    //     .whenSuccess((model) => PictureMapper()
+    //         .fromModelToEntity(model)
+    //         .whenSuccess((entity) => entity)))).toList();
+    final matcher = List<PictureEntity>.from(
+      data.map((map) {
+        return PictureMapper().fromMapToEntity(map);
+      }),
+    ).toList();
 
     httpClient.mockRequestSuccess(data);
 
     final result = await sut.loadLastTenDaysData();
 
-    final actual = result.when((success) => success, (error) => error);
+    final actual = result.fold((success) => success, (error) => error);
 
     expect(actual, matcher);
   });
@@ -57,7 +62,7 @@ void main() {
 
     final result = await sut.loadLastTenDaysData();
 
-    final actual = result.when((success) => success, (error) => error);
+    final actual = result.fold((success) => success, (error) => error);
 
     expect(
         actual,
@@ -70,7 +75,7 @@ void main() {
 
     final result = await sut.loadLastTenDaysData();
 
-    final actual = result.when((success) => success, (error) => error);
+    final actual = result.fold((success) => success, (error) => error);
 
     expect(
         actual,

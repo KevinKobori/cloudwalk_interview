@@ -59,17 +59,6 @@ class _PicturesPageState extends State<PicturesPage>
           },
         ),
       );
-      //   return ScreenTypeLayout.builder(
-      //     mobile: (_) => PicturesPageMobile(
-      //       picturesPresenter: widget.picturesPresenter,
-      //     ),
-      //     tablet: (_) => PicturesPageMobile(
-      //       picturesPresenter: widget.picturesPresenter,
-      //     ),
-      //     desktop: (_) => PicturesPageMobile(
-      //       picturesPresenter: widget.picturesPresenter,
-      //     ),
-      //   );
     });
   }
 }

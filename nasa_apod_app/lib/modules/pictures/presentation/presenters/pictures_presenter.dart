@@ -47,13 +47,15 @@ class PicturesPresenter
       final List<PictureEntity> pictureEntityList =
           await loadPicturesUseCase.loadLastTenDaysData();
 
-      _state.pictureViewModelList = PictureMapper()
-          .fromEntityListToViewModelList(pictureEntityList)
-          .when((success) {
-        return success.toList().reversed.toList();
-      }, (error) {
-        return null;
-      });
+      _state.pictureViewModelList =
+          PictureMapper().fromEntityListToViewModelList(pictureEntityList).fold(
+        (presenterException) {
+          return null;
+        },
+        (pictureViewModelList) {
+          return pictureViewModelList.toList().reversed.toList();
+        },
+      );
     } on DomainException catch (error) {
       _state.pictureViewModelList = null;
       _controller.addError(error.errorType.presenterError.i18nError);
@@ -75,10 +77,18 @@ class PicturesPresenter
       final pictureMap = await datasource.fetchByDate(apodApiUrlFactory(
           apiKey: 'Ieuiin5UvhSz44qMh9rboqVMfOkYbkNebhwEtxPF',
           requestPath: '&date=${date.value}'));
-
-      _state.pictureViewModelList = [
-        PictureMapper().fromModelToViewModel(pictureMap)
-      ];
+      if (pictureMap != null) {
+        PictureMapper().fromModelToViewModel(pictureMap).fold((exception) {
+          return exception;
+        }, (pictureViewModel) {
+          _state.pictureViewModelList = [
+            pictureViewModel,
+          ];
+        });
+      } else {
+        _state.pictureViewModelList = null;
+        _controller.addError('REMOVE THIS LINE'); // TODO: NOW - REMOVE THIS
+      }
     } on DomainException catch (error) {
       _state.pictureViewModelList = null;
       _controller.addError(error.errorType.presenterError.i18nError);
@@ -99,7 +109,6 @@ class PicturesPresenter
 
   @override
   void dispose() {
-    // pictureFound.dispose();
     _controller.close();
     disposeNavigationPresenterManager();
     disposeLoadingPresenterManager();

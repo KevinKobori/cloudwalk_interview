@@ -47,30 +47,35 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
   }
 
   Future<List<PictureEntity>> _getEntityList(dynamic data) async {
-    return await PictureMapper().fromMapListToModelList(data).when(
-          (pictureModelList) async => await PictureMapper()
-              .fromModelListToEntityList(pictureModelList)
-              .when(
-                (pictureEntityList) => pictureEntityList,
-                (domainException) => throw domainException,
-              ),
-          (domainException) => throw domainException,
-        );
+    return await PictureMapper().fromMapListToModelList(data).fold(
+      (dataException) {
+        throw dataException;
+      },
+      (pictureModelList) async {
+        return await PictureMapper()
+            .fromModelListToEntityList(pictureModelList)
+            .fold((domainException) {
+          throw domainException;
+        }, (pictureEntityList) {
+          return pictureEntityList;
+        });
+      },
+    );
   }
 
   Future<List<Map<String, dynamic>>> _getMapList(
       List<PictureEntity> pictureEntityList) async {
     return await PictureMapper()
         .fromEntityListToModelList(pictureEntityList)
-        .when(
+        .fold(
+          (domainException) => throw domainException,
           (pictureModelList) async => await PictureMapper()
               .fromModelListToMapList(pictureModelList)
-              .when(
-                (map) => map,
-                (dataException) =>
-                    throw DomainException(dataException.errorType.dataError.domainError),
+              .fold(
+                (infraException) => throw DomainException(
+                    infraException.errorType.dataError.domainError),
+                (mapList) => mapList,
               ),
-          (domainException) => throw domainException,
         );
   }
 }

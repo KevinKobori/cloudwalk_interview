@@ -1,8 +1,8 @@
+import 'package:dartz/dartz.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
-import 'package:multiple_result/multiple_result.dart';
 
 mixin IHttpClient {
-  Future<Result<dynamic, InfraException>> request({
+  Future<Either<InfraException, dynamic>> request({
     required String url,
     required String method,
     Map<String, dynamic>? headers,
