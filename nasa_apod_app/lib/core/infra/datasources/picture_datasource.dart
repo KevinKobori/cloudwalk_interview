@@ -17,21 +17,24 @@ class PictureDatasource implements IPictureDatasource {
       },
       (data) {
         try {
-          final mapList = JsonMapper.tryDecode(data);
+          final dynamicList = JsonMapper.tryDecode(data);
 
-          final List<Map<String, dynamic>> mapListTypped =
-              List<Map<String, dynamic>>.from(
-            (mapList as List<dynamic>).map(
-              (dynamic map) => map as Map<String, dynamic>,
-            ),
-          ).toList();
+          final List<Map<String, dynamic>> mapList =
+              JsonMapper.fromDynamicListToMapList(dynamicList);
 
-          final List<PictureModel> modelList = List<PictureModel>.from(
-              (mapListTypped).map((Map<String, dynamic> map) {
-            final res = PictureMapper().fromMapToModel(map);
-            return res;
-          })).toList();
-          return Right(modelList);
+          // late final List<PictureModel> modelList;
+
+          return PictureMapper().fromMapListToModelList(mapList);
+          // .fold(
+          //       (dataException) => Left(dataException),
+          //       (modelList) => Right(modelList),
+          //     );
+
+          // List<PictureModel>.from(
+          //     (mapList).map((Map<String, dynamic> map) {
+          //   return PictureMapper().fromMapToModel(map).fold((l) => l, (r) => r);
+          // })).toList();
+          // return Right(modelList);
         } catch (_) {
           return Left(DataException(DataErrorType.invalidData));
         }

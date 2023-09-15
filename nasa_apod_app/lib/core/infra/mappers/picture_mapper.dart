@@ -31,10 +31,9 @@ class PictureMapper {
     try {
       final result = List<PictureModel>.from(
         pictureEntityList.map((pictureEntity) {
-          return PictureMapper().fromEntityToModel(pictureEntity).fold(
-                (pictureModel) => pictureModel,
-                (domainException) => domainException,
-              );
+          return PictureMapper()
+              .fromEntityToModel(pictureEntity)
+              .fold((l) => l, (r) => r);
         }),
       ).toList();
       return Right(result);
@@ -145,8 +144,9 @@ class PictureMapper {
       List<PictureModel> pictureModelList) {
     try {
       final result = List<Map<String, dynamic>>.from(pictureModelList.map(
-              (pictureModel) => PictureMapper().fromModelToMap(pictureModel)))
-          .toList();
+          (pictureModel) => PictureMapper()
+              .fromModelToMap(pictureModel)
+              .fold((l) => l, (r) => r))).toList();
       return Right(result);
     } catch (_) {
       return Left(InfraException(errorType));
@@ -185,8 +185,9 @@ class PictureMapper {
   Either<DataException, List<PictureModel>> fromMapListToModelList(
       List<Map<String, dynamic>> mapList) {
     try {
-      final result = List<PictureModel>.from(
-          mapList.map((map) => PictureMapper().fromMapToModel(map))).toList();
+      final result = List<PictureModel>.from(mapList.map((map) =>
+              PictureMapper().fromMapToModel(map).fold((l) => l, (r) => r)))
+          .toList();
       return Right(result);
     } catch (_) {
       return Left(DataException(errorType.dataError));
@@ -204,6 +205,23 @@ class PictureMapper {
                     (pictureEntity) => pictureEntity,
                   ),
         );
+  }
+
+  /// [REMOVE_OTHERS]
+  List<PictureEntity> fromMapListToEntityList(List<Map<String, dynamic>> data) {
+    return PictureMapper().fromMapListToModelList(data).fold(
+      (dataException) {
+        throw dataException;
+      },
+      (pictureModelList) {
+        return PictureMapper().fromModelListToEntityList(pictureModelList).fold(
+            (domainException) {
+          throw domainException;
+        }, (pictureEntityList) {
+          return pictureEntityList;
+        });
+      },
+    );
   }
 
   /// Infra > Presenter [REMOVE_THIS]

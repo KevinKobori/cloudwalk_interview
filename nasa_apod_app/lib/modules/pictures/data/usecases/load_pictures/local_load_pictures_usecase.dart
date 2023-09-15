@@ -19,7 +19,7 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
         throw DomainException(DomainErrorType.unexpected);
       }
 
-      return await _getEntityList(data);
+      return await PictureMapper().fromMapListToEntityList(data);
     } catch (_) {
       throw DomainException(DomainErrorType.unexpected);
     }
@@ -29,7 +29,7 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
   Future<void> validateLastTenDaysData() async {
     try {
       final data = await localStorage.fetch(itemKey);
-      await _getEntityList(data);
+      await PictureMapper().fromMapListToEntityList(data);
     } catch (_) {
       await localStorage.delete(itemKey);
     }
@@ -39,31 +39,14 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
   Future<void> saveLastTenDaysData(
       List<PictureEntity> pictureEntityList) async {
     try {
-      final mapList = await _getMapList(pictureEntityList);
+      final mapList = await getMapList(pictureEntityList);
       await localStorage.save(key: itemKey, value: mapList);
     } catch (error) {
       throw DomainException(DomainErrorType.unexpected);
     }
   }
 
-  Future<List<PictureEntity>> _getEntityList(dynamic data) async {
-    return await PictureMapper().fromMapListToModelList(data).fold(
-      (dataException) {
-        throw dataException;
-      },
-      (pictureModelList) async {
-        return await PictureMapper()
-            .fromModelListToEntityList(pictureModelList)
-            .fold((domainException) {
-          throw domainException;
-        }, (pictureEntityList) {
-          return pictureEntityList;
-        });
-      },
-    );
-  }
-
-  Future<List<Map<String, dynamic>>> _getMapList(
+  Future<List<Map<String, dynamic>>> getMapList(
       List<PictureEntity> pictureEntityList) async {
     return await PictureMapper()
         .fromEntityListToModelList(pictureEntityList)

@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class PictureEntity {
   final ApodDate date;
   final String explanation;
@@ -59,4 +60,17 @@ class ApodDate {
     required this.month,
     required this.day,
   });
+
+  @override
+  bool operator ==(covariant ApodDate other) {
+    if (identical(this, other)) return true;
+  
+    return 
+      other.year == year &&
+      other.month == month &&
+      other.day == day;
+  }
+
+  @override
+  int get hashCode => year.hashCode ^ month.hashCode ^ day.hashCode;
 }

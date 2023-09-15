@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
@@ -32,24 +34,24 @@ void main() {
   });
 
   test('Should return pictures list on 200 with valid data', () async {
-    final data = ApodResponsesFactory().generateValidPictureMapList();
+    final data =
+        json.encode(ApodResponsesFactory().generateValidPictureMapList());
 
-    // final matcher = List<PictureEntity>.from(data.map((map) => PictureMapper()
-    //     .fromMapToModel(map)
-    //     .whenSuccess((model) => PictureMapper()
-    //         .fromModelToEntity(model)
-    //         .whenSuccess((entity) => entity)))).toList();
-    final matcher = List<PictureEntity>.from(
-      data.map((map) {
-        return PictureMapper().fromMapToEntity(map);
-      }),
-    ).toList();
+    final dynamicList = JsonMapper.tryDecode(data);
+
+    final List<Map<String, dynamic>> mapList =
+        JsonMapper.fromDynamicListToMapList(dynamicList);
+
+    final List<PictureEntity> matcher =
+        PictureMapper().fromMapListToEntityList(mapList);
 
     httpClient.mockRequestSuccess(data);
 
     final result = await sut.loadLastTenDaysData();
-
-    final actual = result.fold((success) => success, (error) => error);
+    late List<PictureEntity> actual;
+    result.fold((l) => null, (r) {
+      actual = r;
+    });
 
     expect(actual, matcher);
   });

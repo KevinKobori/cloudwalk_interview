@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
@@ -28,11 +27,7 @@ void main() {
         () async {
       final data = DeviceLocalStorageFactory().generateValidPictureMapList();
 
-      final matcher = List<PictureEntity>.from(
-        data.map((map) {
-          return PictureMapper().fromMapToEntity(map);
-        }),
-      ).toList();
+      final matcher = await PictureMapper().fromMapListToEntityList(data);
 
       localStorage.mockFetchSuccess(data);
 
@@ -149,13 +144,15 @@ void main() {
 
       await sut.saveLastTenDaysData(pictureEntityList);
 
-      final Either<DataException, List<PictureModel>> result =
-          PictureMapper().fromEntityListToModelList(pictureEntityList);
+      // final Either<DataException, List<PictureModel>> result =
+      //     PictureMapper().fromEntityListToModelList(pictureEntityList);
 
-      final mapList = result.fold(
-        (l) => null,
-        (r) => null,
-      );
+      // final mapList = result.fold(
+      //   (l) => null,
+      //   (r) => null,
+      // );
+
+      final mapList = await sut.getMapList(pictureEntityList);
 
       verify(() => localStorage.save(key: 'apod_objects', value: mapList))
           .called(1);

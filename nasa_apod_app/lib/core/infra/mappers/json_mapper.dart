@@ -34,4 +34,16 @@ class JsonMapper {
       throw InfraException(InfraErrorType.invalidJson);
     }
   }
+
+  static dynamic fromDynamicListToMapList(dynamic data) {
+    try {
+      return List<Map<String, dynamic>>.from(
+        (data as List<dynamic>).map(
+          (dynamic map) => map as Map<String, dynamic>,
+        ),
+      ).toList();
+    } catch (_) {
+      throw InfraException(InfraErrorType.invalidJson);
+    }
+  }
 }
