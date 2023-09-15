@@ -42,27 +42,31 @@ class PicturesPresenter
   ///
   @override
   Future<void> loadPictures() async {
-    try {
-      isLoading = true;
-      final List<PictureEntity> pictureEntityList =
-          await loadPicturesUseCase.loadLastTenDaysData();
+    isLoading = true;
+    final result = await loadPicturesUseCase.loadLastTenDaysData();
 
-      _state.pictureViewModelList =
-          PictureMapper().fromEntityListToViewModelList(pictureEntityList).fold(
-        (presenterException) {
-          return null;
-        },
-        (pictureViewModelList) {
-          return pictureViewModelList.toList().reversed.toList();
-        },
-      );
-    } on DomainException catch (error) {
-      _state.pictureViewModelList = null;
-      _controller.addError(error.errorType.presenterError.i18nError);
-    } finally {
-      isLoading = false;
-      _update();
-    }
+    result.fold(
+      (domainException) {
+        _state.pictureViewModelList = null;
+        _controller
+            .addError(domainException.errorType.presenterError.i18nError);
+      },
+      (pictureEntityList) {
+        _state.pictureViewModelList = PictureMapper()
+            .fromEntityListToViewModelList(pictureEntityList)
+            .fold(
+          (presenterException) {
+            return null;
+          },
+          (pictureViewModelList) {
+            return pictureViewModelList.toList().reversed.toList();
+          },
+        );
+      },
+    );
+
+    isLoading = false;
+    _update();
   }
 
   @override
@@ -71,31 +75,33 @@ class PicturesPresenter
   }
 
   Future<void> _loadPictureByDate(ApodDate date) async {
-    try {
-      isLoading = true;
-      final datasource = PictureDatasource(httpClientAdapterFactory());
-      final pictureMap = await datasource.fetchByDate(apodApiUrlFactory(
-          apiKey: 'Ieuiin5UvhSz44qMh9rboqVMfOkYbkNebhwEtxPF',
-          requestPath: '&date=${date.value}'));
-      if (pictureMap != null) {
-        PictureMapper().fromModelToViewModel(pictureMap).fold((exception) {
+    isLoading = true;
+    
+    final datasource = PictureDatasource(httpClientAdapterFactory());
+
+    final result = await datasource.fetchByDate(apodApiUrlFactory(
+        apiKey: 'Ieuiin5UvhSz44qMh9rboqVMfOkYbkNebhwEtxPF',
+        requestPath: '&date=${date.value}'));
+
+    result.fold(
+      (domainException) {
+        _state.pictureViewModelList = null;
+        _controller
+            .addError(domainException.errorType.presenterError.i18nError);
+      },
+      (pictureModel) {
+        PictureMapper().fromModelToViewModel(pictureModel).fold((exception) {
           return exception;
         }, (pictureViewModel) {
           _state.pictureViewModelList = [
             pictureViewModel,
           ];
         });
-      } else {
-        _state.pictureViewModelList = null;
-        _controller.addError('REMOVE THIS LINE'); // TODO: NOW - REMOVE THIS
-      }
-    } on DomainException catch (error) {
-      _state.pictureViewModelList = null;
-      _controller.addError(error.errorType.presenterError.i18nError);
-    } finally {
-      isLoading = false;
-      _update();
-    }
+      },
+    );
+
+    isLoading = false;
+    _update();
   }
 
   @override

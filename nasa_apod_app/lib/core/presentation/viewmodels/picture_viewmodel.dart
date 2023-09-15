@@ -1,4 +1,5 @@
 class PictureViewModel {
+  final String copyright;
   final String date;
   final String explanation;
   final String hdurl;
@@ -8,6 +9,7 @@ class PictureViewModel {
   final String url;
 
   PictureViewModel({
+    required this.copyright,
     required this.date,
     required this.explanation,
     required this.hdurl,
@@ -19,6 +21,6 @@ class PictureViewModel {
 
   @override
   String toString() {
-    return 'PictureViewModel(date: $date, explanation: $explanation, hdurl: $hdurl, mediaType: $mediaType, serviceVersion: $serviceVersion, title: $title, url: $url)';
+    return 'PictureViewModel(copyright: $copyright,date: $date, explanation: $explanation, hdurl: $hdurl, mediaType: $mediaType, serviceVersion: $serviceVersion, title: $title, url: $url)';
   }
 }

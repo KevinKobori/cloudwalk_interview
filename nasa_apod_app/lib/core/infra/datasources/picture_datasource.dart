@@ -43,7 +43,7 @@ class PictureDatasource implements IPictureDatasource {
   }
 
   @override
-  Future<PictureModel?> fetchByDate(String url) async {
+  Future<Either<DomainException, PictureModel>> fetchByDate(String url) async {
     // TODO: Repository and Usecase Layers
     final resultHttpClient = await httpClient.request(method: 'get', url: url);
     return resultHttpClient.fold(
@@ -55,9 +55,7 @@ class PictureDatasource implements IPictureDatasource {
           // TODO: NOW
           final map = JsonMapper.tryDecode(data);
 
-          return PictureMapper()
-              .fromMapToModel((map as Map<String, dynamic>))
-              .foldRight(null, (r, previous) => r);
+          return PictureMapper().fromMapToModel((map as Map<String, dynamic>));
         } catch (_) {
           throw DomainException(DataErrorType.invalidData.domainError);
         }

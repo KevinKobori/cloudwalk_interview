@@ -37,21 +37,32 @@ void main() {
     final data =
         json.encode(ApodResponsesFactory().generateValidPictureMapList());
 
+    httpClient.mockRequestSuccess(data);
+
     final dynamicList = JsonMapper.tryDecode(data);
 
     final List<Map<String, dynamic>> mapList =
         JsonMapper.fromDynamicListToMapList(dynamicList);
 
-    final List<PictureEntity> matcher =
-        PictureMapper().fromMapListToEntityList(mapList);
+    late final List<PictureEntity> matcher;
 
-    httpClient.mockRequestSuccess(data);
+    PictureMapper().fromMapListToEntityList(mapList).fold(
+      (domainException) {},
+      (pictureEntityList) {
+        matcher = pictureEntityList;
+      },
+    );
 
     final result = await sut.loadLastTenDaysData();
+
     late List<PictureEntity> actual;
-    result.fold((l) => null, (r) {
-      actual = r;
-    });
+
+    result.fold(
+      (domainException) {},
+      (pictureEntityList) {
+        actual = pictureEntityList;
+      },
+    );
 
     expect(actual, matcher);
   });
@@ -64,12 +75,16 @@ void main() {
 
     final result = await sut.loadLastTenDaysData();
 
-    final actual = result.fold((success) => success, (error) => error);
+    final actual = result.fold(
+      (domainException) => domainException,
+      (pictureEntityList) => pictureEntityList,
+    );
 
     expect(
         actual,
-        predicate((e) =>
-            e is DomainException && e.errorType == DomainErrorType.unexpected));
+        predicate((element) =>
+            element is DomainException &&
+            element.errorType == DomainErrorType.unexpected));
   });
 
   test('Should throw UnexpectedError if HttpClient not returns 200', () async {
@@ -77,11 +92,15 @@ void main() {
 
     final result = await sut.loadLastTenDaysData();
 
-    final actual = result.fold((success) => success, (error) => error);
+    final actual = result.fold(
+      (domainException) => domainException,
+      (pictureEntityList) => pictureEntityList,
+    );
 
     expect(
         actual,
-        predicate((e) =>
-            e is DomainException && e.errorType == DomainErrorType.unexpected));
+        predicate((element) =>
+            element is DomainException &&
+            element.errorType == DomainErrorType.unexpected));
   });
 }

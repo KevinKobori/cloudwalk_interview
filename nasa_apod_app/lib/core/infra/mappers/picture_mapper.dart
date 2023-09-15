@@ -9,6 +9,7 @@ class PictureMapper {
       PictureEntity entity) {
     try {
       return Right(PictureModel(
+        copyright: entity.copyright,
         date: DateTime(
           entity.date.year,
           entity.date.month,
@@ -46,6 +47,7 @@ class PictureMapper {
   Either<DomainException, PictureEntity> fromModelToEntity(PictureModel model) {
     try {
       return Right(PictureEntity(
+        copyright: model.copyright,
         date: ApodDate(
           day: model.date.day,
           month: model.date.month,
@@ -85,6 +87,7 @@ class PictureMapper {
       PictureEntity entity) {
     try {
       return Right(PictureViewModel(
+        copyright: entity.copyright,
         date: entity.date.value,
         explanation: entity.explanation,
         hdurl: entity.hdurl,
@@ -127,6 +130,7 @@ class PictureMapper {
       PictureModel model) {
     try {
       return Right(<String, dynamic>{
+        'copyright': model.copyright,
         'date': '${model.date.year}-${model.date.month}-${model.date.day}',
         'explanation': model.explanation,
         'hdurl': model.hdurl,
@@ -168,6 +172,7 @@ class PictureMapper {
         return Left(DomainException(errorType.dataError.domainError));
       }
       return Right(PictureModel(
+        copyright: map['copyright'] ?? '',
         date:
             map['date'] != null ? DateTime.parse(map['date']) : DateTime.now(),
         explanation: map['explanation'] ?? '',
@@ -208,7 +213,8 @@ class PictureMapper {
   }
 
   /// [REMOVE_OTHERS]
-  List<PictureEntity> fromMapListToEntityList(List<Map<String, dynamic>> data) {
+  Either<DomainException, List<PictureEntity>> fromMapListToEntityList(
+      List<Map<String, dynamic>> data) {
     return PictureMapper().fromMapListToModelList(data).fold(
       (dataException) {
         throw dataException;
@@ -216,9 +222,9 @@ class PictureMapper {
       (pictureModelList) {
         return PictureMapper().fromModelListToEntityList(pictureModelList).fold(
             (domainException) {
-          throw domainException;
+          return Left(domainException);
         }, (pictureEntityList) {
-          return pictureEntityList;
+          return Right(pictureEntityList);
         });
       },
     );
@@ -246,13 +252,31 @@ class PictureMapper {
               PresenterException(domainException.errorType.presenterError));
         },
         (pictureEntity) {
-          return PictureMapper()
-              // TODO: NOW
-              .fromEntityToViewModel(pictureEntity);
+          return PictureMapper().fromEntityToViewModel(pictureEntity);
         },
       );
     } catch (_) {
       throw PresenterException(PresenterErrorType.invalidData);
     }
+  }
+
+  /// Domain > Infra [REMOVE_THIS]
+  Either<InfraException, List<Map<String, dynamic>>> fromEntityListToMapList(
+      List<PictureEntity> pictureEntityList) {
+    return PictureMapper().fromEntityListToModelList(pictureEntityList).fold(
+      (dataException) {
+        return Left(InfraException(dataException.errorType.infraError));
+      },
+      (pictureModelList) {
+        return PictureMapper().fromModelListToMapList(pictureModelList).fold(
+          (infraException) {
+            return Left(infraException);
+          },
+          (mapList) {
+            return Right(mapList);
+          },
+        );
+      },
+    );
   }
 }

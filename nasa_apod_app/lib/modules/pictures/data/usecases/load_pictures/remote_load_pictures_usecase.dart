@@ -10,7 +10,6 @@ class RemoteLoadPicturesUseCase implements IRemoteLoadPicturesUseCase {
     required this.url,
   });
 
-  /// Example illustrating the use of the "package:multiple_result" library.
   @override
   Future<Either<DomainException, List<PictureEntity>>>
       loadLastTenDaysData() async {

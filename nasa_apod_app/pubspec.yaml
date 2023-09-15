@@ -14,19 +14,14 @@ dependencies:
   url_strategy: ^0.2.0
   responsive_builder: ^0.7.0
   flutter_animate: ^4.1.1+1
- # HttpClientAdapter
   http: ^1.1.0
-  # Error Handling
-  # multiple_result: ^5.1.0
-  # Cache Storage
   # path_provider: ^2.1.0
   cached_network_image: ^3.2.3
-  # Local Storage
   localstorage: ^4.0.1+4
-  # Modularity
   flutter_modular: ^6.0.4+1
   alice: ^0.3.3
   dartz: ^0.10.1
+  equatable: ^2.0.5
 
 dev_dependencies:
   build_runner: ^2.4.5
@@ -38,7 +33,6 @@ dev_dependencies:
   mocktail: 0.1.4
   faker: 2.0.0
   network_image_mock: 2.0.1
-  # Linters
   lints: ^2.0.0
 
 flutter:

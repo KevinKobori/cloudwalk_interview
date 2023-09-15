@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class RemoteLoadPicturesWithLocalFallbackUseCase
@@ -10,20 +11,21 @@ class RemoteLoadPicturesWithLocalFallbackUseCase
     required this.localUseCase,
   });
 
-  /// Example showcasing the implementation without using
-  /// "package:multiple_result"
   @override
-  Future<List<PictureEntity>> loadLastTenDaysData() async {
+  Future<Either<DomainException, List<PictureEntity>>>
+      loadLastTenDaysData() async {
     try {
       final result = await remoteUseCase.loadLastTenDaysData();
 
-      final List<PictureEntity> pictureEntityList = result.fold(
-        (domainException) => throw domainException, // TODO: NOW
-        (pictureEntityList) => pictureEntityList,
+      return result.fold(
+        (domainException) {
+          return Left(domainException);
+        },
+        (pictureEntityList) async {
+          await localUseCase.saveLastTenDaysData(pictureEntityList);
+          return Right(pictureEntityList);
+        },
       );
-
-      await localUseCase.saveLastTenDaysData(pictureEntityList);
-      return pictureEntityList;
     } catch (error) {
       await localUseCase.validateLastTenDaysData();
       return await localUseCase.loadLastTenDaysData();

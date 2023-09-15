@@ -5,5 +5,5 @@ mixin IPictureDatasource {
   Future<Either<DataException, List<PictureModel>>> fetchLastTenDaysData(
       String url);
 
-  Future<PictureModel?> fetchByDate(String url);
+  Future<Either<DomainException, PictureModel>> fetchByDate(String url);
 }

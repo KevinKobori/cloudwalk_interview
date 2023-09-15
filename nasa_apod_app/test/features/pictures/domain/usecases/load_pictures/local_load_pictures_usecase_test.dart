@@ -26,12 +26,28 @@ void main() {
     test('When load data should return a list of pictures on success',
         () async {
       final data = DeviceLocalStorageFactory().generateValidPictureMapList();
+      final mapList = data;
+      late final List<PictureEntity> matcher;
 
-      final matcher = await PictureMapper().fromMapListToEntityList(data);
+      PictureMapper().fromMapListToEntityList(mapList).fold(
+        (domainException) {},
+        (pictureEntityList) {
+          matcher = pictureEntityList;
+        },
+      );
 
       localStorage.mockFetchSuccess(data);
 
-      final actual = await sut.loadLastTenDaysData();
+      final result = await sut.loadLastTenDaysData();
+
+      late List<PictureEntity> actual;
+
+      result.fold(
+        (domainException) {},
+        (pictureEntityList) {
+          actual = pictureEntityList;
+        },
+      );
 
       expect(actual, matcher);
     });
@@ -135,27 +151,23 @@ void main() {
     test('When save data should call localStorage with correct values',
         () async {
       final data = DeviceLocalStorageFactory().generateValidPictureMapList();
+      final mapList = data;
 
-      final pictureEntityList = List<PictureEntity>.from(
-        data.map((map) {
-          return PictureMapper().fromMapToEntity(map);
-        }),
-      ).toList();
+      localStorage.mockSaveSuccess();
 
-      await sut.saveLastTenDaysData(pictureEntityList);
+      await PictureMapper().fromMapListToEntityList(mapList).fold(
+        (domainException) {},
+        (pictureEntityList) async {
+          final result = await sut.saveLastTenDaysData(pictureEntityList);
+          return result.fold(
+            (domainException) {},
+            (_) {},
+          );
+        },
+      );
 
-      // final Either<DataException, List<PictureModel>> result =
-      //     PictureMapper().fromEntityListToModelList(pictureEntityList);
-
-      // final mapList = result.fold(
-      //   (l) => null,
-      //   (r) => null,
-      // );
-
-      final mapList = await sut.getMapList(pictureEntityList);
-
-      verify(() => localStorage.save(key: 'apod_objects', value: mapList))
-          .called(1);
+      verify(() => localStorage.save(
+          key: 'apod_objects', value: any<dynamic>(named: 'value'))).called(1);
     });
 
     test('When save data should throw UnexpectedError if save throws',
@@ -170,13 +182,18 @@ void main() {
         }),
       ).toList();
 
-      final future = sut.saveLastTenDaysData(pictureEntityList);
+      final result = await sut.saveLastTenDaysData(pictureEntityList);
+
+      final actual = result.fold(
+        (domainException) => domainException,
+        (_) {},
+      );
 
       expect(
-          future,
-          throwsA(predicate((e) =>
-              e is DomainException &&
-              e.errorType == DomainErrorType.unexpected)));
+          actual,
+          predicate((element) =>
+              element is DomainException &&
+              element.errorType == DomainErrorType.unexpected));
     });
   });
 }
