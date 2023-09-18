@@ -14,33 +14,36 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
     try {
       final data = await localStorage.fetch(itemKey);
       if (data?.isEmpty != false) {
-        throw DomainException(DomainErrorType.unexpected);
+        return Left(DomainException(DomainErrorType.unexpected));
       }
 
       return PictureMapper().fromMapListToEntityList(data);
     } catch (_) {
-      throw DomainException(DomainErrorType.unexpected);
+      return Left(DomainException(DomainErrorType.unexpected));
     }
   }
 
   @override
   Future<Either<DomainException, void>> validateLastTenDaysData() async {
     try {
-      final data = await localStorage.fetch(itemKey);
-      PictureMapper().fromMapListToEntityList(data);
+      await localStorage.fetch(itemKey);
       return const Right(null);
     } catch (_) {
-      await localStorage.delete(itemKey);
-      return Left(DomainException(DomainErrorType.unexpected));
+      try {
+        await localStorage.delete(itemKey);
+        return Left(
+            DomainException(InfraErrorType.invalidJson.dataError.domainError));
+      } catch (_) {
+        return Left(DomainException(DomainErrorType.unexpected));
+      }
     }
   }
 
   @override
   Future<Either<DomainException, void>> saveLastTenDaysData(
       List<PictureEntity> pictureEntityList) async {
+    final result = PictureMapper().fromEntityListToMapList(pictureEntityList);
     try {
-      final result = PictureMapper().fromEntityListToMapList(pictureEntityList);
-
       return await result.fold(
         (infraException) {
           return Left(
@@ -51,7 +54,7 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
           return const Right(null);
         },
       );
-    } catch (error) { // TODO: NOW - WHY REMOVING THIS UNIT TEST BREAKS
+    } catch (error) {
       return Left(DomainException(DomainErrorType.unexpected));
     }
   }

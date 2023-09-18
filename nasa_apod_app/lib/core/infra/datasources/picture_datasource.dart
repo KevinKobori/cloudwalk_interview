@@ -19,22 +19,16 @@ class PictureDatasource implements IPictureDatasource {
         try {
           final dynamicList = JsonMapper.tryDecode(data);
 
-          final List<Map<String, dynamic>> mapList =
-              JsonMapper.fromDynamicListToMapList(dynamicList);
+          final result = JsonMapper.fromDynamicListToMapList(dynamicList);
 
-          // late final List<PictureModel> modelList;
-
-          return PictureMapper().fromMapListToModelList(mapList);
-          // .fold(
-          //       (dataException) => Left(dataException),
-          //       (modelList) => Right(modelList),
-          //     );
-
-          // List<PictureModel>.from(
-          //     (mapList).map((Map<String, dynamic> map) {
-          //   return PictureMapper().fromMapToModel(map).fold((l) => l, (r) => r);
-          // })).toList();
-          // return Right(modelList);
+          return result.fold(
+            (infraException) {
+              return Left(DataException(infraException.errorType.dataError));
+            },
+            (mapList) {
+              return PictureMapper().fromMapListToModelList(mapList);
+            },
+          );
         } catch (_) {
           return Left(DataException(DataErrorType.invalidData));
         }
@@ -48,16 +42,16 @@ class PictureDatasource implements IPictureDatasource {
     final resultHttpClient = await httpClient.request(method: 'get', url: url);
     return resultHttpClient.fold(
       (infraException) {
-        throw DomainException(infraException.errorType.dataError.domainError);
+        return Left(
+            DomainException(infraException.errorType.dataError.domainError));
       },
       (data) {
         try {
-          // TODO: NOW
           final map = JsonMapper.tryDecode(data);
 
           return PictureMapper().fromMapToModel((map as Map<String, dynamic>));
         } catch (_) {
-          throw DomainException(DataErrorType.invalidData.domainError);
+          return Left(DomainException(DataErrorType.invalidData.domainError));
         }
       },
     );

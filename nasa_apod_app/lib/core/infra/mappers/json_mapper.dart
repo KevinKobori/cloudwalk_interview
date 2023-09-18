@@ -1,49 +1,51 @@
 import 'dart:convert';
 
+import 'package:dartz/dartz.dart';
 import 'package:nasa_apod_app/core/core.dart';
 
 class JsonMapper {
-  /// Validations
-  static bool dataIsAMap(dynamic data) {
+  static Either<InfraException, bool> dataIsAMap(dynamic data) {
     if (data is Map<String, dynamic>) {
-      return true;
+      return const Right(true);
     }
-    return false;
+    return Left(InfraException(InfraErrorType.invalidData));
   }
 
-  static bool dataIsAListOfMap(dynamic data) {
+  static Either<InfraException, bool> dataIsAListOfMap(dynamic data) {
     if (data is List<Map<String, dynamic>> || (data is List && data.isEmpty)) {
-      return true;
+      return const Right(true);
     }
-    return false;
+    return Left(InfraException(InfraErrorType.invalidData));
   }
 
-  /// Encoders
-  static String tryEncode(dynamic data) {
+  static Either<InfraException, String> tryEncode(dynamic data) {
     try {
-      return json.encode(data);
+      return Right(json.encode(data));
     } catch (_) {
-      throw InfraException(InfraErrorType.invalidJson);
+      return Left(InfraException(InfraErrorType.invalidJson));
     }
   }
 
-  static dynamic tryDecode(dynamic data) {
+  static Either<InfraException, dynamic> tryDecode(dynamic data) {
     try {
-      return json.decode(data);
+      return Right(json.decode(data));
     } catch (_) {
-      throw InfraException(InfraErrorType.invalidJson);
+      return Left(InfraException(InfraErrorType.invalidJson));
     }
   }
 
-  static dynamic fromDynamicListToMapList(dynamic data) {
+  static Either<InfraException, dynamic> fromDynamicListToMapList(
+      dynamic data) {
     try {
-      return List<Map<String, dynamic>>.from(
+      final list = List<Map<String, dynamic>>.from(
         (data as List<dynamic>).map(
           (dynamic map) => map as Map<String, dynamic>,
         ),
       ).toList();
+      
+      return Right(list);
     } catch (_) {
-      throw InfraException(InfraErrorType.invalidJson);
+      return Left(InfraException(InfraErrorType.invalidJson));
     }
   }
 }

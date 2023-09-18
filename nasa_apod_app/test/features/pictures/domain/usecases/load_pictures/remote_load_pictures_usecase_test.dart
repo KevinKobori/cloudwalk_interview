@@ -41,8 +41,16 @@ void main() {
 
     final dynamicList = JsonMapper.tryDecode(data);
 
-    final List<Map<String, dynamic>> mapList =
-        JsonMapper.fromDynamicListToMapList(dynamicList);
+    late final List<Map<String, dynamic>> mapList;
+
+    final result2 = JsonMapper.fromDynamicListToMapList(dynamicList);
+
+    result2.fold(
+      (l) {},
+      (r) {
+        mapList = r;
+      },
+    );
 
     late final List<PictureEntity> matcher;
 

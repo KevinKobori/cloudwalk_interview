@@ -14,21 +14,17 @@ class RemoteLoadPicturesWithLocalFallbackUseCase
   @override
   Future<Either<DomainException, List<PictureEntity>>>
       loadLastTenDaysData() async {
-    try {
-      final result = await remoteUseCase.loadLastTenDaysData();
+    final result = await remoteUseCase.loadLastTenDaysData();
 
-      return result.fold(
-        (domainException) {
-          return Left(domainException);
-        },
-        (pictureEntityList) async {
-          await localUseCase.saveLastTenDaysData(pictureEntityList);
-          return Right(pictureEntityList);
-        },
-      );
-    } catch (error) {
-      await localUseCase.validateLastTenDaysData();
-      return await localUseCase.loadLastTenDaysData();
-    }
+    return await result.fold(
+      (domainException) async {
+        await localUseCase.validateLastTenDaysData();
+        return await localUseCase.loadLastTenDaysData();
+      },
+      (pictureEntityList) async {
+        await localUseCase.saveLastTenDaysData(pictureEntityList);
+        return Right(pictureEntityList);
+      },
+    );
   }
 }
