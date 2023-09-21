@@ -1,5 +1,6 @@
-import 'package:nasa_apod_app/nasa_apod_app.dart';
+import 'package:dartz/dartz.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class LocalStorageAdapter implements ILocalStorage {
   final LocalStorage localStorage;
@@ -7,18 +8,34 @@ class LocalStorageAdapter implements ILocalStorage {
   LocalStorageAdapter({required this.localStorage});
 
   @override
-  Future<void> save({required String key, required dynamic value}) async {
-    await localStorage.deleteItem(key);
-    await localStorage.setItem(key, value);
+  Future<Either<InfraException, void>> save(
+      {required String key, required dynamic value}) async {
+    try {
+      await localStorage.deleteItem(key);
+      await localStorage.setItem(key, value);
+      return const Right(null);
+    } catch (_) {
+      return Left(InfraException(InfraErrorType.unexpected));
+    }
   }
 
   @override
-  Future<void> delete(String key) async {
-    await localStorage.deleteItem(key);
+  Future<Either<InfraException, void>> delete(String key) async {
+    try {
+      await localStorage.deleteItem(key);
+      return const Right(null);
+    } catch (_) {
+      return Left(InfraException(InfraErrorType.unexpected));
+    }
   }
 
   @override
-  Future<dynamic> fetch(String key) async {
-    return await localStorage.getItem(key);
+  Future<Either<InfraException, dynamic>> fetch(String key) async {
+    try {
+      final data = await localStorage.getItem(key);
+      return Right(data);
+    } catch (_) {
+      return Left(InfraException(InfraErrorType.unexpected));
+    }
   }
 }

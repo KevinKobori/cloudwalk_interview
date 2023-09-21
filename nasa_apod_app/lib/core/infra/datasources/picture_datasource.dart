@@ -12,31 +12,37 @@ class PictureDatasource implements IPictureDatasource {
     final requestResult = await httpClient.request(method: 'get', url: url);
 
     return await requestResult.fold(
+      /// Left
       (infraException) {
         return Left(DataException(infraException.errorType.dataError));
       },
-      (data) {
-        try {
-          final dynamicListResult = JsonMapper.tryDecode(data);
 
-          return dynamicListResult.fold((infraException) {
+      /// Right
+      (data) {
+        final dynamicListResult = JsonMapper.tryDecode(data);
+        return dynamicListResult.fold(
+          /// Left
+          (infraException) {
             return Left(DataException(infraException.errorType.dataError));
-          }, (dynamicList) {
+          },
+
+          /// Right
+          (dynamicList) {
             final mapListResult =
                 JsonMapper.fromDynamicListToMapList(dynamicList);
-
             return mapListResult.fold(
+              /// Left
               (infraException) {
                 return Left(DataException(infraException.errorType.dataError));
               },
+
+              /// Right
               (mapList) {
                 return PictureMapper().fromMapListToModelList(mapList);
               },
             );
-          });
-        } catch (_) {
-          return Left(DataException(DataErrorType.invalidData));
-        }
+          },
+        );
       },
     );
   }

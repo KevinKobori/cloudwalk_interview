@@ -12,12 +12,22 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
   Future<Either<DomainException, List<PictureEntity>>>
       loadLastTenDaysData() async {
     try {
-      final data = await localStorage.fetch(itemKey);
-      if (data?.isEmpty != false) {
-        return Left(DomainException(DomainErrorType.unexpected));
-      }
+      final dataResult = await localStorage.fetch(itemKey);
+      return dataResult.fold(
+        /// Left
+        (infraException) {
+          return Left(
+              DomainException(infraException.errorType.dataError.domainError));
+        },
 
-      return PictureMapper().fromMapListToEntityList(data);
+        /// Right
+        (localData) {
+          if (localData.isEmpty != false) {
+            return Left(DomainException(DomainErrorType.unexpected));
+          }
+          return PictureMapper().fromMapListToEntityList(localData);
+        },
+      );
     } catch (_) {
       return Left(DomainException(DomainErrorType.unexpected));
     }
@@ -43,19 +53,27 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
   Future<Either<DomainException, void>> saveLastTenDaysData(
       List<PictureEntity> pictureEntityList) async {
     final result = PictureMapper().fromEntityListToMapList(pictureEntityList);
-    try {
-      return await result.fold(
-        (infraException) {
-          return Left(
-              DomainException(infraException.errorType.dataError.domainError));
-        },
-        (mapList) async {
-          await localStorage.save(key: itemKey, value: mapList);
-          return const Right(null);
-        },
-      );
-    } catch (error) {
-      return Left(DomainException(DomainErrorType.unexpected));
-    }
+    return await result.fold(
+      /// Left
+      (infraException) {
+        return Left(
+            DomainException(infraException.errorType.dataError.domainError));
+      },
+
+      /// Right
+      (mapList) async {
+        final saveResult =
+            await localStorage.save(key: itemKey, value: mapList);
+        return saveResult.fold(
+          (infraException) {
+            return Left(DomainException(
+                infraException.errorType.dataError.domainError));
+          },
+          (_) {
+            return const Right(null);
+          },
+        );
+      },
+    );
   }
 }
