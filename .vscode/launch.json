@@ -7,7 +7,9 @@
             "program": "nasa_apod_app/lib/main.dart",
             "args": [
                 "-d",
-                "chrome"
+                "chrome",
+                "--web-renderer",
+                "html"
             ]
         }
     ]
