@@ -34,7 +34,7 @@ class JsonMapper {
     }
   }
 
-  static Either<InfraException, dynamic> fromDynamicListToMapList(
+  static Either<InfraException, List<Map<String, dynamic>>> fromDynamicListToMapList(
       dynamic data) {
     try {
       final list = List<Map<String, dynamic>>.from(

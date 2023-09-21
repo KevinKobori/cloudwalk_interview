@@ -39,13 +39,13 @@ void main() {
 
     httpClient.mockRequestSuccess(data);
 
-    final dynamicList = JsonMapper.tryDecode(data);
+    final dynamicList = json.decode(data);
 
+    final resultMapList = JsonMapper.fromDynamicListToMapList(dynamicList);
+    
     late final List<Map<String, dynamic>> mapList;
 
-    final result2 = JsonMapper.fromDynamicListToMapList(dynamicList);
-
-    result2.fold(
+    resultMapList.fold(
       (l) {},
       (r) {
         mapList = r;
@@ -61,11 +61,11 @@ void main() {
       },
     );
 
-    final result = await sut.loadLastTenDaysData();
+    final resultSUT = await sut.loadLastTenDaysData();
 
     late List<PictureEntity> actual;
 
-    result.fold(
+    resultSUT.fold(
       (domainException) {},
       (pictureEntityList) {
         actual = pictureEntityList;

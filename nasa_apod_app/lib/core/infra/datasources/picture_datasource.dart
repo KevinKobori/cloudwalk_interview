@@ -9,26 +9,31 @@ class PictureDatasource implements IPictureDatasource {
   @override
   Future<Either<DataException, List<PictureModel>>> fetchLastTenDaysData(
       String url) async {
-    final resultHttpClient = await httpClient.request(method: 'get', url: url);
+    final requestResult = await httpClient.request(method: 'get', url: url);
 
-    return await resultHttpClient.fold(
+    return await requestResult.fold(
       (infraException) {
         return Left(DataException(infraException.errorType.dataError));
       },
       (data) {
         try {
-          final dynamicList = JsonMapper.tryDecode(data);
+          final dynamicListResult = JsonMapper.tryDecode(data);
 
-          final result = JsonMapper.fromDynamicListToMapList(dynamicList);
+          return dynamicListResult.fold((infraException) {
+            return Left(DataException(infraException.errorType.dataError));
+          }, (dynamicList) {
+            final mapListResult =
+                JsonMapper.fromDynamicListToMapList(dynamicList);
 
-          return result.fold(
-            (infraException) {
-              return Left(DataException(infraException.errorType.dataError));
-            },
-            (mapList) {
-              return PictureMapper().fromMapListToModelList(mapList);
-            },
-          );
+            return mapListResult.fold(
+              (infraException) {
+                return Left(DataException(infraException.errorType.dataError));
+              },
+              (mapList) {
+                return PictureMapper().fromMapListToModelList(mapList);
+              },
+            );
+          });
         } catch (_) {
           return Left(DataException(DataErrorType.invalidData));
         }
