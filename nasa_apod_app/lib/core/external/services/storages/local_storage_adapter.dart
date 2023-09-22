@@ -9,10 +9,10 @@ class LocalStorageAdapter implements ILocalStorage {
 
   @override
   Future<Either<InfraException, void>> save(
-      {required String key, required dynamic value}) async {
+      {required String itemKey, required dynamic itemValue}) async {
     try {
-      await localStorage.deleteItem(key);
-      await localStorage.setItem(key, value);
+      await localStorage.deleteItem(itemKey);
+      await localStorage.setItem(itemKey, itemValue);
       return const Right(null);
     } catch (_) {
       return Left(InfraException(InfraErrorType.unexpected));
@@ -20,9 +20,9 @@ class LocalStorageAdapter implements ILocalStorage {
   }
 
   @override
-  Future<Either<InfraException, void>> delete(String key) async {
+  Future<Either<InfraException, void>> delete(String itemKey) async {
     try {
-      await localStorage.deleteItem(key);
+      await localStorage.deleteItem(itemKey);
       return const Right(null);
     } catch (_) {
       return Left(InfraException(InfraErrorType.unexpected));
@@ -30,9 +30,9 @@ class LocalStorageAdapter implements ILocalStorage {
   }
 
   @override
-  Future<Either<InfraException, dynamic>> fetch(String key) async {
+  Future<Either<InfraException, dynamic>> fetch(String itemKey) async {
     try {
-      final data = await localStorage.getItem(key);
+      final data = await localStorage.getItem(itemKey);
       return Right(data);
     } catch (_) {
       return Left(InfraException(InfraErrorType.unexpected));

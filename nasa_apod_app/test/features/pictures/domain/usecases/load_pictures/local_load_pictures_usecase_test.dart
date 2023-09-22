@@ -135,7 +135,7 @@ void main() {
         () async {
       localStorage.mockFetchSuccess(
           DeviceLocalStorageFactory().generateInvalidPictureMapList());
-          
+
       await sut.validateLastTenDaysData();
 
       verify(() => localStorage.fetch('apod_objects')).called(1);
@@ -194,7 +194,7 @@ void main() {
       );
 
       verify(() => localStorage.save(
-              key: 'apod_objects', value: any<dynamic>(named: 'value')))
+              itemKey: 'apod_objects', itemValue: any<dynamic>(named: 'value')))
           .called(1); // TODO: NOW - CHANGE EXPECTED VALUE
     });
 

@@ -33,6 +33,23 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
     }
   }
 
+  Future<Either<DomainException, void>> deleteItem(
+      DataException dataException) async {
+    final deleteResult = await localStorage.delete(itemKey);
+    return deleteResult.fold(
+      /// Left
+      (infraException) {
+        return Left(
+            DomainException(infraException.errorType.dataError.domainError));
+      },
+
+      /// Right
+      (_) {
+        return Left(DomainException(dataException.errorType.domainError));
+      },
+    );
+  }
+
   @override
   Future<Either<DomainException, void>> validateLastTenDaysData() async {
     final fetchResult = await localStorage.fetch(itemKey);
@@ -49,14 +66,38 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
 
           /// Right
           (_) {
-            return const Right(null);
+            return Left(DomainException(
+                infraException.errorType.dataError.domainError));
           },
         );
       },
 
       /// Right
       (data) {
-        return const Right(null);
+        return PictureMapper().fromMapListToModelList(data).fold(
+          /// Left
+          (dataException) async {
+            final deleteResult = await localStorage.delete(itemKey);
+            return deleteResult.fold(
+              /// Left
+              (infraException) {
+                return Left(DomainException(
+                    infraException.errorType.dataError.domainError));
+              },
+
+              /// Right
+              (_) {
+                return Left(
+                    DomainException(dataException.errorType.domainError));
+              },
+            );
+          },
+
+          /// Right
+          (pictureModelList) {
+            return const Right(null);
+          },
+        );
       },
     );
   }
@@ -75,7 +116,7 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
       /// Right
       (mapList) async {
         final saveResult =
-            await localStorage.save(key: itemKey, value: mapList);
+            await localStorage.save(itemKey: itemKey, itemValue: mapList);
         return saveResult.fold(
           /// Left
           (infraException) {
