@@ -35,18 +35,26 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
 
   @override
   Future<Either<DomainException, void>> validateLastTenDaysData() async {
-    try {
-      await localStorage.fetch(itemKey);
-      return const Right(null);
-    } catch (_) {
-      try {
-        await localStorage.delete(itemKey);
-        return Left(
-            DomainException(InfraErrorType.invalidJson.dataError.domainError));
-      } catch (_) {
-        return Left(DomainException(DomainErrorType.unexpected));
-      }
-    }
+    final fetchResult = await localStorage.fetch(itemKey);
+    return await fetchResult.fold(
+      /// Left
+      (infraException) async {
+        final deleteResult = await localStorage.delete(itemKey);
+        return deleteResult.fold(
+          /// Left
+          (infraException) {
+            return Left(DomainException(
+                infraException.errorType.dataError.domainError));
+          },
+          (_) {
+            return const Right(null);
+          },
+        );
+      },
+      (data) {
+        return const Right(null);
+      },
+    );
   }
 
   @override
@@ -65,11 +73,13 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
         final saveResult =
             await localStorage.save(key: itemKey, value: mapList);
         return saveResult.fold(
+          /// Left
           (infraException) {
             return Left(DomainException(
                 infraException.errorType.dataError.domainError));
           },
           (_) {
+            /// Right
             return const Right(null);
           },
         );

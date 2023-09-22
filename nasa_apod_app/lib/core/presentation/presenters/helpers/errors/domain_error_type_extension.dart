@@ -7,4 +7,11 @@ extension DomainErrorTypeExtension on DomainErrorType {
         return PresenterErrorType.unexpected;
     }
   }
+
+   DataErrorType get dataError {
+    switch (this) {
+      case DomainErrorType.unexpected:
+        return DataErrorType.unexpected;
+    }
+  }
 }

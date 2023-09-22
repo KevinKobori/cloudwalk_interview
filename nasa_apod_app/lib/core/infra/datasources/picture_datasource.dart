@@ -52,6 +52,7 @@ class PictureDatasource implements IPictureDatasource {
     // TODO: Repository and Usecase Layers
     final resultHttpClient = await httpClient.request(method: 'get', url: url);
     return resultHttpClient.fold(
+      /// Left
       (infraException) {
         return Left(
             DomainException(infraException.errorType.dataError.domainError));

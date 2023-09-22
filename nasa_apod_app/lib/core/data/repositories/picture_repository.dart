@@ -12,6 +12,7 @@ class PictureRepository implements IPictureRepository {
     final resultDataSource = await pictureDatasource.fetchLastTenDaysData(url);
 
     return resultDataSource.fold(
+      /// Left
       (dataException) {
         return Left(DomainException(dataException.errorType.domainError));
       },

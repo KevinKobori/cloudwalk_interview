@@ -27,11 +27,23 @@ class PictureMapper {
       List<PictureEntity> pictureEntityList) {
     try {
       final result = List<PictureModel>.from(
-        pictureEntityList.map((pictureEntity) {
-          return PictureMapper()
-              .fromEntityToModel(pictureEntity)
-              .fold((l) => l, (r) => r);
-        }),
+        pictureEntityList.map(
+          (pictureEntity) {
+            final pictureModelResult =
+                PictureMapper().fromEntityToModel(pictureEntity);
+            return pictureModelResult.fold(
+              /// Left
+              (domainException) {
+                return DataException(domainException.errorType.dataError);
+              },
+
+              /// Right
+              (pictureModel) {
+                return pictureModel;
+              },
+            );
+          },
+        ),
       ).toList();
       return Right(result);
     } catch (_) {
@@ -63,8 +75,8 @@ class PictureMapper {
       final result = List<PictureEntity>.from(
         pictureModelList.map((pictureModel) {
           return PictureMapper().fromModelToEntity(pictureModel).fold(
-                (pictureEntity) => pictureEntity,
                 (domainException) => domainException,
+                (pictureEntity) => pictureEntity,
               );
         }),
       ).toList();
@@ -204,6 +216,7 @@ class PictureMapper {
   Either<DomainException, List<PictureEntity>> fromMapListToEntityList(
       List<Map<String, dynamic>> data) {
     return PictureMapper().fromMapListToModelList(data).fold(
+      /// Left
       (dataException) {
         return Left(DomainException(dataException.errorType.domainError));
       },

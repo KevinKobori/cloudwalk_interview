@@ -143,7 +143,8 @@ void main() {
       localStorage.mockFetchSuccess(
           DeviceLocalStorageFactory().generateInvalidPictureMapList());
 
-      await sut.validateLastTenDaysData();
+      final result = await sut.validateLastTenDaysData();
+      result.fold((l) => l, (r) => r);
 
       verify(() => localStorage.delete('apod_objects')).called(1);
     });
@@ -178,7 +179,7 @@ void main() {
 
       localStorage.mockSaveSuccess();
 
-      PictureMapper().fromMapListToEntityList(mapList).fold(
+      await PictureMapper().fromMapListToEntityList(mapList).fold(
         (domainException) {},
         (pictureEntityList) async {
           final result = await sut.saveLastTenDaysData(pictureEntityList);
