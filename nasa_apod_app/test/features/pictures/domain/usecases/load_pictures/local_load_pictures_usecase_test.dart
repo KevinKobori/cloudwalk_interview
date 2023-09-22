@@ -133,6 +133,9 @@ void main() {
   group('Validating', () {
     test('When validate data should call localStorage with correct key',
         () async {
+      localStorage.mockFetchSuccess(
+          DeviceLocalStorageFactory().generateInvalidPictureMapList());
+          
       await sut.validateLastTenDaysData();
 
       verify(() => localStorage.fetch('apod_objects')).called(1);

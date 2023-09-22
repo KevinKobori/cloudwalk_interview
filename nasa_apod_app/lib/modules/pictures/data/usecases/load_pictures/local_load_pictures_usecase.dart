@@ -46,11 +46,15 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
             return Left(DomainException(
                 infraException.errorType.dataError.domainError));
           },
+
+          /// Right
           (_) {
             return const Right(null);
           },
         );
       },
+
+      /// Right
       (data) {
         return const Right(null);
       },
