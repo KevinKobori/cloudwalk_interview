@@ -59,9 +59,17 @@ class PictureDatasource implements IPictureDatasource {
       },
       (data) {
         try {
-          final map = JsonMapper.tryDecode(data);
-
-          return PictureMapper().fromMapToModel((map as Map<String, dynamic>));
+          final pictureMapResult = JsonMapper.tryDecode(data);
+          return pictureMapResult.fold(
+            (infraException) {
+              return Left(DomainException(
+                  infraException.errorType.dataError.domainError));
+            },
+            (pictureMap) {
+              return PictureMapper()
+                  .fromMapToModel((pictureMap as Map<String, dynamic>));
+            },
+          );
         } catch (_) {
           return Left(DomainException(DataErrorType.invalidData.domainError));
         }
