@@ -8,7 +8,6 @@ mixin NavigationStateManager {
     streamView.listen(
       (params) {
         if (params?.routeName != null && params!.routeName.isNotEmpty) {
-          lastRoute = params.routeName;
           if (clear == true) {
             Modular.to.pushReplacementNamed(
               params.routeName,
