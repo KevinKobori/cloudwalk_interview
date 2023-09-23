@@ -87,16 +87,11 @@ class _DatePickerComponentState extends State<DatePickerComponent>
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      backgroundColor: Colors.black,
-      title: Center(
-        child: OutlinedButton(
-          onPressed: () {
-            _restorableDatePickerRouteFuture.present();
-          },
-          child: const Text('Search by date'),
-        ),
-      ),
+    return OutlinedButton(
+      onPressed: () {
+        _restorableDatePickerRouteFuture.present();
+      },
+      child: const Text('Search by date'),
     );
   }
 }

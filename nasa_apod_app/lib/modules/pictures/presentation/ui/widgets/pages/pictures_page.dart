@@ -34,7 +34,25 @@ class _PicturesPageState extends State<PicturesPage>
           streamView: widget.picturesPresenter.navigateToStream);
       return Scaffold(
         backgroundColor: Colors.black,
-        appBar: DatePickerComponent(widget.picturesPresenter),
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: SizedBox(
+            height: 32,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                OutlinedButton(
+                  onPressed: () {
+                    widget.picturesPresenter.loadPictures();
+                  },
+                  child: const Text('List all'),
+                ),
+                const SizedBox(width: 16),
+                DatePickerComponent(widget.picturesPresenter),
+              ],
+            ),
+          ),
+        ),
         body: StreamBuilder<List<PictureViewModel>?>(
           stream: widget.picturesPresenter.picturesStream,
           builder: (context, snapshot) {
