@@ -194,7 +194,8 @@ void main() {
       );
 
       verify(() => localStorage.save(
-              itemKey: 'apod_objects', itemValue: any<dynamic>(named: 'itemValue')))
+              itemKey: 'apod_objects',
+              itemValue: any<dynamic>(named: 'itemValue')))
           .called(1); // TODO: NOW - CHANGE EXPECTED VALUE
     });
 
