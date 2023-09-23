@@ -1,5 +1,5 @@
-import 'package:nasa_apod_app/nasa_apod_app.dart';
 import 'package:flutter/material.dart';
+import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class DatePickerComponent extends StatefulWidget
     implements PreferredSizeWidget {
@@ -87,16 +87,11 @@ class _DatePickerComponentState extends State<DatePickerComponent>
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      backgroundColor: Colors.black,
-      title: Center(
-        child: OutlinedButton(
-          onPressed: () {
-            _restorableDatePickerRouteFuture.present();
-          },
-          child: const Text('Search by date'),
-        ),
-      ),
+    return OutlinedButton(
+      onPressed: () {
+        _restorableDatePickerRouteFuture.present();
+      },
+      child: const Text('Search by date'),
     );
   }
 }

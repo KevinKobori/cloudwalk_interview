@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart' as cni;
 import 'package:dartz/dartz.dart' as dz;
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:localstorage/localstorage.dart' as ls;
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
@@ -53,6 +54,12 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Modular.to.pop();
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.deepPurpleAccent,
       ),

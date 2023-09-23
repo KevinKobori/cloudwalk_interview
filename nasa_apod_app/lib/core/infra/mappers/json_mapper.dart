@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
-import 'package:nasa_apod_app/core/core.dart';
+import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class JsonMapper {
   static Either<InfraException, bool> dataIsAMap(dynamic data) {
