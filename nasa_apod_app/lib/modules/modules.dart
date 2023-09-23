@@ -1,1 +1,1 @@
-export 'pictures/pictures_module.dart';
+export 'pictures/pictures.dart';
