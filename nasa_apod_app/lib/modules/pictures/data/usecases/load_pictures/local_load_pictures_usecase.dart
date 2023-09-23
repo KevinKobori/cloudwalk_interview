@@ -6,7 +6,7 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
 
   LocalLoadPicturesUseCase({required this.localStorage});
 
-  String itemKey = 'apod_objects';
+  String itemKey = 'pictures_list';
 
   @override
   Future<Either<DomainException, List<PictureEntity>>>
