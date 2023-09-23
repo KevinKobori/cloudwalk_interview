@@ -1,5 +1,5 @@
+import 'package:dartz/dartz.dart';
 import 'package:http/http.dart';
-import 'package:multiple_result/multiple_result.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class HttpClientAdapter implements IHttpClient {
@@ -8,7 +8,7 @@ class HttpClientAdapter implements IHttpClient {
   HttpClientAdapter(this.client);
 
   @override
-  Future<Result<dynamic, InfraException>> request(
+  Future<Either<InfraException, dynamic>> request(
       {required String url,
       required String method,
       Map<String, dynamic>? body,
@@ -16,7 +16,7 @@ class HttpClientAdapter implements IHttpClient {
     final defaultHeaders = headers?.cast<String, String>() ?? {}
       ..addAll(
           {'content-type': 'application/json', 'accept': 'application/json'});
-    final jsonBody = body != null ? Json.tryEncode(body) : null;
+    final jsonBody = body != null ? JsonMapper.tryEncode(body) : null;
     var response = Response('', 500);
     Future<Response>? futureResponse;
     try {
@@ -33,31 +33,31 @@ class HttpClientAdapter implements IHttpClient {
         response = await futureResponse.timeout(const Duration(seconds: 10));
       }
     } catch (_) {
-      return Error(InfraException(ExternalErrorType.serverError.infraError));
+      return Left(InfraException(ExternalErrorType.serverError.infraError));
     }
     return _handleResponse(response);
   }
 
-  Result<dynamic, InfraException> _handleResponse(Response response) {
+  Either<InfraException, dynamic> _handleResponse(Response response) {
     switch (response.statusCode) {
       case 200:
-        return Success(response.body.isEmpty ? null : response.body);
+        return Right(response.body.isEmpty ? null : response.body);
       case 201:
-        return Success(response.body.isEmpty ? null : response.body);
+        return Right(response.body.isEmpty ? null : response.body);
       case 204:
-        return const Success(null);
+        return const Right(null);
       case 400:
-        return Error(InfraException(ExternalErrorType.badRequest.infraError));
+        return Left(InfraException(ExternalErrorType.badRequest.infraError));
       case 401:
-        return Error(InfraException(ExternalErrorType.unauthorized.infraError));
+        return Left(InfraException(ExternalErrorType.unauthorized.infraError));
       case 403:
-        return Error(InfraException(ExternalErrorType.forbidden.infraError));
+        return Left(InfraException(ExternalErrorType.forbidden.infraError));
       case 404:
-        return Error(InfraException(ExternalErrorType.notFound.infraError));
+        return Left(InfraException(ExternalErrorType.notFound.infraError));
       case 500:
-        return Error(InfraException(ExternalErrorType.serverError.infraError));
+        return Left(InfraException(ExternalErrorType.serverError.infraError));
       default:
-        return Error(InfraException(ExternalErrorType.serverError.infraError));
+        return Left(InfraException(ExternalErrorType.serverError.infraError));
     }
   }
 }

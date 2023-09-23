@@ -11,4 +11,16 @@ extension DataErrorTypeExtension on DataErrorType {
         return DomainErrorType.unexpected;
     }
   }
+
+  InfraErrorType get infraError {
+    switch (this) {
+      case DataErrorType.unexpected:
+        return InfraErrorType.unexpected;
+      case DataErrorType.invalidData:
+        return InfraErrorType.unexpected;
+      case DataErrorType.notFound:
+        return InfraErrorType.unexpected;
+    }
+  }
+  
 }

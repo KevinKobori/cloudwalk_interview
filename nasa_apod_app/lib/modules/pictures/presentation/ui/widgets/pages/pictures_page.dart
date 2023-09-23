@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
-import 'package:provider/provider.dart';
 
 class PicturesPage extends StatefulWidget {
   final IPicturesPresenter picturesPresenter;
@@ -14,11 +13,11 @@ class PicturesPage extends StatefulWidget {
 class _PicturesPageState extends State<PicturesPage>
     with LoadingStateManager, NavigationStateManager, RouteAware {
   @override
-  void didPopNext() {
+  void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await widget.picturesPresenter.loadPictures();
     });
-    super.didPopNext();
+    super.initState();
   }
 
   @override
@@ -33,22 +32,20 @@ class _PicturesPageState extends State<PicturesPage>
       handleLoading(context, widget.picturesPresenter.isLoadingStream);
       handleNavigation(context,
           streamView: widget.picturesPresenter.navigateToStream);
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        await widget.picturesPresenter.loadPictures();
-      });
-      return StreamBuilder<List<PictureViewModel>?>(
-        stream: widget.picturesPresenter.picturesStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return ReloadScreen(
-              error: '${snapshot.error}',
-              reload: widget.picturesPresenter.loadPictures,
-            );
-          }
-          if (snapshot.hasData) {
-            return ListenableProvider(
-              create: (_) => widget.picturesPresenter,
-              child: ListView.builder(
+      return Scaffold(
+        backgroundColor: Colors.black,
+        appBar: DatePickerComponent(widget.picturesPresenter),
+        body: StreamBuilder<List<PictureViewModel>?>(
+          stream: widget.picturesPresenter.picturesStream,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return ReloadScreen(
+                error: '${snapshot.error}',
+                reload: widget.picturesPresenter.loadPictures,
+              );
+            }
+            if (snapshot.hasData) {
+              return ListView.builder(
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   return PictureTile(
@@ -56,23 +53,12 @@ class _PicturesPageState extends State<PicturesPage>
                     pictureViewModel: snapshot.data![index],
                   );
                 },
-              ),
-            );
-          }
-          return const SizedBox();
-        },
+              );
+            }
+            return const SizedBox();
+          },
+        ),
       );
-      //   return ScreenTypeLayout.builder(
-      //     mobile: (_) => PicturesPageMobile(
-      //       picturesPresenter: widget.picturesPresenter,
-      //     ),
-      //     tablet: (_) => PicturesPageMobile(
-      //       picturesPresenter: widget.picturesPresenter,
-      //     ),
-      //     desktop: (_) => PicturesPageMobile(
-      //       picturesPresenter: widget.picturesPresenter,
-      //     ),
-      //   );
     });
   }
 }

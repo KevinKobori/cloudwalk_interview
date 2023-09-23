@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
@@ -5,72 +6,129 @@ class LocalLoadPicturesUseCase implements ILocalLoadPicturesUseCase {
 
   LocalLoadPicturesUseCase({required this.localStorage});
 
-  String itemKey = 'apod_objects';
+  String itemKey = 'pictures_list';
 
-  /// Example showcasing the implementation without using
-  /// "package:multiple_result" and without adding intermediary
-  /// treatments between the layers: Domain, Data, Infrastructure,
-  /// and External.
   @override
-  Future<List<PictureEntity>> loadLastTenDaysData() async {
+  Future<Either<DomainException, List<PictureEntity>>>
+      loadLastTenDaysData() async {
     try {
-      final data = await localStorage.fetch(itemKey);
-      if (data?.isEmpty != false) {
-        throw DomainException(DomainErrorType.unexpected);
-      }
+      final dataResult = await localStorage.fetch(itemKey);
+      return dataResult.fold(
+        /// Left
+        (infraException) {
+          return Left(
+              DomainException(infraException.errorType.dataError.domainError));
+        },
 
-      return await _getEntityList(data);
+        /// Right
+        (localData) {
+          if (localData.isEmpty != false) {
+            return Left(DomainException(DomainErrorType.unexpected));
+          }
+          return PictureMapper().fromMapListToEntityList(localData);
+        },
+      );
     } catch (_) {
-      throw DomainException(DomainErrorType.unexpected);
+      return Left(DomainException(DomainErrorType.unexpected));
     }
+  }
+
+  Future<Either<DomainException, void>> deleteItem(
+      DataException dataException) async {
+    final deleteResult = await localStorage.delete(itemKey);
+    return deleteResult.fold(
+      /// Left
+      (infraException) {
+        return Left(
+            DomainException(infraException.errorType.dataError.domainError));
+      },
+
+      /// Right
+      (_) {
+        return Left(DomainException(dataException.errorType.domainError));
+      },
+    );
   }
 
   @override
-  Future<void> validateLastTenDaysData() async {
-    try {
-      final data = await localStorage.fetch(itemKey);
-      await _getEntityList(data);
-    } catch (_) {
-      await localStorage.delete(itemKey);
-    }
+  Future<Either<DomainException, void>> validateLastTenDaysData() async {
+    final fetchResult = await localStorage.fetch(itemKey);
+    return await fetchResult.fold(
+      /// Left
+      (infraException) async {
+        final deleteResult = await localStorage.delete(itemKey);
+        return deleteResult.fold(
+          /// Left
+          (infraException) {
+            return Left(DomainException(
+                infraException.errorType.dataError.domainError));
+          },
+
+          /// Right
+          (_) {
+            return Left(DomainException(
+                infraException.errorType.dataError.domainError));
+          },
+        );
+      },
+
+      /// Right
+      (data) {
+        return PictureMapper().fromMapListToModelList(data).fold(
+          /// Left
+          (dataException) async {
+            final deleteResult = await localStorage.delete(itemKey);
+            return deleteResult.fold(
+              /// Left
+              (infraException) {
+                return Left(DomainException(
+                    infraException.errorType.dataError.domainError));
+              },
+
+              /// Right
+              (_) {
+                return Left(
+                    DomainException(dataException.errorType.domainError));
+              },
+            );
+          },
+
+          /// Right
+          (pictureModelList) {
+            return const Right(null);
+          },
+        );
+      },
+    );
   }
 
   @override
-  Future<void> saveLastTenDaysData(
+  Future<Either<DomainException, void>> saveLastTenDaysData(
       List<PictureEntity> pictureEntityList) async {
-    try {
-      final mapList = await _getMapList(pictureEntityList);
-      await localStorage.save(key: itemKey, value: mapList);
-    } catch (error) {
-      throw DomainException(DomainErrorType.unexpected);
-    }
-  }
+    final result = PictureMapper().fromEntityListToMapList(pictureEntityList);
+    return await result.fold(
+      /// Left
+      (infraException) {
+        return Left(
+            DomainException(infraException.errorType.dataError.domainError));
+      },
 
-  Future<List<PictureEntity>> _getEntityList(dynamic data) async {
-    return await PictureMapper().fromMapListToModelList(data).when(
-          (pictureModelList) async => await PictureMapper()
-              .fromModelListToEntityList(pictureModelList)
-              .when(
-                (pictureEntityList) => pictureEntityList,
-                (domainException) => throw domainException,
-              ),
-          (domainException) => throw domainException,
+      /// Right
+      (mapList) async {
+        final saveResult =
+            await localStorage.save(itemKey: itemKey, itemValue: mapList);
+        return saveResult.fold(
+          /// Left
+          (infraException) {
+            return Left(DomainException(
+                infraException.errorType.dataError.domainError));
+          },
+          (_) {
+            /// Right
+            return const Right(null);
+          },
         );
-  }
-
-  Future<List<Map<String, dynamic>>> _getMapList(
-      List<PictureEntity> pictureEntityList) async {
-    return await PictureMapper()
-        .fromEntityListToModelList(pictureEntityList)
-        .when(
-          (pictureModelList) async => await PictureMapper()
-              .fromModelListToMapList(pictureModelList)
-              .when(
-                (map) => map,
-                (dataException) =>
-                    throw DomainException(dataException.errorType.dataError.domainError),
-              ),
-          (domainException) => throw domainException,
-        );
+      },
+    );
   }
 }
