@@ -9,9 +9,10 @@ This repository contains the implementation of a mobile application following th
 ```bash
    $ cd nasa_apod_app
    $ flutter run
+```
+# Have any issue? Run on web:
 
-# Have any issue? run on web:
-
+```bash
    $ cd nasa_apod_app
    $ flutter run -d chrome --web-renderer html
 ```
