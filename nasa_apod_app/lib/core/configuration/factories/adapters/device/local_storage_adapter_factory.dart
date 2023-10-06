@@ -1,5 +1,5 @@
+import 'package:localstorage/localstorage.dart' as ls;
 import 'package:nasa_apod_app/nasa_apod_app.dart';
-import 'package:localstorage/localstorage.dart';
 
-ILocalStorage localStorageAdapterFactory(String keyPath) =>
-    LocalStorageAdapter(localStorage: LocalStorage(keyPath));
+LocalStorage localStorageAdapterFactory(String keyPath) =>
+    LocalStorageAdapter(localStorage: ls.LocalStorage(keyPath));

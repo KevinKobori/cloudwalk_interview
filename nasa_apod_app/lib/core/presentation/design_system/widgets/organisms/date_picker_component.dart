@@ -3,7 +3,7 @@ import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class DatePickerComponent extends StatefulWidget
     implements PreferredSizeWidget {
-  final IPicturesPresenter picturesPresenter;
+  final PicturesPresenter picturesPresenter;
 
   const DatePickerComponent(
     this.picturesPresenter, {

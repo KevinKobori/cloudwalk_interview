@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:nasa_apod_app/nasa_apod_app.dart';
 import 'package:flutter/material.dart';
+import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class PictureTile extends StatelessWidget {
   final PictureViewModel pictureViewModel;
-  final IPicturesPresenter picturesPresenter;
+  final PicturesPresenter picturesPresenter;
 
   const PictureTile({
     super.key,

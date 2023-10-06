@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-mixin UIErrorPresenterManager {
-  final _mainError = StreamController<PresenterErrorType?>.broadcast();
-  Stream<PresenterErrorType?> get mainErrorStream => _mainError.stream;
-  set mainError(PresenterErrorType? value) => _mainError.sink.add(value);
+mixin UIFailurePresenterManager {
+  final _mainFailure = StreamController<DomainFailureType?>.broadcast();
+  Stream<DomainFailureType?> get mainFailureStream => _mainFailure.stream;
+  set mainFailure(DomainFailureType? value) => _mainFailure.sink.add(value);
 
-  void disposeUIErrorPresenterManager() {
-    _mainError.close();
+  void disposeUIFailurePresenterManager() {
+    _mainFailure.close();
   }
 }
