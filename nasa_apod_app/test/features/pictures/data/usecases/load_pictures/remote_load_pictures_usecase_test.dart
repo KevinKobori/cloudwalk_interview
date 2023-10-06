@@ -1,12 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 import '../../../../../apod.dart';
 
 void main() {
   late PictureDatasourceImpl pictureDatasource;
+  late NetworkInfo networkInfo;
   late PictureRepositoryImpl pictureRepository;
   late RemoteLoadLastTenDaysPicturesByDateUseCaseImpl sut;
   late HttpClientSpy httpClient;
@@ -18,7 +20,11 @@ void main() {
     nowDate = DateTime.now();
     httpClient = HttpClientSpy();
     pictureDatasource = PictureDatasourceImpl(httpClient);
-    pictureRepository = PictureRepositoryImpl(pictureDatasource);
+    networkInfo = NetworkInfoImpl(InternetConnectionChecker());
+    pictureRepository = PictureRepositoryImpl(
+      networkInfo: networkInfo,
+      pictureDatasource: pictureDatasource,
+    );
     apiKey = ApodTest.faker.randomGenerator.string(10);
 
     final nasaApodEndDate =
