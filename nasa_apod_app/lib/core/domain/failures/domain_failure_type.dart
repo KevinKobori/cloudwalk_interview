@@ -1,3 +1,4 @@
 enum DomainFailureType {
   unexpected,
+  notHaveInternetConnection,
 }

@@ -5,6 +5,8 @@ extension DomainFailureTypeUIExtension on DomainFailureType {
     switch (this) {
       case DomainFailureType.unexpected:
         return I18n.strings.unexpectedFailure;
+      case DomainFailureType.notHaveInternetConnection:
+        return I18n.strings.notHaveInternetConnectionFailure;
     }
   }
 }

@@ -9,6 +9,8 @@ extension DataFailureTypeExtension on DataFailureType {
         return DomainFailureType.unexpected;
       case DataFailureType.notFound:
         return DomainFailureType.unexpected;
+      case DataFailureType.notHaveInternetConnection:
+        return DomainFailureType.notHaveInternetConnection;
     }
   }
 }

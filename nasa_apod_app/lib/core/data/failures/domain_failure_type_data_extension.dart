@@ -5,6 +5,8 @@ extension DomainFailureTypeDataExtension on DomainFailureType {
     switch (this) {
       case DomainFailureType.unexpected:
         return DataFailureType.unexpected;
+      case DomainFailureType.notHaveInternetConnection:
+        return DataFailureType.notHaveInternetConnection;
     }
   }
 }
