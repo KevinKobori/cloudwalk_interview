@@ -1,4 +1,4 @@
-import 'package:nasa_apod_app/nasa_apod_app.dart';
 import 'package:http/http.dart';
+import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-IHttpClient httpClientAdapterFactory() => HttpClientAdapter(Client());
+HttpClient httpClientAdapterFactory() => HttpClientAdapter(Client());

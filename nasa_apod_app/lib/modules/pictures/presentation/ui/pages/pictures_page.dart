@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class PicturesPage extends StatefulWidget {
-  final IPicturesPresenter picturesPresenter;
+  final PicturesPresenter picturesPresenter;
 
   const PicturesPage(this.picturesPresenter, {super.key});
 

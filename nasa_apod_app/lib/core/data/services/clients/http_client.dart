@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-mixin IHttpClient {
+mixin HttpClient {
   Future<Either<ServerFailure, dynamic>> request({
     required String url,
     required String method,

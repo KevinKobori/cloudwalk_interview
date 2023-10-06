@@ -6,16 +6,16 @@ import 'package:nasa_apod_app/nasa_apod_app.dart';
 import '../../../../../apod.dart';
 
 void main() {
-  late PictureDatasource pictureDatasource;
-  late PictureRepository pictureRepository;
+  late PictureDatasourceImpl pictureDatasource;
+  late PictureRepositoryImpl pictureRepository;
   late RemoteLoadLastTenDaysPicturesByDateUseCaseImpl sut;
   late HttpClientSpy httpClient;
   late String url;
 
   setUp(() {
     httpClient = HttpClientSpy();
-    pictureDatasource = PictureDatasource(httpClient);
-    pictureRepository = PictureRepository(pictureDatasource);
+    pictureDatasource = PictureDatasourceImpl(httpClient);
+    pictureRepository = PictureRepositoryImpl(pictureDatasource);
     url = ApodTest.faker.internet.httpUrl();
     sut = RemoteLoadLastTenDaysPicturesByDateUseCaseImpl(
       picturesRepository: pictureRepository,

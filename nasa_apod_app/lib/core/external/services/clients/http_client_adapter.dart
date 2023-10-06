@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:http/http.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-class HttpClientAdapter implements IHttpClient {
+class HttpClientAdapter implements HttpClient {
   final Client client;
 
   HttpClientAdapter(this.client);

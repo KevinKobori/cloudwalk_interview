@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-class HttpClientSpy extends Mock implements IHttpClient {
+class HttpClientSpy extends Mock implements HttpClient {
   When<Future<Either<ServerFailure, dynamic>>> mockRequestCall() =>
       when(() => request(
           url: any(named: 'url'),

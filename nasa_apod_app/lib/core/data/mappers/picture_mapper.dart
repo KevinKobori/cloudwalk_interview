@@ -5,8 +5,7 @@ class PictureMapper {
   DataFailureType get error => DataFailureType.invalidData;
 
   /// Data <<< FROM <<< Domain
-  Either<MapperFailure, PictureModel> fromEntityToModel(
-      PictureEntity entity) {
+  Either<MapperFailure, PictureModel> fromEntityToModel(PictureEntity entity) {
     return Right(
       PictureModel(
         copyright: entity.copyright,
@@ -154,8 +153,7 @@ class PictureMapper {
   }
 
   /// External >>> TO >>> Data
-  Either<DomainFailure, PictureModel> fromMapToModel(
-      Map<String, dynamic> map) {
+  Either<DomainFailure, PictureModel> fromMapToModel(Map<String, dynamic> map) {
     try {
       if (!map.keys.toSet().containsAll([
         'date',
@@ -219,7 +217,7 @@ class PictureMapper {
     return PictureMapper().fromMapListToModelList(data).fold(
       /// Left
       (mapperFailure) {
-        return Left(DomainFailure(mapperFailure.error.domainFailure));
+        return Left(DomainFailure(mapperFailure.error));
       },
       (pictureModelList) {
         return PictureMapper().fromModelListToEntityList(pictureModelList).fold(
@@ -265,7 +263,7 @@ class PictureMapper {
       List<PictureEntity> pictureEntityList) {
     return PictureMapper().fromEntityListToModelList(pictureEntityList).fold(
       (mapperFailure) {
-        return Left(MapperFailure(mapperFailure.error));
+        return Left(MapperFailure(mapperFailure.error.dataFailure));
       },
       (pictureModelList) {
         return PictureMapper().fromModelListToMapList(pictureModelList).fold(

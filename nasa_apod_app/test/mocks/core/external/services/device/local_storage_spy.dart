@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-class LocalStorageSpy extends Mock implements ILocalStorage {
+class LocalStorageSpy extends Mock implements LocalStorage {
   LocalStorageSpy() {
     mockDeleteSuccess();
     mockSaveSuccess();

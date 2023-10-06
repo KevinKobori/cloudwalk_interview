@@ -1,6 +1,5 @@
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-abstract class DataFailure {
-  final DataFailureType error;
-  DataFailure(this.error);
+abstract class DataFailure extends DomainFailure {
+  DataFailure(DataFailureType error) : super(error.domainFailure);
 }

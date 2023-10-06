@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
-import 'package:localstorage/localstorage.dart';
+import 'package:localstorage/localstorage.dart' as ls;
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-class LocalStorageAdapter implements ILocalStorage {
-  final LocalStorage localStorage;
+class LocalStorageAdapter implements LocalStorage {
+  final ls.LocalStorage localStorage;
 
   LocalStorageAdapter({required this.localStorage});
 

@@ -1,4 +1,4 @@
-abstract class ITranslation {
+abstract class Translation {
   /// Failures
   String get unexpectedFailure;
 

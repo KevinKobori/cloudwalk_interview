@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-class PictureRepository implements IPictureRepository {
-  final IPictureDatasource pictureDatasource;
+class PictureRepositoryImpl implements PictureRepository {
+  final PictureDatasource pictureDatasource;
 
-  PictureRepository(this.pictureDatasource);
+  PictureRepositoryImpl(this.pictureDatasource);
 
   @override
   Future<Either<DomainFailure, List<PictureEntity>>> getLastTenDaysData(
@@ -14,8 +14,10 @@ class PictureRepository implements IPictureRepository {
     return resultDataSource.fold(
       /// Left
       (dataFailure) {
-        return Left(DomainFailure(dataFailure.error.domainFailure));
+        return Left(DomainFailure(dataFailure.error));
       },
+
+      /// Right
       (pictureModelList) {
         return PictureMapper().fromModelListToEntityList(pictureModelList);
       },

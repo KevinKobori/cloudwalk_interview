@@ -3,7 +3,7 @@ import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class LocalLoadLastTenDaysPicturesByDateUseCaseImpl
     implements LocalLoadLastTenDaysPicturesByDateUseCase {
-  final ILocalStorage localStorage;
+  final LocalStorage localStorage;
   final String itemKey;
 
   LocalLoadLastTenDaysPicturesByDateUseCaseImpl({
@@ -18,7 +18,7 @@ class LocalLoadLastTenDaysPicturesByDateUseCaseImpl
       return dataResult.fold(
         /// Left
         (dataFailure) {
-          return Left(DomainFailure(dataFailure.error.domainFailure));
+          return Left(DomainFailure(dataFailure.error));
         },
 
         /// Right

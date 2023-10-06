@@ -1,8 +1,8 @@
-import 'package:nasa_apod_app/nasa_apod_app.dart';
 import 'package:flutter/widgets.dart';
+import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class I18n {
-  static ITranslation strings = EnUs();
+  static Translation strings = EnUs();
 
   static void load({required Locale locale}) {
     switch (locale.toString()) {

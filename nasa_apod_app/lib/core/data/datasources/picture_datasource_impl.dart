@@ -1,17 +1,17 @@
 import 'package:dartz/dartz.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-mixin IPictureDatasource {
+mixin PictureDatasource {
   Future<Either<DataFailure, List<PictureModel>>> fetchLastTenDaysData(
       String url);
 
   Future<Either<DomainFailure, PictureModel>> fetchByDate(String url);
 }
 
-class PictureDatasource implements IPictureDatasource {
-  final IHttpClient httpClient;
+class PictureDatasourceImpl implements PictureDatasource {
+  final HttpClient httpClient;
 
-  PictureDatasource(this.httpClient);
+  PictureDatasourceImpl(this.httpClient);
 
   @override
   Future<Either<DataFailure, List<PictureModel>>> fetchLastTenDaysData(
@@ -61,14 +61,14 @@ class PictureDatasource implements IPictureDatasource {
     return resultHttpClient.fold(
       /// Left
       (serverFailure) {
-        return Left(DomainFailure(serverFailure.error.domainFailure));
+        return Left(DomainFailure(serverFailure.error));
       },
       (data) {
         try {
           final pictureMapResult = JsonMapper.tryDecode(data);
           return pictureMapResult.fold(
             (mapperFailure) {
-              return Left(DomainFailure(mapperFailure.error.domainFailure));
+              return Left(DomainFailure(mapperFailure.error));
             },
             (pictureMap) {
               return PictureMapper()

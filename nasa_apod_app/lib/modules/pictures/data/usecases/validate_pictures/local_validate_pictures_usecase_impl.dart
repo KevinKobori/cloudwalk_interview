@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class LocalValidatePicturesUseCaseImpl implements LocalValidatePicturesUseCase {
-  final ILocalStorage localStorage;
+  final LocalStorage localStorage;
   final String itemKey;
 
   LocalValidatePicturesUseCaseImpl({
@@ -20,12 +20,12 @@ class LocalValidatePicturesUseCaseImpl implements LocalValidatePicturesUseCase {
         return deleteResult.fold(
           /// Left
           (dataFailure) {
-            return Left(DomainFailure(dataFailure.error.domainFailure));
+            return Left(DomainFailure(dataFailure.error));
           },
 
           /// Right
           (_) {
-            return Left(DomainFailure(dataFailure.error.domainFailure));
+            return Left(DomainFailure(dataFailure.error));
           },
         );
       },
@@ -39,12 +39,12 @@ class LocalValidatePicturesUseCaseImpl implements LocalValidatePicturesUseCase {
             return deleteResult.fold(
               /// Left
               (dataFailure) {
-                return Left(DomainFailure(dataFailure.error.domainFailure));
+                return Left(DomainFailure(dataFailure.error));
               },
 
               /// Right
               (_) {
-                return Left(DomainFailure(mapperFailure.error.domainFailure));
+                return Left(DomainFailure(mapperFailure.error));
               },
             );
           },

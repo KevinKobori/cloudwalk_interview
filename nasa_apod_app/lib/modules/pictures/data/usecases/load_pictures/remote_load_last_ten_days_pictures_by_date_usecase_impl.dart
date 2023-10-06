@@ -3,7 +3,7 @@ import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class RemoteLoadLastTenDaysPicturesByDateUseCaseImpl
     implements RemoteLoadLastTenDaysPicturesByDateUseCase {
-  final IPictureRepository picturesRepository;
+  final PictureRepository picturesRepository;
   final String url;
 
   RemoteLoadLastTenDaysPicturesByDateUseCaseImpl({

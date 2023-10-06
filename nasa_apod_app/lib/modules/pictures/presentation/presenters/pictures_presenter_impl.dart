@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-abstract class IPicturesPresenter implements Listenable {
+abstract class PicturesPresenter implements Listenable {
   Stream<bool> get isLoadingStream;
   Stream<List<PictureViewModel>?> get picturesStream;
   Stream<NavigateToParams?> get navigateToStream;
@@ -18,17 +18,13 @@ class PicturesState {
   List<PictureViewModel>? pictureViewModelList;
 }
 
-class PicturesPresenter
+class PicturesPresenterImpl
     with LoadingPresenterManager, NavigationPresenterManager
-    implements IPicturesPresenter {
-  ///
-  final LoadLastTenDaysPicturesByDateUseCase loadPicturesUseCase;
+    implements PicturesPresenter {
+  final LoadLastTenDaysPicturesByDateUseCase loadLastTenDaysPicturesByDate;
 
-  PicturesPresenter({
-    required this.loadPicturesUseCase,
-  });
+  PicturesPresenterImpl({required this.loadLastTenDaysPicturesByDate});
 
-  ///
   final _controller = StreamController<PicturesState>.broadcast();
 
   final _state = PicturesState();
@@ -39,11 +35,10 @@ class PicturesPresenter
   Stream<List<PictureViewModel>?> get picturesStream =>
       _controller.stream.map((state) => state.pictureViewModelList).distinct();
 
-  ///
   @override
   Future<void> loadPictures() async {
     isLoading = true;
-    final result = await loadPicturesUseCase.call(null);
+    final result = await loadLastTenDaysPicturesByDate.call(null);
 
     result.fold(
       (domainFailure) {
@@ -76,7 +71,7 @@ class PicturesPresenter
   Future<void> _loadPictureByDate(ApodDate date) async {
     isLoading = true;
 
-    final datasource = PictureDatasource(httpClientAdapterFactory());
+    final datasource = PictureDatasourceImpl(httpClientAdapterFactory());
 
     final result = await datasource.fetchByDate(apodApiUrlFactory(
         apiKey: 'Ieuiin5UvhSz44qMh9rboqVMfOkYbkNebhwEtxPF',
