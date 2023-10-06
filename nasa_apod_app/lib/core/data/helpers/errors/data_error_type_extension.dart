@@ -22,5 +22,4 @@ extension DataErrorTypeExtension on DataErrorType {
         return InfraErrorType.unexpected;
     }
   }
-  
 }

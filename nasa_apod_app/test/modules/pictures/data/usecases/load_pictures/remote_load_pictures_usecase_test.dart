@@ -8,7 +8,7 @@ import '../../../../../apod.dart';
 void main() {
   late PictureDatasource pictureDatasource;
   late PictureRepository pictureRepository;
-  late RemoteLoadPicturesUseCase sut;
+  late RemoteLoadLastTenDaysPicturesByDateUseCaseImpl sut;
   late HttpClientSpy httpClient;
   late String url;
 
@@ -17,7 +17,7 @@ void main() {
     pictureDatasource = PictureDatasource(httpClient);
     pictureRepository = PictureRepository(pictureDatasource);
     url = ApodTest.faker.internet.httpUrl();
-    sut = RemoteLoadPicturesUseCase(
+    sut = RemoteLoadLastTenDaysPicturesByDateUseCaseImpl(
       picturesRepository: pictureRepository,
       url: url,
     );
@@ -28,7 +28,7 @@ void main() {
 
     httpClient.mockRequestSuccess(data);
 
-    await sut.loadLastTenDaysData();
+    await sut.call();
 
     ApodTest.verify(() => httpClient.request(method: 'get', url: url));
   });
@@ -42,7 +42,7 @@ void main() {
     final dynamicList = json.decode(data);
 
     final resultMapList = JsonMapper.fromDynamicListToMapList(dynamicList);
-    
+
     late final List<Map<String, dynamic>> mapList;
 
     resultMapList.fold(
@@ -61,7 +61,7 @@ void main() {
       },
     );
 
-    final resultSUT = await sut.loadLastTenDaysData();
+    final resultSUT = await sut.call();
 
     late List<PictureEntity> actual;
 
@@ -81,7 +81,7 @@ void main() {
     httpClient.mockRequestSuccess(
         ApodResponsesFactory().generateInvalidPictureMapList());
 
-    final result = await sut.loadLastTenDaysData();
+    final result = await sut.call();
 
     final actual = result.fold(
       (domainException) => domainException,
@@ -98,7 +98,7 @@ void main() {
   test('Should throw UnexpectedError if HttpClient not returns 200', () async {
     httpClient.mockRequestError(ApodResponsesFactory().generateNotFoundError());
 
-    final result = await sut.loadLastTenDaysData();
+    final result = await sut.call();
 
     final actual = result.fold(
       (domainException) => domainException,

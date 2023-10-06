@@ -20,23 +20,46 @@ final dateNowUS = getDateFormat(nowUS);
 var lastTenDaysUS = DateTime(now.year, now.month, now.day - 9, now.hour - 1);
 final dateLastTenDaysUS = getDateFormat(lastTenDaysUS);
 
-RemoteLoadPicturesUseCase remoteLoadPicturesUseCaseFactory() =>
-    RemoteLoadPicturesUseCase(
-      url: apodApiUrlFactory(
-        apiKey: 'Ieuiin5UvhSz44qMh9rboqVMfOkYbkNebhwEtxPF',
-        requestPath: '&start_date=$dateLastTenDaysUS&end_date=$dateNowUS',
-      ),
-      picturesRepository: pictureRepositoryFactory(),
-    );
+String localStorageItemKeyFactory() => 'pictures_list';
 
-LocalLoadPicturesUseCase localLoadPicturesUseCaseFactory() =>
-    LocalLoadPicturesUseCase(
+RemoteLoadLastTenDaysPicturesByDateUseCaseImpl
+    remoteLoadPicturesUseCaseFactory() =>
+        RemoteLoadLastTenDaysPicturesByDateUseCaseImpl(
+          url: apodApiUrlFactory(
+            apiKey: 'Ieuiin5UvhSz44qMh9rboqVMfOkYbkNebhwEtxPF',
+            requestPath: '&start_date=$dateLastTenDaysUS&end_date=$dateNowUS',
+          ),
+          picturesRepository: pictureRepositoryFactory(),
+        );
+
+LocalLoadLastTenDaysPicturesByDateUseCaseImpl
+    localLoadPicturesUseCaseFactory() =>
+        LocalLoadLastTenDaysPicturesByDateUseCaseImpl(
+          localStorage:
+              localStorageAdapterFactory(localStorageConfigKeyPathFactory()),
+          itemKey: localStorageItemKeyFactory(),
+        );
+
+LocalValidatePicturesUseCaseImpl localValidatePicturesUseCaseFactory() =>
+    LocalValidatePicturesUseCaseImpl(
       localStorage:
           localStorageAdapterFactory(localStorageConfigKeyPathFactory()),
+      itemKey: localStorageItemKeyFactory(),
     );
 
-ILoadPicturesUseCase remoteLoadPicturesUseCaseWithLocalFallbackFactory() =>
-    RemoteLoadPicturesWithLocalFallbackUseCase(
-      remoteUseCase: remoteLoadPicturesUseCaseFactory(),
-      localUseCase: localLoadPicturesUseCaseFactory(),
+LocalSavePicturesUseCaseImpl localSavePicturesUseCaseFactory() =>
+    LocalSavePicturesUseCaseImpl(
+      localStorage:
+          localStorageAdapterFactory(localStorageConfigKeyPathFactory()),
+      itemKey: localStorageItemKeyFactory(),
     );
+
+LoadLastTenDaysPicturesByDateUseCase
+    remoteLoadPicturesUseCaseWithLocalFallbackFactory() =>
+        RemoteLoadPicturesWithLocalFallbackUseCaseImpl(
+          remoteLoadLastTenDaysPicturesByDate:
+              remoteLoadPicturesUseCaseFactory(),
+          localLoadLastTenDaysPicturesByDate: localLoadPicturesUseCaseFactory(),
+          localValidatePictures: localValidatePicturesUseCaseFactory(),
+          localSavePictures: localSavePicturesUseCaseFactory(),
+        );

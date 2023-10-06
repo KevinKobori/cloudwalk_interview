@@ -1,18 +1,18 @@
 import 'package:dartz/dartz.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-class RemoteLoadPicturesUseCase implements IRemoteLoadPicturesUseCase {
+class RemoteLoadLastTenDaysPicturesByDateUseCaseImpl
+    implements RemoteLoadLastTenDaysPicturesByDateUseCase {
   final IPictureRepository picturesRepository;
   final String url;
 
-  RemoteLoadPicturesUseCase({
+  RemoteLoadLastTenDaysPicturesByDateUseCaseImpl({
     required this.picturesRepository,
     required this.url,
   });
 
   @override
-  Future<Either<DomainException, List<PictureEntity>>>
-      loadLastTenDaysData() async {
+  Future<Either<DomainException, List<PictureEntity>>> call(void _) async {
     final result = await picturesRepository.getLastTenDaysData(url);
     return result;
   }

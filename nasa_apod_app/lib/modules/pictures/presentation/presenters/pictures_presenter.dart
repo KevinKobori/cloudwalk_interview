@@ -22,7 +22,7 @@ class PicturesPresenter
     with LoadingPresenterManager, NavigationPresenterManager
     implements IPicturesPresenter {
   ///
-  final ILoadPicturesUseCase loadPicturesUseCase;
+  final LoadLastTenDaysPicturesByDateUseCase loadPicturesUseCase;
 
   PicturesPresenter({
     required this.loadPicturesUseCase,
@@ -43,7 +43,7 @@ class PicturesPresenter
   @override
   Future<void> loadPictures() async {
     isLoading = true;
-    final result = await loadPicturesUseCase.loadLastTenDaysData();
+    final result = await loadPicturesUseCase.call(null);
 
     result.fold(
       (domainException) {
@@ -76,7 +76,7 @@ class PicturesPresenter
 
   Future<void> _loadPictureByDate(ApodDate date) async {
     isLoading = true;
-    
+
     final datasource = PictureDatasource(httpClientAdapterFactory());
 
     final result = await datasource.fetchByDate(apodApiUrlFactory(

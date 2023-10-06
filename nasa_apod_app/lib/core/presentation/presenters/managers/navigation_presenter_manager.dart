@@ -22,8 +22,6 @@ class NavigateToParams {
   });
 }
 
-
-
 // Future<T?> pushNamed<T extends Object?>(
 //   String routeName, {
 //   Object? arguments,

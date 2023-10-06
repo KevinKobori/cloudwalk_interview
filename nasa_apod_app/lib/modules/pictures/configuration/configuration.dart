@@ -1,4 +1,4 @@
-export 'composites/usecases/remote_load_pictures_with_local_fallback_usecase.dart';
+export 'composites/usecases/remote_load_pictures_with_local_fallback_usecase_impl.dart';
 export 'factories/datasources/picture_datasource.dart';
 export 'factories/pages/picture_details_page_factory.dart';
 export 'factories/pages/pictures_list_page_factory.dart';

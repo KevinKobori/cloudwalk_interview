@@ -5,12 +5,13 @@ import 'package:nasa_apod_app/nasa_apod_app.dart';
 import '../../../../../apod.dart';
 
 void main() {
-  late LocalLoadPicturesUseCase sut;
+  late LocalLoadLastTenDaysPicturesByDateUseCaseImpl sut;
   late LocalStorageSpy localStorage;
 
   setUp(() {
     localStorage = LocalStorageSpy();
-    sut = LocalLoadPicturesUseCase(localStorage: localStorage);
+    sut = LocalLoadLastTenDaysPicturesByDateUseCaseImpl(
+        localStorage: localStorage);
   });
 
   group('Loading', () {

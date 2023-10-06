@@ -34,15 +34,15 @@ class JsonMapper {
     }
   }
 
-  static Either<InfraException, List<Map<String, dynamic>>> fromDynamicListToMapList(
-      dynamic data) {
+  static Either<InfraException, List<Map<String, dynamic>>>
+      fromDynamicListToMapList(dynamic data) {
     try {
       final list = List<Map<String, dynamic>>.from(
         (data as List<dynamic>).map(
           (dynamic map) => map as Map<String, dynamic>,
         ),
       ).toList();
-      
+
       return Right(list);
     } catch (_) {
       return Left(InfraException(InfraErrorType.invalidJson));
