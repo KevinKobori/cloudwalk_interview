@@ -56,17 +56,6 @@ The presentation layer handles the user interface and user interaction. It inclu
 ### Main Layer
 The main layer serves as the entry point of the application. It initializes the necessary components, sets up dependency injection, and coordinates the interactions between different layers.
 
-## Architecture
-
-![architecture_classes](documentation/architecture/architecture_classes.png)
-
-![architecture_objects](documentation/architecture/architecture_objects.png)
-
-![architecture_exceptions](documentation/architecture/architecture_exceptions.png)
-
-![architecture_full_example](documentation/architecture/architecture_full_example.png)
-
-
 By organizing the project into these distinct layers, the Clean Architecture approach promotes code separation, reusability, and testability. This structure enables the development team to make changes to specific parts of the application without affecting the entire system.
 
 Feel free to explore each layer in detail within the repository to understand how the architecture is implemented and how the different components interact.
