@@ -11,21 +11,21 @@ class LocalValidatePicturesUseCaseImpl implements LocalValidatePicturesUseCase {
   });
 
   @override
-  Future<Either<DomainException, void>> call(void _) async {
+  Future<Either<DomainFailure, void>> call(void _) async {
     final fetchResult = await localStorage.fetch(itemKey);
     return await fetchResult.fold(
       /// Left
-      (dataException) async {
+      (dataFailure) async {
         final deleteResult = await localStorage.delete(itemKey);
         return deleteResult.fold(
           /// Left
-          (dataException) {
-            return Left(DomainException(dataException.error.domainError));
+          (dataFailure) {
+            return Left(DomainFailure(dataFailure.error.domainFailure));
           },
 
           /// Right
           (_) {
-            return Left(DomainException(dataException.error.domainError));
+            return Left(DomainFailure(dataFailure.error.domainFailure));
           },
         );
       },
@@ -34,17 +34,17 @@ class LocalValidatePicturesUseCaseImpl implements LocalValidatePicturesUseCase {
       (data) {
         return PictureMapper().fromMapListToModelList(data).fold(
           /// Left
-          (mapperException) async {
+          (mapperFailure) async {
             final deleteResult = await localStorage.delete(itemKey);
             return deleteResult.fold(
               /// Left
-              (dataException) {
-                return Left(DomainException(dataException.error.domainError));
+              (dataFailure) {
+                return Left(DomainFailure(dataFailure.error.domainFailure));
               },
 
               /// Right
               (_) {
-                return Left(DomainException(mapperException.error.domainError));
+                return Left(DomainFailure(mapperFailure.error.domainFailure));
               },
             );
           },

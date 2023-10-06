@@ -46,15 +46,15 @@ class PicturesPresenter
     final result = await loadPicturesUseCase.call(null);
 
     result.fold(
-      (domainException) {
+      (domainFailure) {
         _state.pictureViewModelList = null;
-        _controller.addError(domainException.error.i18nError);
+        _controller.addError(domainFailure.error.i18nFailure);
       },
       (pictureEntityList) {
         _state.pictureViewModelList = PictureMapper()
             .fromEntityListToViewModelList(pictureEntityList)
             .fold(
-          (domainException) {
+          (domainFailure) {
             return null;
           },
           (pictureViewModelList) {
@@ -83,9 +83,9 @@ class PicturesPresenter
         requestPath: '&date=${date.value}'));
 
     result.fold(
-      (domainException) {
+      (domainFailure) {
         _state.pictureViewModelList = null;
-        _controller.addError(domainException.error.i18nError);
+        _controller.addError(domainFailure.error.i18nFailure);
       },
       (pictureModel) {
         PictureMapper().fromModelToViewModel(pictureModel).fold((exception) {

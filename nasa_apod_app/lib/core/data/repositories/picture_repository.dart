@@ -7,14 +7,14 @@ class PictureRepository implements IPictureRepository {
   PictureRepository(this.pictureDatasource);
 
   @override
-  Future<Either<DomainException, List<PictureEntity>>> getLastTenDaysData(
+  Future<Either<DomainFailure, List<PictureEntity>>> getLastTenDaysData(
       String url) async {
     final resultDataSource = await pictureDatasource.fetchLastTenDaysData(url);
 
     return resultDataSource.fold(
       /// Left
-      (dataException) {
-        return Left(DomainException(dataException.error.domainError));
+      (dataFailure) {
+        return Left(DomainFailure(dataFailure.error.domainFailure));
       },
       (pictureModelList) {
         return PictureMapper().fromModelListToEntityList(pictureModelList);

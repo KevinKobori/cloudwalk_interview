@@ -34,7 +34,7 @@ void main() {
       final mapList = data;
       late final List<PictureEntity> matcher;
       PictureMapper().fromMapListToEntityList(mapList).fold(
-        (domainException) {},
+        (domainFailure) {},
         (pictureEntityList) {
           matcher = pictureEntityList;
         },
@@ -45,7 +45,7 @@ void main() {
       late List<PictureEntity> actual;
       final resultSUT = await sut.call(null);
       resultSUT.fold(
-        (domainException) {},
+        (domainFailure) {},
         (pictureEntityList) {
           actual = pictureEntityList;
         },
@@ -54,27 +54,27 @@ void main() {
       expect(actual, matcher);
     });
 
-    test('When load data should throw UnexpectedError if localStorage is empty',
+    test('When load data should throw UnexpectedFailure if localStorage is empty',
         () async {
       localStorage.mockFetchSuccess(<Map<String, dynamic>>[]);
 
       final result = await sut.call(null);
 
       final actual = result.fold(
-        (domainException) => domainException,
+        (domainFailure) => domainFailure,
         (pictureEntityList) => pictureEntityList,
       );
 
       expect(
         actual,
         predicate((element) =>
-            element is DomainException &&
-            element.error == DomainErrorType.unexpected),
+            element is DomainFailure &&
+            element.error == DomainFailureType.unexpected),
       );
     });
 
     test(
-        'When load data should throw UnexpectedError if localStorage is isvalid',
+        'When load data should throw UnexpectedFailure if localStorage is isvalid',
         () async {
       localStorage.mockFetchSuccess(
           DeviceLocalStorageFactory().generateInvalidPictureMapList());
@@ -82,20 +82,20 @@ void main() {
       final result = await sut.call(null);
 
       final actual = result.fold(
-        (domainException) => domainException,
+        (domainFailure) => domainFailure,
         (pictureEntityList) => pictureEntityList,
       );
 
       expect(
         actual,
         predicate((element) =>
-            element is DomainException &&
-            element.error == DomainErrorType.unexpected),
+            element is DomainFailure &&
+            element.error == DomainFailureType.unexpected),
       );
     });
 
     test(
-        'When load data should throw UnexpectedError if localStorage is incomplete',
+        'When load data should throw UnexpectedFailure if localStorage is incomplete',
         () async {
       localStorage.mockFetchSuccess(
           DeviceLocalStorageFactory().generateIncompletePictureMapList());
@@ -103,34 +103,34 @@ void main() {
       final result = await sut.call(null);
 
       final actual = result.fold(
-        (domainException) => domainException,
+        (domainFailure) => domainFailure,
         (pictureEntityList) => pictureEntityList,
       );
 
       expect(
         actual,
         predicate((element) =>
-            element is DomainException &&
-            element.error == DomainErrorType.unexpected),
+            element is DomainFailure &&
+            element.error == DomainFailureType.unexpected),
       );
     });
 
-    test('When load data should throw UnexpectedError if localStorage throws',
+    test('When load data should throw UnexpectedFailure if localStorage throws',
         () async {
-      localStorage.mockFetchError(DataErrorType.invalidData);
+      localStorage.mockFetchFailure(DataFailureType.invalidData);
 
       final result = await sut.call(null);
 
       final actual = result.fold(
-        (domainException) => domainException,
+        (domainFailure) => domainFailure,
         (pictureEntityList) => pictureEntityList,
       );
 
       expect(
         actual,
         predicate((element) =>
-            element is DomainException &&
-            element.error == DomainErrorType.unexpected),
+            element is DomainFailure &&
+            element.error == DomainFailureType.unexpected),
       );
     });
   });

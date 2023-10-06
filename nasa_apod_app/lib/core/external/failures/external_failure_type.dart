@@ -1,7 +1,7 @@
-enum ExternalErrorType {
+enum ExternalFailureType {
   badRequest,
   notFound,
-  serverError,
+  serverFailure,
   unauthorized,
   forbidden,
   invalidData

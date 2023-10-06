@@ -1,4 +1,4 @@
-enum DataErrorType {
+enum DataFailureType {
   unexpected,
   invalidData,
   notFound,

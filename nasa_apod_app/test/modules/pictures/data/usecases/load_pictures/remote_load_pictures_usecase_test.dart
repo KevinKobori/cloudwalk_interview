@@ -55,7 +55,7 @@ void main() {
     late final List<PictureEntity> matcher;
 
     PictureMapper().fromMapListToEntityList(mapList).fold(
-      (domainException) {},
+      (domainFailure) {},
       (pictureEntityList) {
         matcher = pictureEntityList;
       },
@@ -66,7 +66,7 @@ void main() {
     late List<PictureEntity> actual;
 
     resultSUT.fold(
-      (domainException) {},
+      (domainFailure) {},
       (pictureEntityList) {
         actual = pictureEntityList;
       },
@@ -76,7 +76,7 @@ void main() {
   });
 
   test(
-      'Should throw UnexpectedError if HttpClient returns 200 with invalid data',
+      'Should throw UnexpectedFailure if HttpClient returns 200 with invalid data',
       () async {
     httpClient.mockRequestSuccess(
         ApodResponsesFactory().generateInvalidPictureMapList());
@@ -84,31 +84,31 @@ void main() {
     final result = await sut.call(null);
 
     final actual = result.fold(
-      (domainException) => domainException,
+      (domainFailure) => domainFailure,
       (pictureEntityList) => pictureEntityList,
     );
 
     expect(
         actual,
         predicate((element) =>
-            element is DomainException &&
-            element.error == DomainErrorType.unexpected));
+            element is DomainFailure &&
+            element.error == DomainFailureType.unexpected));
   });
 
-  test('Should throw UnexpectedError if HttpClient not returns 200', () async {
-    httpClient.mockRequestError(ApodResponsesFactory().generateNotFoundError());
+  test('Should throw UnexpectedFailure if HttpClient not returns 200', () async {
+    httpClient.mockRequestFailure(ApodResponsesFactory().generateNotFoundFailure());
 
     final result = await sut.call(null);
 
     final actual = result.fold(
-      (domainException) => domainException,
+      (domainFailure) => domainFailure,
       (pictureEntityList) => pictureEntityList,
     );
 
     expect(
         actual,
         predicate((element) =>
-            element is DomainException &&
-            element.error == DomainErrorType.unexpected));
+            element is DomainFailure &&
+            element.error == DomainFailureType.unexpected));
   });
 }

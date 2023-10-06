@@ -18,11 +18,11 @@ class RemoteLoadPicturesWithLocalFallbackUseCaseImpl
   });
 
   @override
-  Future<Either<DomainException, List<PictureEntity>>> call(void _) async {
+  Future<Either<DomainFailure, List<PictureEntity>>> call(void _) async {
     final result = await remoteLoadLastTenDaysPicturesByDate.call(null);
 
     return await result.fold(
-      (domainException) async {
+      (domainFailure) async {
         await localValidatePictures.call(null);
         return await localLoadLastTenDaysPicturesByDate.call(null);
       },

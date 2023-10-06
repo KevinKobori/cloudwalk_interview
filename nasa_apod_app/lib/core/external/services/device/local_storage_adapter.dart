@@ -8,34 +8,34 @@ class LocalStorageAdapter implements ILocalStorage {
   LocalStorageAdapter({required this.localStorage});
 
   @override
-  Future<Either<CacheException, void>> save(
+  Future<Either<CacheFailure, void>> save(
       {required String itemKey, required dynamic itemValue}) async {
     try {
       await localStorage.deleteItem(itemKey);
       await localStorage.setItem(itemKey, itemValue);
       return const Right(null);
     } catch (_) {
-      return Left(CacheException(DataErrorType.unexpected));
+      return Left(CacheFailure(DataFailureType.unexpected));
     }
   }
 
   @override
-  Future<Either<CacheException, void>> delete(String itemKey) async {
+  Future<Either<CacheFailure, void>> delete(String itemKey) async {
     try {
       await localStorage.deleteItem(itemKey);
       return const Right(null);
     } catch (_) {
-      return Left(CacheException(DataErrorType.unexpected));
+      return Left(CacheFailure(DataFailureType.unexpected));
     }
   }
 
   @override
-  Future<Either<CacheException, dynamic>> fetch(String itemKey) async {
+  Future<Either<CacheFailure, dynamic>> fetch(String itemKey) async {
     try {
       final data = await localStorage.getItem(itemKey);
       return Right(data);
     } catch (_) {
-      return Left(CacheException(DataErrorType.unexpected));
+      return Left(CacheFailure(DataFailureType.unexpected));
     }
   }
 }

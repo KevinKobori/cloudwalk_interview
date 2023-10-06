@@ -5,7 +5,7 @@ import 'package:nasa_apod_app/nasa_apod_app.dart';
 // import '../../errors/failures.dart';
 
 mixin UseCase<ReturnValue, Params> {
-  Future<Either<DomainException, ReturnValue>> call(Params params);
+  Future<Either<DomainFailure, ReturnValue>> call(Params params);
 }
 
 class NoParams extends Equatable {

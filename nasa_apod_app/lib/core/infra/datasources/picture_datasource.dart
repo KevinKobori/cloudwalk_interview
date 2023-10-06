@@ -7,14 +7,14 @@ class PictureDatasource implements IPictureDatasource {
   PictureDatasource(this.httpClient);
 
   @override
-  Future<Either<DataException, List<PictureModel>>> fetchLastTenDaysData(
+  Future<Either<DataFailure, List<PictureModel>>> fetchLastTenDaysData(
       String url) async {
     final requestResult = await httpClient.request(method: 'get', url: url);
 
     return await requestResult.fold(
       /// Left
-      (serverException) {
-        return Left(serverException);
+      (serverFailure) {
+        return Left(serverFailure);
       },
 
       /// Right
@@ -22,8 +22,8 @@ class PictureDatasource implements IPictureDatasource {
         final dynamicListResult = JsonMapper.tryDecode(data);
         return dynamicListResult.fold(
           /// Left
-          (mapperException) {
-            return Left(mapperException);
+          (mapperFailure) {
+            return Left(mapperFailure);
           },
 
           /// Right
@@ -32,8 +32,8 @@ class PictureDatasource implements IPictureDatasource {
                 JsonMapper.fromDynamicListToMapList(dynamicList);
             return mapListResult.fold(
               /// Left
-              (mapperException) {
-                return Left(mapperException);
+              (mapperFailure) {
+                return Left(mapperFailure);
               },
 
               /// Right
@@ -48,20 +48,20 @@ class PictureDatasource implements IPictureDatasource {
   }
 
   @override
-  Future<Either<DomainException, PictureModel>> fetchByDate(String url) async {
+  Future<Either<DomainFailure, PictureModel>> fetchByDate(String url) async {
     // TODO: Repository and Usecase Layers
     final resultHttpClient = await httpClient.request(method: 'get', url: url);
     return resultHttpClient.fold(
       /// Left
-      (serverException) {
-        return Left(DomainException(serverException.error.domainError));
+      (serverFailure) {
+        return Left(DomainFailure(serverFailure.error.domainFailure));
       },
       (data) {
         try {
           final pictureMapResult = JsonMapper.tryDecode(data);
           return pictureMapResult.fold(
-            (mapperException) {
-              return Left(DomainException(mapperException.error.domainError));
+            (mapperFailure) {
+              return Left(DomainFailure(mapperFailure.error.domainFailure));
             },
             (pictureMap) {
               return PictureMapper()
@@ -69,7 +69,7 @@ class PictureDatasource implements IPictureDatasource {
             },
           );
         } catch (_) {
-          return Left(DomainException(DataErrorType.invalidData.domainError));
+          return Left(DomainFailure(DataFailureType.invalidData.domainFailure));
         }
       },
     );

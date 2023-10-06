@@ -12,7 +12,7 @@ class RemoteLoadLastTenDaysPicturesByDateUseCaseImpl
   });
 
   @override
-  Future<Either<DomainException, List<PictureEntity>>> call(void _) async {
+  Future<Either<DomainFailure, List<PictureEntity>>> call(void _) async {
     final result = await picturesRepository.getLastTenDaysData(url);
     return result;
   }

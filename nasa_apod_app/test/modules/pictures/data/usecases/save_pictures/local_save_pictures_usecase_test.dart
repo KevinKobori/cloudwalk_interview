@@ -27,11 +27,11 @@ void main() {
       localStorage.mockSaveSuccess();
 
       await PictureMapper().fromMapListToEntityList(mapList).fold(
-        (domainException) {},
+        (domainFailure) {},
         (pictureEntityList) async {
           final result = await sut.call(pictureEntityList);
           return result.fold(
-            (domainException) {},
+            (domainFailure) {},
             (_) {},
           );
         },
@@ -43,16 +43,16 @@ void main() {
           .called(1); // TODO: NOW - CHANGE EXPECTED VALUE
     });
 
-    test('When save data should throw UnexpectedError if save throws',
+    test('When save data should throw UnexpectedFailure if save throws',
         () async {
       final mapList = DeviceLocalStorageFactory().generateValidPictureMapList();
 
-      localStorage.mockSaveError(DataErrorType.invalidData);
+      localStorage.mockSaveFailure(DataFailureType.invalidData);
 
       late final List<PictureEntity> matcher;
 
       PictureMapper().fromMapListToEntityList(mapList).fold(
-        (domainException) {},
+        (domainFailure) {},
         (pictureEntityList) {
           matcher = pictureEntityList;
         },
@@ -61,15 +61,15 @@ void main() {
       final result = await sut.call(matcher);
 
       final actual = result.fold(
-        (domainException) => domainException,
+        (domainFailure) => domainFailure,
         (_) {},
       );
 
       expect(
           actual,
           predicate((element) =>
-              element is DomainException &&
-              element.error == DomainErrorType.unexpected));
+              element is DomainFailure &&
+              element.error == DomainFailureType.unexpected));
     });
   });
 }

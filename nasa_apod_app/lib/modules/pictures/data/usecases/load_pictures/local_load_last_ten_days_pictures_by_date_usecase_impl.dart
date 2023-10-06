@@ -12,25 +12,25 @@ class LocalLoadLastTenDaysPicturesByDateUseCaseImpl
   });
 
   @override
-  Future<Either<DomainException, List<PictureEntity>>> call(void _) async {
+  Future<Either<DomainFailure, List<PictureEntity>>> call(void _) async {
     try {
       final dataResult = await localStorage.fetch(itemKey);
       return dataResult.fold(
         /// Left
-        (dataException) {
-          return Left(DomainException(dataException.error.domainError));
+        (dataFailure) {
+          return Left(DomainFailure(dataFailure.error.domainFailure));
         },
 
         /// Right
         (localData) {
           if (localData.isEmpty != false) {
-            return Left(DomainException(DomainErrorType.unexpected));
+            return Left(DomainFailure(DomainFailureType.unexpected));
           }
           return PictureMapper().fromMapListToEntityList(localData);
         },
       );
     } catch (_) {
-      return Left(DomainException(DomainErrorType.unexpected));
+      return Left(DomainFailure(DomainFailureType.unexpected));
     }
   }
 }

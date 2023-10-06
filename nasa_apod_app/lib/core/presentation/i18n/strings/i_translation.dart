@@ -1,6 +1,6 @@
 abstract class ITranslation {
-  /// Errors
-  String get unexpectedError;
+  /// Failures
+  String get unexpectedFailure;
 
   /// Strings
   String get reload;

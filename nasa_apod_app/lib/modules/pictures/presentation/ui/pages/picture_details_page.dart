@@ -20,7 +20,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
   final ValueNotifier<PictureViewModel?> rxPictureViewModel =
       ValueNotifier<PictureViewModel?>(null);
 
-  Future<dz.Either<DomainException, PictureViewModel>>
+  Future<dz.Either<DomainFailure, PictureViewModel>>
       getPictureViewModelFromLocalStorage() async {
     final pictureMapList =
         await ls.LocalStorage(localStorageConfigKeyPathFactory())
@@ -40,7 +40,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
       if (widget.pictureViewModel == null) {
         final result = await getPictureViewModelFromLocalStorage();
         result.fold(
-          (domainException) {},
+          (domainFailure) {},
           (pictureViewModel) {
             rxPictureViewModel.value = pictureViewModel;
           },
