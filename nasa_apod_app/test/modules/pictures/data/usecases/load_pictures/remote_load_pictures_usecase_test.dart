@@ -28,7 +28,7 @@ void main() {
 
     httpClient.mockRequestSuccess(data);
 
-    await sut.call();
+    await sut.call(null);
 
     ApodTest.verify(() => httpClient.request(method: 'get', url: url));
   });
@@ -61,7 +61,7 @@ void main() {
       },
     );
 
-    final resultSUT = await sut.call();
+    final resultSUT = await sut.call(null);
 
     late List<PictureEntity> actual;
 
@@ -81,7 +81,7 @@ void main() {
     httpClient.mockRequestSuccess(
         ApodResponsesFactory().generateInvalidPictureMapList());
 
-    final result = await sut.call();
+    final result = await sut.call(null);
 
     final actual = result.fold(
       (domainException) => domainException,
@@ -98,7 +98,7 @@ void main() {
   test('Should throw UnexpectedError if HttpClient not returns 200', () async {
     httpClient.mockRequestError(ApodResponsesFactory().generateNotFoundError());
 
-    final result = await sut.call();
+    final result = await sut.call(null);
 
     final actual = result.fold(
       (domainException) => domainException,

@@ -5,13 +5,17 @@ import 'package:nasa_apod_app/nasa_apod_app.dart';
 import '../../../../../apod.dart';
 
 void main() {
-  late LocalLoadLastTenDaysPicturesByDateUseCaseImpl sut;
+  late LocalLoadLastTenDaysPicturesByDateUseCase sut;
   late LocalStorageSpy localStorage;
+  late String itemKey;
 
   setUp(() {
     localStorage = LocalStorageSpy();
+    itemKey = 'pictures_list';
     sut = LocalLoadLastTenDaysPicturesByDateUseCaseImpl(
-        localStorage: localStorage);
+      localStorage: localStorage,
+      itemKey: itemKey,
+    );
   });
 
   group('Loading', () {
@@ -19,7 +23,7 @@ void main() {
       final data = DeviceLocalStorageFactory().generateValidPictureMapList();
       localStorage.mockFetchSuccess(data);
 
-      await sut.loadLastTenDaysData();
+      await sut.call(null);
 
       verify(() => localStorage.fetch('pictures_list')).called(1);
     });
@@ -39,7 +43,7 @@ void main() {
       localStorage.mockFetchSuccess(data);
 
       late List<PictureEntity> actual;
-      final resultSUT = await sut.loadLastTenDaysData();
+      final resultSUT = await sut.call(null);
       resultSUT.fold(
         (domainException) {},
         (pictureEntityList) {
@@ -54,7 +58,7 @@ void main() {
         () async {
       localStorage.mockFetchSuccess(<Map<String, dynamic>>[]);
 
-      final result = await sut.loadLastTenDaysData();
+      final result = await sut.call(null);
 
       final actual = result.fold(
         (domainException) => domainException,
@@ -75,7 +79,7 @@ void main() {
       localStorage.mockFetchSuccess(
           DeviceLocalStorageFactory().generateInvalidPictureMapList());
 
-      final result = await sut.loadLastTenDaysData();
+      final result = await sut.call(null);
 
       final actual = result.fold(
         (domainException) => domainException,
@@ -96,7 +100,7 @@ void main() {
       localStorage.mockFetchSuccess(
           DeviceLocalStorageFactory().generateIncompletePictureMapList());
 
-      final result = await sut.loadLastTenDaysData();
+      final result = await sut.call(null);
 
       final actual = result.fold(
         (domainException) => domainException,
@@ -115,7 +119,7 @@ void main() {
         () async {
       localStorage.mockFetchError(InfraErrorType.invalidData);
 
-      final result = await sut.loadLastTenDaysData();
+      final result = await sut.call(null);
 
       final actual = result.fold(
         (domainException) => domainException,
@@ -128,105 +132,6 @@ void main() {
             element is DomainException &&
             element.errorType == DomainErrorType.unexpected),
       );
-    });
-  });
-
-  group('Validating', () {
-    test('When validate data should call localStorage with correct key',
-        () async {
-      localStorage.mockFetchSuccess(
-          DeviceLocalStorageFactory().generateInvalidPictureMapList());
-
-      await sut.validateLastTenDaysData();
-
-      verify(() => localStorage.fetch('pictures_list')).called(1);
-    });
-
-    test('When validate data should delete localStorage if it is invalid',
-        () async {
-      localStorage.mockFetchSuccess(
-          DeviceLocalStorageFactory().generateInvalidPictureMapList());
-
-      final result = await sut.validateLastTenDaysData();
-      result.fold((l) => l, (r) => r);
-
-      verify(() => localStorage.delete('pictures_list')).called(1);
-    });
-
-    test('When validate data should delete localStorage if it is incomplete',
-        () async {
-      localStorage.mockFetchSuccess(
-          DeviceLocalStorageFactory().generateIncompletePictureMapList());
-
-      await sut.validateLastTenDaysData();
-
-      verify(() => localStorage.delete('pictures_list')).called(1);
-    });
-
-    test('When validate data should delete localStorage if fetch fails',
-        () async {
-      localStorage.mockFetchError(InfraErrorType.invalidData);
-
-      final result = await sut.validateLastTenDaysData();
-
-      result.fold((l) => l, (r) => r);
-
-      verify(() => localStorage.delete('pictures_list')).called(1);
-    });
-  });
-
-  group('Saving', () {
-    test('When save data should call localStorage with correct values',
-        () async {
-      final data = DeviceLocalStorageFactory().generateValidPictureMapList();
-      final mapList = data;
-
-      localStorage.mockSaveSuccess();
-
-      await PictureMapper().fromMapListToEntityList(mapList).fold(
-        (domainException) {},
-        (pictureEntityList) async {
-          final result = await sut.saveLastTenDaysData(pictureEntityList);
-          return result.fold(
-            (domainException) {},
-            (_) {},
-          );
-        },
-      );
-
-      verify(() => localStorage.save(
-              itemKey: 'pictures_list',
-              itemValue: any<dynamic>(named: 'itemValue')))
-          .called(1); // TODO: NOW - CHANGE EXPECTED VALUE
-    });
-
-    test('When save data should throw UnexpectedError if save throws',
-        () async {
-      final mapList = DeviceLocalStorageFactory().generateValidPictureMapList();
-
-      localStorage.mockSaveError(InfraErrorType.invalidData);
-
-      late final List<PictureEntity> matcher;
-
-      PictureMapper().fromMapListToEntityList(mapList).fold(
-        (domainException) {},
-        (pictureEntityList) {
-          matcher = pictureEntityList;
-        },
-      );
-
-      final result = await sut.saveLastTenDaysData(matcher);
-
-      final actual = result.fold(
-        (domainException) => domainException,
-        (_) {},
-      );
-
-      expect(
-          actual,
-          predicate((element) =>
-              element is DomainException &&
-              element.errorType == DomainErrorType.unexpected));
     });
   });
 }
