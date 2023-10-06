@@ -11,15 +11,17 @@ void main() {
   late RemoteLoadLastTenDaysPicturesByDateUseCaseImpl sut;
   late HttpClientSpy httpClient;
   late String url;
+  late DateTime nowDate;
 
   setUp(() {
+    nowDate = DateTime.now();
     httpClient = HttpClientSpy();
     pictureDatasource = PictureDatasourceImpl(httpClient);
     pictureRepository = PictureRepositoryImpl(pictureDatasource);
     url = ApodTest.faker.internet.httpUrl();
     sut = RemoteLoadLastTenDaysPicturesByDateUseCaseImpl(
       picturesRepository: pictureRepository,
-      url: url,
+      apiKey: url,
     );
   });
 
@@ -28,7 +30,7 @@ void main() {
 
     httpClient.mockRequestSuccess(data);
 
-    await sut.call(null);
+    await sut.call(nowDate);
 
     ApodTest.verify(() => httpClient.request(method: 'get', url: url));
   });
@@ -61,7 +63,7 @@ void main() {
       },
     );
 
-    final resultSUT = await sut.call(null);
+    final resultSUT = await sut.call(nowDate);
 
     late List<PictureEntity> actual;
 
@@ -81,7 +83,7 @@ void main() {
     httpClient.mockRequestSuccess(
         ApodResponsesFactory().generateInvalidPictureMapList());
 
-    final result = await sut.call(null);
+    final result = await sut.call(nowDate);
 
     final actual = result.fold(
       (domainFailure) => domainFailure,
@@ -95,10 +97,12 @@ void main() {
             element.error == DomainFailureType.unexpected));
   });
 
-  test('Should throw UnexpectedFailure if HttpClient not returns 200', () async {
-    httpClient.mockRequestFailure(ApodResponsesFactory().generateNotFoundFailure());
+  test('Should throw UnexpectedFailure if HttpClient not returns 200',
+      () async {
+    httpClient
+        .mockRequestFailure(ApodResponsesFactory().generateNotFoundFailure());
 
-    final result = await sut.call(null);
+    final result = await sut.call(nowDate);
 
     final actual = result.fold(
       (domainFailure) => domainFailure,

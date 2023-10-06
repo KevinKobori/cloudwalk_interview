@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-class RemoteLoadPicturesWithLocalFallbackUseCaseImpl
+class RemoteLoadLastTenDaysPicturesByDateWithLocalFallbackUseCaseImpl
     implements LoadLastTenDaysPicturesByDateUseCase {
   final RemoteLoadLastTenDaysPicturesByDateUseCase
       remoteLoadLastTenDaysPicturesByDate;
@@ -10,7 +10,7 @@ class RemoteLoadPicturesWithLocalFallbackUseCaseImpl
   final LocalValidatePicturesUseCase localValidatePictures;
   final LocalSavePicturesUseCase localSavePictures;
 
-  RemoteLoadPicturesWithLocalFallbackUseCaseImpl({
+  RemoteLoadLastTenDaysPicturesByDateWithLocalFallbackUseCaseImpl({
     required this.remoteLoadLastTenDaysPicturesByDate,
     required this.localLoadLastTenDaysPicturesByDate,
     required this.localValidatePictures,
@@ -18,8 +18,8 @@ class RemoteLoadPicturesWithLocalFallbackUseCaseImpl
   });
 
   @override
-  Future<Either<DomainFailure, List<PictureEntity>>> call(void _) async {
-    final result = await remoteLoadLastTenDaysPicturesByDate.call(null);
+  Future<Either<DomainFailure, List<PictureEntity>>> call(DateTime date) async {
+    final result = await remoteLoadLastTenDaysPicturesByDate.call(date);
 
     return await result.fold(
       (domainFailure) async {

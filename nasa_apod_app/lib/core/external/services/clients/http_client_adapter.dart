@@ -49,15 +49,18 @@ class HttpClientAdapter implements HttpClient {
       case 400:
         return Left(ServerFailure(ExternalFailureType.badRequest.dataFailure));
       case 401:
-        return Left(ServerFailure(ExternalFailureType.unauthorized.dataFailure));
+        return Left(
+            ServerFailure(ExternalFailureType.unauthorized.dataFailure));
       case 403:
         return Left(ServerFailure(ExternalFailureType.forbidden.dataFailure));
       case 404:
         return Left(ServerFailure(ExternalFailureType.notFound.dataFailure));
       case 500:
-        return Left(ServerFailure(ExternalFailureType.serverFailure.dataFailure));
+        return Left(
+            ServerFailure(ExternalFailureType.serverFailure.dataFailure));
       default:
-        return Left(ServerFailure(ExternalFailureType.serverFailure.dataFailure));
+        return Left(
+            ServerFailure(ExternalFailureType.serverFailure.dataFailure));
     }
   }
 }

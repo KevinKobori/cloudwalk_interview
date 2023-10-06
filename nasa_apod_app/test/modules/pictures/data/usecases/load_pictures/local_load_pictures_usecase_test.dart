@@ -54,7 +54,8 @@ void main() {
       expect(actual, matcher);
     });
 
-    test('When load data should throw UnexpectedFailure if localStorage is empty',
+    test(
+        'When load data should throw UnexpectedFailure if localStorage is empty',
         () async {
       localStorage.mockFetchSuccess(<Map<String, dynamic>>[]);
 

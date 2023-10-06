@@ -38,7 +38,8 @@ class PicturesPresenterImpl
   @override
   Future<void> loadPictures() async {
     isLoading = true;
-    final result = await loadLastTenDaysPicturesByDate.call(null);
+    final nowDate = DateTime.now();
+    final result = await loadLastTenDaysPicturesByDate.call(nowDate);
 
     result.fold(
       (domainFailure) {
