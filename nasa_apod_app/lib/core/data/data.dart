@@ -1,7 +1,12 @@
-export 'datasources/i_picture_datasource.dart';
+export 'datasources/picture_datasource.dart';
 export 'failures/data_failure.dart';
 export 'failures/data_failure_type.dart';
 export 'failures/data_failure_type_extension.dart';
 export 'failures/domain_failure_type_data_extension.dart';
+export 'failures/mapper_failure.dart';
+export 'mappers/json_mapper.dart';
+export 'mappers/picture_mapper.dart';
 export 'models/picture_model.dart';
 export 'repositories/picture_repository.dart';
+export 'services/clients/i_http_client.dart';
+export 'services/storages/i_local_storage.dart';

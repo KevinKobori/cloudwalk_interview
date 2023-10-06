@@ -125,7 +125,7 @@ class PictureMapper {
   /// fromViewModelToEntity
   /// fromViewModelListToEntityList
   ///
-  /// Infra <<< FROM <<< Data
+  /// External <<< FROM <<< Data
   Either<MapperFailure, Map<String, dynamic>> fromModelToMap(
       PictureModel model) {
     return Right(<String, dynamic>{
@@ -153,7 +153,7 @@ class PictureMapper {
     }
   }
 
-  /// Infra >>> TO >>> Data
+  /// External >>> TO >>> Data
   Either<DomainFailure, PictureModel> fromMapToModel(
       Map<String, dynamic> map) {
     try {
@@ -196,7 +196,7 @@ class PictureMapper {
   }
 
   /// [REMOVE_OTHERS]
-  /// Infra > Domain [REMOVE_THIS]
+  /// External > Domain [REMOVE_THIS]
   Either<DomainFailure, PictureEntity> fromMapToEntity(
       Map<String, dynamic> pictureMap) {
     return PictureMapper().fromMapToModel(pictureMap).fold((domainFailure) {
@@ -232,7 +232,7 @@ class PictureMapper {
     );
   }
 
-  /// Infra > Presenter [REMOVE_THIS]
+  /// External > Presenter [REMOVE_THIS]
   Either<DomainFailure, PictureViewModel> fromMapToViewModel(
       Map<String, dynamic> pictureMap) {
     final asd = fromMapToEntity(pictureMap);
@@ -247,7 +247,7 @@ class PictureMapper {
     );
   }
 
-  /// Infra > Presenter [REMOVE_THIS]
+  /// External > Presenter [REMOVE_THIS]
   Either<DomainFailure, PictureViewModel> fromModelToViewModel(
       PictureModel pictureModel) {
     return fromModelToEntity(pictureModel).fold(
@@ -260,7 +260,7 @@ class PictureMapper {
     );
   }
 
-  /// Domain > Infra [REMOVE_THIS]
+  /// Domain > External [REMOVE_THIS]
   Either<MapperFailure, List<Map<String, dynamic>>> fromEntityListToMapList(
       List<PictureEntity> pictureEntityList) {
     return PictureMapper().fromEntityListToModelList(pictureEntityList).fold(
