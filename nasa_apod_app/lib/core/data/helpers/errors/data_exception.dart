@@ -1,9 +1,9 @@
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-class DataException implements Exception {
-  final DataErrorType errorType;
-  DataException(this.errorType);
+abstract class DataException implements Exception {
+  final DataErrorType error;
+  DataException(this.error);
 
   @override
-  String toString() => errorType.toString();
+  String toString() => error.toString();
 }

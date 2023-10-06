@@ -14,7 +14,7 @@ class PictureRepository implements IPictureRepository {
     return resultDataSource.fold(
       /// Left
       (dataException) {
-        return Left(DomainException(dataException.errorType.domainError));
+        return Left(DomainException(dataException.error.domainError));
       },
       (pictureModelList) {
         return PictureMapper().fromModelListToEntityList(pictureModelList);

@@ -47,7 +47,7 @@ void main() {
         () async {
       final mapList = DeviceLocalStorageFactory().generateValidPictureMapList();
 
-      localStorage.mockSaveError(InfraErrorType.invalidData);
+      localStorage.mockSaveError(DataErrorType.invalidData);
 
       late final List<PictureEntity> matcher;
 
@@ -69,7 +69,7 @@ void main() {
           actual,
           predicate((element) =>
               element is DomainException &&
-              element.errorType == DomainErrorType.unexpected));
+              element.error == DomainErrorType.unexpected));
     });
   });
 }

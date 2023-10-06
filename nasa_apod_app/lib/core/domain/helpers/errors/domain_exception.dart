@@ -1,9 +1,9 @@
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class DomainException implements Exception {
-  final DomainErrorType errorType;
-  DomainException(this.errorType);
+  final DomainErrorType error;
+  DomainException(this.error);
 
   @override
-  String toString() => errorType.toString();
+  String toString() => error.toString();
 }

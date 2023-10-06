@@ -48,14 +48,13 @@ class PicturesPresenter
     result.fold(
       (domainException) {
         _state.pictureViewModelList = null;
-        _controller
-            .addError(domainException.errorType.presenterError.i18nError);
+        _controller.addError(domainException.error.i18nError);
       },
       (pictureEntityList) {
         _state.pictureViewModelList = PictureMapper()
             .fromEntityListToViewModelList(pictureEntityList)
             .fold(
-          (presenterException) {
+          (domainException) {
             return null;
           },
           (pictureViewModelList) {
@@ -86,8 +85,7 @@ class PicturesPresenter
     result.fold(
       (domainException) {
         _state.pictureViewModelList = null;
-        _controller
-            .addError(domainException.errorType.presenterError.i18nError);
+        _controller.addError(domainException.error.i18nError);
       },
       (pictureModel) {
         PictureMapper().fromModelToViewModel(pictureModel).fold((exception) {

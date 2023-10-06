@@ -92,7 +92,7 @@ void main() {
         actual,
         predicate((element) =>
             element is DomainException &&
-            element.errorType == DomainErrorType.unexpected));
+            element.error == DomainErrorType.unexpected));
   });
 
   test('Should throw UnexpectedError if HttpClient not returns 200', () async {
@@ -109,6 +109,6 @@ void main() {
         actual,
         predicate((element) =>
             element is DomainException &&
-            element.errorType == DomainErrorType.unexpected));
+            element.error == DomainErrorType.unexpected));
   });
 }

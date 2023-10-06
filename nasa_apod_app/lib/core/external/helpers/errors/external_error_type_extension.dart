@@ -1,20 +1,20 @@
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 extension ExternalErrorTypeExtension on ExternalErrorType {
-  InfraErrorType get infraError {
+  DataErrorType get infraError {
     switch (this) {
       case ExternalErrorType.badRequest:
-        return InfraErrorType.unexpected;
+        return DataErrorType.unexpected;
       case ExternalErrorType.forbidden:
-        return InfraErrorType.unexpected;
+        return DataErrorType.unexpected;
       case ExternalErrorType.invalidData:
-        return InfraErrorType.invalidData;
+        return DataErrorType.invalidData;
       case ExternalErrorType.notFound:
-        return InfraErrorType.notFound;
+        return DataErrorType.notFound;
       case ExternalErrorType.serverError:
-        return InfraErrorType.unexpected;
+        return DataErrorType.unexpected;
       case ExternalErrorType.unauthorized:
-        return InfraErrorType.unexpected;
+        return DataErrorType.unexpected;
     }
   }
 }

@@ -16,9 +16,8 @@ class LocalSavePicturesUseCaseImpl implements LocalSavePicturesUseCase {
     final result = PictureMapper().fromEntityListToMapList(pictureEntityList);
     return await result.fold(
       /// Left
-      (infraException) {
-        return Left(
-            DomainException(infraException.errorType.dataError.domainError));
+      (dataException) {
+        return Left(DomainException(dataException.error.domainError));
       },
 
       /// Right
@@ -27,9 +26,8 @@ class LocalSavePicturesUseCaseImpl implements LocalSavePicturesUseCase {
             await localStorage.save(itemKey: itemKey, itemValue: mapList);
         return saveResult.fold(
           /// Left
-          (infraException) {
-            return Left(DomainException(
-                infraException.errorType.dataError.domainError));
+          (dataException) {
+            return Left(DomainException(dataException.error.domainError));
           },
           (_) {
             /// Right

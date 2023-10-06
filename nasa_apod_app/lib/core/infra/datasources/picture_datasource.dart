@@ -13,8 +13,8 @@ class PictureDatasource implements IPictureDatasource {
 
     return await requestResult.fold(
       /// Left
-      (infraException) {
-        return Left(DataException(infraException.errorType.dataError));
+      (serverException) {
+        return Left(serverException);
       },
 
       /// Right
@@ -22,8 +22,8 @@ class PictureDatasource implements IPictureDatasource {
         final dynamicListResult = JsonMapper.tryDecode(data);
         return dynamicListResult.fold(
           /// Left
-          (infraException) {
-            return Left(DataException(infraException.errorType.dataError));
+          (mapperException) {
+            return Left(mapperException);
           },
 
           /// Right
@@ -32,8 +32,8 @@ class PictureDatasource implements IPictureDatasource {
                 JsonMapper.fromDynamicListToMapList(dynamicList);
             return mapListResult.fold(
               /// Left
-              (infraException) {
-                return Left(DataException(infraException.errorType.dataError));
+              (mapperException) {
+                return Left(mapperException);
               },
 
               /// Right
@@ -53,17 +53,15 @@ class PictureDatasource implements IPictureDatasource {
     final resultHttpClient = await httpClient.request(method: 'get', url: url);
     return resultHttpClient.fold(
       /// Left
-      (infraException) {
-        return Left(
-            DomainException(infraException.errorType.dataError.domainError));
+      (serverException) {
+        return Left(DomainException(serverException.error.domainError));
       },
       (data) {
         try {
           final pictureMapResult = JsonMapper.tryDecode(data);
           return pictureMapResult.fold(
-            (infraException) {
-              return Left(DomainException(
-                  infraException.errorType.dataError.domainError));
+            (mapperException) {
+              return Left(DomainException(mapperException.error.domainError));
             },
             (pictureMap) {
               return PictureMapper()

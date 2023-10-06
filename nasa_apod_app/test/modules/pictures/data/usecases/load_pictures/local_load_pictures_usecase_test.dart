@@ -69,7 +69,7 @@ void main() {
         actual,
         predicate((element) =>
             element is DomainException &&
-            element.errorType == DomainErrorType.unexpected),
+            element.error == DomainErrorType.unexpected),
       );
     });
 
@@ -90,7 +90,7 @@ void main() {
         actual,
         predicate((element) =>
             element is DomainException &&
-            element.errorType == DomainErrorType.unexpected),
+            element.error == DomainErrorType.unexpected),
       );
     });
 
@@ -111,13 +111,13 @@ void main() {
         actual,
         predicate((element) =>
             element is DomainException &&
-            element.errorType == DomainErrorType.unexpected),
+            element.error == DomainErrorType.unexpected),
       );
     });
 
     test('When load data should throw UnexpectedError if localStorage throws',
         () async {
-      localStorage.mockFetchError(InfraErrorType.invalidData);
+      localStorage.mockFetchError(DataErrorType.invalidData);
 
       final result = await sut.call(null);
 
@@ -130,7 +130,7 @@ void main() {
         actual,
         predicate((element) =>
             element is DomainException &&
-            element.errorType == DomainErrorType.unexpected),
+            element.error == DomainErrorType.unexpected),
       );
     });
   });

@@ -17,9 +17,8 @@ class LocalLoadLastTenDaysPicturesByDateUseCaseImpl
       final dataResult = await localStorage.fetch(itemKey);
       return dataResult.fold(
         /// Left
-        (infraException) {
-          return Left(
-              DomainException(infraException.errorType.dataError.domainError));
+        (dataException) {
+          return Left(DomainException(dataException.error.domainError));
         },
 
         /// Right

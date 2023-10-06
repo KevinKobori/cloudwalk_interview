@@ -2,28 +2,30 @@ import 'package:dartz/dartz.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class PictureMapper {
-  InfraErrorType get errorType => InfraErrorType.invalidData;
+  DataErrorType get error => DataErrorType.invalidData;
 
   /// Data <<< FROM <<< Domain
-  Either<DomainException, PictureModel> fromEntityToModel(
+  Either<MapperException, PictureModel> fromEntityToModel(
       PictureEntity entity) {
-    return Right(PictureModel(
-      copyright: entity.copyright,
-      date: DateTime(
-        entity.date.year,
-        entity.date.month,
-        entity.date.day,
+    return Right(
+      PictureModel(
+        copyright: entity.copyright,
+        date: DateTime(
+          entity.date.year,
+          entity.date.month,
+          entity.date.day,
+        ),
+        explanation: entity.explanation,
+        hdurl: entity.hdurl,
+        mediaType: entity.mediaType,
+        serviceVersion: entity.serviceVersion,
+        title: entity.title,
+        url: entity.url,
       ),
-      explanation: entity.explanation,
-      hdurl: entity.hdurl,
-      mediaType: entity.mediaType,
-      serviceVersion: entity.serviceVersion,
-      title: entity.title,
-      url: entity.url,
-    ));
+    );
   }
 
-  Either<DataException, List<PictureModel>> fromEntityListToModelList(
+  Either<MapperException, List<PictureModel>> fromEntityListToModelList(
       List<PictureEntity> pictureEntityList) {
     try {
       final result = List<PictureModel>.from(
@@ -33,8 +35,8 @@ class PictureMapper {
                 PictureMapper().fromEntityToModel(pictureEntity);
             return pictureModelResult.fold(
               /// Left
-              (domainException) {
-                return DataException(domainException.errorType.dataError);
+              (_) {
+                return;
               },
 
               /// Right
@@ -47,7 +49,7 @@ class PictureMapper {
       ).toList();
       return Right(result);
     } catch (_) {
-      return Left(DataException(errorType.dataError));
+      return Left(MapperException(error));
     }
   }
 
@@ -82,12 +84,12 @@ class PictureMapper {
       ).toList();
       return Right(result);
     } catch (_) {
-      return Left(DomainException(errorType.dataError.domainError));
+      return Left(DomainException(error.domainError));
     }
   }
 
   /// Presentation <<< FROM <<< Domain
-  Either<PresenterException, PictureViewModel> fromEntityToViewModel(
+  Either<DomainException, PictureViewModel> fromEntityToViewModel(
       PictureEntity entity) {
     return Right(PictureViewModel(
       copyright: entity.copyright,
@@ -101,8 +103,8 @@ class PictureMapper {
     ));
   }
 
-  Either<PresenterException, List<PictureViewModel>>
-      fromEntityListToViewModelList(List<PictureEntity> pictureEntityList) {
+  Either<DomainException, List<PictureViewModel>> fromEntityListToViewModelList(
+      List<PictureEntity> pictureEntityList) {
     try {
       final result = List<PictureViewModel>.from(
         pictureEntityList.map(
@@ -115,8 +117,7 @@ class PictureMapper {
       ).toList();
       return Right(result);
     } catch (_) {
-      return Left(
-          PresenterException(errorType.dataError.domainError.presenterError));
+      return Left(DomainException(error.domainError));
     }
   }
 
@@ -125,7 +126,7 @@ class PictureMapper {
   /// fromViewModelListToEntityList
   ///
   /// Infra <<< FROM <<< Data
-  Either<DataException, Map<String, dynamic>> fromModelToMap(
+  Either<MapperException, Map<String, dynamic>> fromModelToMap(
       PictureModel model) {
     return Right(<String, dynamic>{
       'copyright': model.copyright,
@@ -139,7 +140,7 @@ class PictureMapper {
     });
   }
 
-  Either<InfraException, List<Map<String, dynamic>>> fromModelListToMapList(
+  Either<MapperException, List<Map<String, dynamic>>> fromModelListToMapList(
       List<PictureModel> pictureModelList) {
     try {
       final result = List<Map<String, dynamic>>.from(pictureModelList.map(
@@ -148,7 +149,7 @@ class PictureMapper {
               .fold((l) => l, (r) => r))).toList();
       return Right(result);
     } catch (_) {
-      return Left(InfraException(errorType));
+      return Left(MapperException(error));
     }
   }
 
@@ -164,7 +165,7 @@ class PictureMapper {
         'title',
         'url',
       ])) {
-        return Left(DomainException(errorType.dataError.domainError));
+        return Left(DomainException(error.domainError));
       }
       return Right(PictureModel(
         copyright: map['copyright'] ?? '',
@@ -178,11 +179,11 @@ class PictureMapper {
         url: map['url'] ?? '',
       ));
     } catch (_) {
-      return Left(DomainException(errorType.dataError.domainError));
+      return Left(DomainException(error.domainError));
     }
   }
 
-  Either<DataException, List<PictureModel>> fromMapListToModelList(
+  Either<MapperException, List<PictureModel>> fromMapListToModelList(
       List<Map<String, dynamic>> mapList) {
     try {
       final result = List<PictureModel>.from(mapList.map((map) =>
@@ -190,7 +191,7 @@ class PictureMapper {
           .toList();
       return Right(result);
     } catch (_) {
-      return Left(DataException(errorType.dataError));
+      return Left(MapperException(error));
     }
   }
 
@@ -217,8 +218,8 @@ class PictureMapper {
       List<Map<String, dynamic>> data) {
     return PictureMapper().fromMapListToModelList(data).fold(
       /// Left
-      (dataException) {
-        return Left(DomainException(dataException.errorType.domainError));
+      (mapperException) {
+        return Left(DomainException(mapperException.error.domainError));
       },
       (pictureModelList) {
         return PictureMapper().fromModelListToEntityList(pictureModelList).fold(
@@ -232,14 +233,13 @@ class PictureMapper {
   }
 
   /// Infra > Presenter [REMOVE_THIS]
-  Either<PresenterException, PictureViewModel> fromMapToViewModel(
+  Either<DomainException, PictureViewModel> fromMapToViewModel(
       Map<String, dynamic> pictureMap) {
     final asd = fromMapToEntity(pictureMap);
 
     return asd.fold(
       (domainException) {
-        return Left(
-            PresenterException(domainException.errorType.presenterError));
+        return Left(DomainException(domainException.error));
       },
       (pictureEntity) {
         return PictureMapper().fromEntityToViewModel(pictureEntity);
@@ -248,12 +248,11 @@ class PictureMapper {
   }
 
   /// Infra > Presenter [REMOVE_THIS]
-  Either<PresenterException, PictureViewModel> fromModelToViewModel(
+  Either<DomainException, PictureViewModel> fromModelToViewModel(
       PictureModel pictureModel) {
     return fromModelToEntity(pictureModel).fold(
       (domainException) {
-        return Left(
-            PresenterException(domainException.errorType.presenterError));
+        return Left(DomainException(domainException.error));
       },
       (pictureEntity) {
         return PictureMapper().fromEntityToViewModel(pictureEntity);
@@ -262,16 +261,16 @@ class PictureMapper {
   }
 
   /// Domain > Infra [REMOVE_THIS]
-  Either<InfraException, List<Map<String, dynamic>>> fromEntityListToMapList(
+  Either<MapperException, List<Map<String, dynamic>>> fromEntityListToMapList(
       List<PictureEntity> pictureEntityList) {
     return PictureMapper().fromEntityListToModelList(pictureEntityList).fold(
-      (dataException) {
-        return Left(InfraException(dataException.errorType.infraError));
+      (mapperException) {
+        return Left(MapperException(mapperException.error));
       },
       (pictureModelList) {
         return PictureMapper().fromModelListToMapList(pictureModelList).fold(
-          (infraException) {
-            return Left(infraException);
+          (mapperException) {
+            return Left(mapperException);
           },
           (mapList) {
             return Right(mapList);

@@ -8,7 +8,7 @@ class HttpClientAdapter implements IHttpClient {
   HttpClientAdapter(this.client);
 
   @override
-  Future<Either<InfraException, dynamic>> request(
+  Future<Either<ServerException, dynamic>> request(
       {required String url,
       required String method,
       Map<String, dynamic>? body,
@@ -33,12 +33,12 @@ class HttpClientAdapter implements IHttpClient {
         response = await futureResponse.timeout(const Duration(seconds: 10));
       }
     } catch (_) {
-      return Left(InfraException(ExternalErrorType.serverError.infraError));
+      return Left(ServerException(ExternalErrorType.serverError.infraError));
     }
     return _handleResponse(response);
   }
 
-  Either<InfraException, dynamic> _handleResponse(Response response) {
+  Either<ServerException, dynamic> _handleResponse(Response response) {
     switch (response.statusCode) {
       case 200:
         return Right(response.body.isEmpty ? null : response.body);
@@ -47,17 +47,17 @@ class HttpClientAdapter implements IHttpClient {
       case 204:
         return const Right(null);
       case 400:
-        return Left(InfraException(ExternalErrorType.badRequest.infraError));
+        return Left(ServerException(ExternalErrorType.badRequest.infraError));
       case 401:
-        return Left(InfraException(ExternalErrorType.unauthorized.infraError));
+        return Left(ServerException(ExternalErrorType.unauthorized.infraError));
       case 403:
-        return Left(InfraException(ExternalErrorType.forbidden.infraError));
+        return Left(ServerException(ExternalErrorType.forbidden.infraError));
       case 404:
-        return Left(InfraException(ExternalErrorType.notFound.infraError));
+        return Left(ServerException(ExternalErrorType.notFound.infraError));
       case 500:
-        return Left(InfraException(ExternalErrorType.serverError.infraError));
+        return Left(ServerException(ExternalErrorType.serverError.infraError));
       default:
-        return Left(InfraException(ExternalErrorType.serverError.infraError));
+        return Left(ServerException(ExternalErrorType.serverError.infraError));
     }
   }
 }

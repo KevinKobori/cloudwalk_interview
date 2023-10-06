@@ -15,19 +15,17 @@ class LocalValidatePicturesUseCaseImpl implements LocalValidatePicturesUseCase {
     final fetchResult = await localStorage.fetch(itemKey);
     return await fetchResult.fold(
       /// Left
-      (infraException) async {
+      (dataException) async {
         final deleteResult = await localStorage.delete(itemKey);
         return deleteResult.fold(
           /// Left
-          (infraException) {
-            return Left(DomainException(
-                infraException.errorType.dataError.domainError));
+          (dataException) {
+            return Left(DomainException(dataException.error.domainError));
           },
 
           /// Right
           (_) {
-            return Left(DomainException(
-                infraException.errorType.dataError.domainError));
+            return Left(DomainException(dataException.error.domainError));
           },
         );
       },
@@ -40,15 +38,13 @@ class LocalValidatePicturesUseCaseImpl implements LocalValidatePicturesUseCase {
             final deleteResult = await localStorage.delete(itemKey);
             return deleteResult.fold(
               /// Left
-              (infraException) {
-                return Left(DomainException(
-                    infraException.errorType.dataError.domainError));
+              (dataException) {
+                return Left(DomainException(dataException.error.domainError));
               },
 
               /// Right
               (_) {
-                return Left(
-                    DomainException(dataException.errorType.domainError));
+                return Left(DomainException(dataException.error.domainError));
               },
             );
           },

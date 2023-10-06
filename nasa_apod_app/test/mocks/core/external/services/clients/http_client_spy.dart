@@ -3,7 +3,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class HttpClientSpy extends Mock implements IHttpClient {
-  When<Future<Either<InfraException, dynamic>>> mockRequestCall() =>
+  When<Future<Either<ServerException, dynamic>>> mockRequestCall() =>
       when(() => request(
           url: any(named: 'url'),
           method: any(named: 'method'),
@@ -13,6 +13,6 @@ class HttpClientSpy extends Mock implements IHttpClient {
   void mockRequestSuccess(dynamic data) =>
       mockRequestCall().thenAnswer((_) async => Right(data));
 
-  void mockRequestError(InfraErrorType error) =>
-      mockRequestCall().thenAnswer((_) async => Left(InfraException(error)));
+  void mockRequestError(DataErrorType error) =>
+      mockRequestCall().thenAnswer((_) async => Left(ServerException(error)));
 }
