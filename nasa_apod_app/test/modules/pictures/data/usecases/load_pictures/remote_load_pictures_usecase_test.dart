@@ -10,6 +10,7 @@ void main() {
   late PictureRepositoryImpl pictureRepository;
   late RemoteLoadLastTenDaysPicturesByDateUseCaseImpl sut;
   late HttpClientSpy httpClient;
+  late String apiKey;
   late String url;
   late DateTime nowDate;
 
@@ -18,10 +19,23 @@ void main() {
     httpClient = HttpClientSpy();
     pictureDatasource = PictureDatasourceImpl(httpClient);
     pictureRepository = PictureRepositoryImpl(pictureDatasource);
-    url = ApodTest.faker.internet.httpUrl();
+    apiKey = ApodTest.faker.randomGenerator.string(10);
+
+    final nasaApodEndDate =
+        RemoteLoadLastTenDaysPicturesByDateUseCaseImpl.getNasaApodEndDate(
+            nowDate);
+    final nasaApodStartDate =
+        RemoteLoadLastTenDaysPicturesByDateUseCaseImpl.getNasaApodStartDate(
+            nowDate);
+
+    url = apodApiUrlFactory(
+      apiKey: apiKey,
+      requestPath: '&start_date=$nasaApodStartDate&end_date=$nasaApodEndDate',
+    );
+
     sut = RemoteLoadLastTenDaysPicturesByDateUseCaseImpl(
       picturesRepository: pictureRepository,
-      apiKey: url,
+      apiKey: apiKey,
     );
   });
 

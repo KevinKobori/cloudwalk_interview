@@ -15,27 +15,34 @@ class RemoteLoadLastTenDaysPicturesByDateUseCaseImpl
   Future<Either<DomainFailure, List<PictureEntity>>> call(DateTime date) async {
     /// Logic for retrieving Astronomy Picture of the Day (Apod) images
     /// from the last 10 days, including today.
-    final dateRequestAPIFormat =
-        DateTime(date.year, date.month, date.day, date.hour - 1);
-    final datedateUS = getUSDateFormat(dateRequestAPIFormat);
-
-    var lastTenDaysUS =
-        DateTime(date.year, date.month, date.day - 9, date.hour - 1);
-    final dateLastTenDaysUS = getUSDateFormat(lastTenDaysUS);
+    final nasaApodEndDate = getNasaApodEndDate(date);
+    final nasaApodStartDate = getNasaApodStartDate(date);
 
     final result = await picturesRepository.getLastTenDaysData(
       apodApiUrlFactory(
         apiKey: apiKey,
-        requestPath: '&start_date=$dateLastTenDaysUS&end_date=$datedateUS',
+        requestPath: '&start_date=$nasaApodStartDate&end_date=$nasaApodEndDate',
       ),
     );
     return result;
   }
 
-  String getUSDateFormat(DateTime time) {
-    String year = time.year.toString();
-    String month = time.month.toString().padLeft(2, '0');
-    String day = time.day.toString().padLeft(2, '0');
+  static String getNasaApodEndDate(DateTime date) {
+    return getNasaApodDateFormat(date);
+  }
+
+  static String getNasaApodStartDate(DateTime date) {
+    var lastTenDaysUS =
+        DateTime(date.year, date.month, date.day - 9, date.hour - 1);
+    return getNasaApodDateFormat(lastTenDaysUS);
+  }
+
+  static String getNasaApodDateFormat(DateTime date) {
+    final dateRequestAPIFormat =
+        DateTime(date.year, date.month, date.day, date.hour - 1);
+    String year = dateRequestAPIFormat.year.toString();
+    String month = dateRequestAPIFormat.month.toString().padLeft(2, '0');
+    String day = dateRequestAPIFormat.day.toString().padLeft(2, '0');
     return '$year-$month-$day';
   }
 }
