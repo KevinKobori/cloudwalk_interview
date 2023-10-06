@@ -34,7 +34,7 @@ class LocalValidatePicturesUseCaseImpl implements LocalValidatePicturesUseCase {
       (data) {
         return PictureMapper().fromMapListToModelList(data).fold(
           /// Left
-          (dataException) async {
+          (mapperException) async {
             final deleteResult = await localStorage.delete(itemKey);
             return deleteResult.fold(
               /// Left
@@ -44,7 +44,7 @@ class LocalValidatePicturesUseCaseImpl implements LocalValidatePicturesUseCase {
 
               /// Right
               (_) {
-                return Left(DomainException(dataException.error.domainError));
+                return Left(DomainException(mapperException.error.domainError));
               },
             );
           },
