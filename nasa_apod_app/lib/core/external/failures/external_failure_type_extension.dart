@@ -1,7 +1,7 @@
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 extension ExternalFailureTypeExtension on ExternalFailureType {
-  DataFailureType get infraFailure {
+  DataFailureType get dataFailure {
     switch (this) {
       case ExternalFailureType.badRequest:
         return DataFailureType.unexpected;
