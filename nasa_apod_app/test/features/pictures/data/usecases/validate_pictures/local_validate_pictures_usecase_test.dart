@@ -52,7 +52,7 @@ void main() {
 
     test('When validate data should delete localStorage if fetch fails',
         () async {
-      localStorage.mockFetchFailure(DataFailureType.invalidData);
+      localStorage.mockFetchFailure(MapperFailure.conversionError);
 
       final result = await sut.call(null);
 

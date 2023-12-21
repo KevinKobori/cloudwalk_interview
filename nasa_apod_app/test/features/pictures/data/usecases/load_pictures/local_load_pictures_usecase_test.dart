@@ -69,8 +69,7 @@ void main() {
       expect(
         actual,
         predicate((element) =>
-            element is DomainFailure &&
-            element.error == DomainFailureType.unexpected),
+            element is DomainFailure && element == DomainFailure.unexpected),
       );
     });
 
@@ -90,8 +89,7 @@ void main() {
       expect(
         actual,
         predicate((element) =>
-            element is DomainFailure &&
-            element.error == DomainFailureType.unexpected),
+            element is DomainFailure && element == DomainFailure.unexpected),
       );
     });
 
@@ -111,14 +109,13 @@ void main() {
       expect(
         actual,
         predicate((element) =>
-            element is DomainFailure &&
-            element.error == DomainFailureType.unexpected),
+            element is DomainFailure && element == DomainFailure.unexpected),
       );
     });
 
     test('When load data should throw UnexpectedFailure if localStorage throws',
         () async {
-      localStorage.mockFetchFailure(DataFailureType.invalidData);
+      localStorage.mockFetchFailure(MapperFailure.conversionError);
 
       final result = await sut.call(null);
 
@@ -130,8 +127,7 @@ void main() {
       expect(
         actual,
         predicate((element) =>
-            element is DomainFailure &&
-            element.error == DomainFailureType.unexpected),
+            element is DomainFailure && element == DomainFailure.unexpected),
       );
     });
   });

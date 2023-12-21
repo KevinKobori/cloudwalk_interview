@@ -8,34 +8,34 @@ class LocalStorageAdapter implements LocalStorage {
   LocalStorageAdapter({required this.localStorage});
 
   @override
-  Future<Either<CacheFailure, void>> save(
+  Future<Either<MapperFailure, void>> save(
       {required String itemKey, required dynamic itemValue}) async {
     try {
       await localStorage.deleteItem(itemKey);
       await localStorage.setItem(itemKey, itemValue);
       return const Right(null);
     } catch (_) {
-      return Left(CacheFailure(DataFailureType.unexpected));
+      return const Left(MapperFailure.invalidJsonFormat);
     }
   }
 
   @override
-  Future<Either<CacheFailure, void>> delete(String itemKey) async {
+  Future<Either<MapperFailure, void>> delete(String itemKey) async {
     try {
       await localStorage.deleteItem(itemKey);
       return const Right(null);
     } catch (_) {
-      return Left(CacheFailure(DataFailureType.unexpected));
+      return const Left(MapperFailure.invalidJsonFormat);
     }
   }
 
   @override
-  Future<Either<CacheFailure, dynamic>> fetch(String itemKey) async {
+  Future<Either<MapperFailure, dynamic>> fetch(String itemKey) async {
     try {
       final data = await localStorage.getItem(itemKey);
       return Right(data);
     } catch (_) {
-      return Left(CacheFailure(DataFailureType.unexpected));
+      return const Left(MapperFailure.invalidJsonFormat);
     }
   }
 }

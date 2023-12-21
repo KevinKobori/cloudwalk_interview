@@ -1,4 +1,0 @@
-enum DomainFailureType {
-  unexpected,
-  notHaveInternetConnection,
-}

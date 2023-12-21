@@ -3,7 +3,7 @@ import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 mixin StreamUIFailureStateManager {
   void handleMainFailure(
-      BuildContext context, Stream<DomainFailureType?> stream) {
+      BuildContext context, Stream<DomainFailure?> stream) {
     stream.listen((error) {
       if (error != null) {
         showFailureMessage(context, error.i18nFailure);

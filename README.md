@@ -6,15 +6,15 @@ This repository contains the implementation of a mobile application following th
 
 # Quick Start 
 
-```bash
-   $ cd nasa_apod_app
-   $ flutter run
+```shell
+   cd nasa_apod_app
+   flutter run
 ```
 # Have any issue? Run on web:
 
-```bash
-   $ cd nasa_apod_app
-   $ flutter run -d chrome --web-renderer html
+```shell
+   cd nasa_apod_app
+   flutter run -d chrome --web-renderer html
 ```
 
 
