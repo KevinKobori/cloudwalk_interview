@@ -19,17 +19,29 @@ class PictureRepositoryImpl implements PictureRepository {
 
       return resultDataSource.fold(
         /// Left
-        (dataFailure) {
-          return Left(DomainFailure(dataFailure.error));
+        (domainFailure) {
+          return Left(domainFailure);
         },
 
         /// Right
         (pictureModelList) {
-          return PictureMapper().fromModelListToEntityList(pictureModelList);
+          final entityListResult =
+              PictureMapper().fromModelListToEntityList(pictureModelList);
+          return entityListResult.fold(
+            /// Left
+            (mapperFailure) {
+              return Left(mapperFailure.toDomainFailure);
+            },
+
+            /// Right
+            (entityList) {
+              return Right(entityList);
+            },
+          );
         },
       );
     } else {
-      return Left(DomainFailure(DomainFailureType.notHaveInternetConnection));
+      return const Left(DomainFailure.notHaveInternetConnection);
     }
   }
 }

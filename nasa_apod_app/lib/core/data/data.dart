@@ -1,8 +1,4 @@
 export 'datasources/picture_datasource_impl.dart';
-export 'failures/data_failure.dart';
-export 'failures/data_failure_type.dart';
-export 'failures/data_failure_type_extension.dart';
-export 'failures/domain_failure_type_data_extension.dart';
 export 'failures/mapper_failure.dart';
 export 'mappers/json_mapper.dart';
 export 'mappers/picture_mapper.dart';

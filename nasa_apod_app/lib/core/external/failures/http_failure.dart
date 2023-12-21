@@ -1,15 +1,9 @@
-// enum HttpFailure {
-//   badRequest,
-//   notFound,
-//   serverFailure,
-//   unauthorized,
-//   forbidden,
-//   invalidData
-// }
+import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 enum HttpFailure {
   // Custom
   unknownError('Unknown Error', -1),
+  invalidData('Invalid Data', -2),
 
   // 1xx Informative
   continueProccess('Continue', 100),
@@ -98,6 +92,27 @@ enum HttpFailure {
           .firstWhere((item) => item.statusCode == statusCode);
     } catch (_) {
       return HttpFailure.unknownError;
+    }
+  }
+}
+
+extension HttpFailureExtension on HttpFailure {
+  DomainFailure get domainFailure {
+    switch (this) {
+      case HttpFailure.badRequest:
+        return DomainFailure.unexpected;
+      case HttpFailure.forbidden:
+        return DomainFailure.unexpected;
+      case HttpFailure.invalidData:
+        return DomainFailure.invalidData;
+      case HttpFailure.notFound:
+        return DomainFailure.notFound;
+      case HttpFailure.internalServerError:
+        return DomainFailure.internalServerError;
+      case HttpFailure.unauthorized:
+        return DomainFailure.unexpected;
+      default:
+        return DomainFailure.unexpected;
     }
   }
 }

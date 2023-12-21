@@ -15,36 +15,37 @@ class LocalValidatePicturesUseCaseImpl implements LocalValidatePicturesUseCase {
     final fetchResult = await localStorage.fetch(itemKey);
     return await fetchResult.fold(
       /// Left
-      (dataFailure) async {
+      (domainFailure) async {
         final deleteResult = await localStorage.delete(itemKey);
         return deleteResult.fold(
           /// Left
-          (dataFailure) {
-            return Left(DomainFailure(dataFailure.error));
+          (mapperFailure) {
+            return Left(mapperFailure.toDomainFailure);
           },
 
           /// Right
           (_) {
-            return Left(DomainFailure(dataFailure.error));
+            return const Right(null);
           },
         );
       },
 
       /// Right
       (data) {
-        return PictureMapper().fromMapListToModelList(data).fold(
+        final modelListResult = PictureMapper().fromMapListToModelList(data);
+        return modelListResult.fold(
           /// Left
           (mapperFailure) async {
             final deleteResult = await localStorage.delete(itemKey);
             return deleteResult.fold(
               /// Left
-              (dataFailure) {
-                return Left(DomainFailure(dataFailure.error));
+              (domainFailure) {
+                return Left(mapperFailure.toDomainFailure);
               },
 
               /// Right
               (_) {
-                return Left(DomainFailure(mapperFailure.error));
+                return const Right(null);
               },
             );
           },

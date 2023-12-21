@@ -44,7 +44,7 @@ class PicturesPresenterImpl
     result.fold(
       (domainFailure) {
         _state.pictureViewModelList = null;
-        _controller.addError(domainFailure.error.i18nFailure);
+        _controller.addError(domainFailure.i18nFailure);
       },
       (pictureEntityList) {
         _state.pictureViewModelList = PictureMapper()
@@ -81,7 +81,7 @@ class PicturesPresenterImpl
     result.fold(
       (domainFailure) {
         _state.pictureViewModelList = null;
-        _controller.addError(domainFailure.error.i18nFailure);
+        _controller.addError(domainFailure.i18nFailure);
       },
       (pictureModel) {
         PictureMapper().fromModelToViewModel(pictureModel).fold((exception) {

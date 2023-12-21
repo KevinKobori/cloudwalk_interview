@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 mixin PictureDatasource {
-  Future<Either<DataFailure, List<PictureModel>>> fetchLastTenDaysData(
+  Future<Either<DomainFailure, List<PictureModel>>> fetchLastTenDaysData(
       String url);
 
   Future<Either<DomainFailure, PictureModel>> fetchByDate(String url);
@@ -14,24 +14,20 @@ class PictureDatasourceImpl implements PictureDatasource {
   PictureDatasourceImpl(this.httpClient);
 
   @override
-  Future<Either<DataFailure, List<PictureModel>>> fetchLastTenDaysData(
+  Future<Either<DomainFailure, List<PictureModel>>> fetchLastTenDaysData(
       String url) async {
     final requestResult = await httpClient.request(method: 'get', url: url);
 
     return await requestResult.fold(
       /// Left
-      (serverFailure) {
-        return Left(serverFailure.dataFailure);
-      },
+      (httpFailure) => Left(httpFailure.domainFailure),
 
       /// Right
       (data) {
         final dynamicListResult = JsonMapper.tryDecode(data);
         return dynamicListResult.fold(
           /// Left
-          (mapperFailure) {
-            return Left(mapperFailure);
-          },
+          (mapperFailure) => Left(mapperFailure.toDomainFailure),
 
           /// Right
           (dynamicList) {
@@ -39,13 +35,19 @@ class PictureDatasourceImpl implements PictureDatasource {
                 JsonMapper.fromDynamicListToMapList(dynamicList);
             return mapListResult.fold(
               /// Left
-              (mapperFailure) {
-                return Left(mapperFailure);
-              },
+              (mapperFailure) => Left(mapperFailure.toDomainFailure),
 
               /// Right
               (mapList) {
-                return PictureMapper().fromMapListToModelList(mapList);
+                final modelListResult =
+                    PictureMapper().fromMapListToModelList(mapList);
+                return modelListResult.fold(
+                  /// Left
+                  (mapperFailure) => Left(mapperFailure.toDomainFailure),
+
+                  /// Right
+                  (picturesList) => Right(picturesList),
+                );
               },
             );
           },
@@ -60,24 +62,28 @@ class PictureDatasourceImpl implements PictureDatasource {
     final resultHttpClient = await httpClient.request(method: 'get', url: url);
     return resultHttpClient.fold(
       /// Left
-      (serverFailure) {
-        return Left(DomainFailure(serverFailure.dataFailure));
-      },
+      (httpFailure) => Left(httpFailure.domainFailure),
+
+      /// Right
       (data) {
-        try {
-          final pictureMapResult = JsonMapper.tryDecode(data);
-          return pictureMapResult.fold(
-            (mapperFailure) {
-              return Left(DomainFailure(mapperFailure.error));
-            },
-            (pictureMap) {
-              return PictureMapper()
-                  .fromMapToModel(pictureMap as Map<String, dynamic>);
-            },
-          );
-        } catch (_) {
-          return Left(DomainFailure(DataFailureType.invalidData.domainFailure));
-        }
+        final mapResult = JsonMapper.tryDecode(data);
+        return mapResult.fold(
+          /// Left
+          (mapperFailure) => Left(mapperFailure.toDomainFailure),
+
+          /// Right
+          (pictureMap) {
+            final modelResult = PictureMapper()
+                .fromMapToModel(pictureMap as Map<String, dynamic>);
+            return modelResult.fold(
+              /// Left
+              (mapperFailure) => Left(mapperFailure.toDomainFailure),
+
+              /// Right
+              (pictureModel) => Right(pictureModel),
+            );
+          },
+        );
       },
     );
   }

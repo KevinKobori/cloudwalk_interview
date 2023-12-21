@@ -114,7 +114,7 @@ void main() {
         actual,
         predicate((element) =>
             element is DomainFailure &&
-            element.error == DomainFailureType.unexpected));
+            element == DomainFailure.unexpected));
   });
 
   test('Should throw UnexpectedFailure if HttpClient not returns 200',
@@ -133,6 +133,6 @@ void main() {
         actual,
         predicate((element) =>
             element is DomainFailure &&
-            element.error == DomainFailureType.unexpected));
+            element == DomainFailure.unexpected));
   });
 }
