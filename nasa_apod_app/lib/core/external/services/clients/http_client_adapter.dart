@@ -8,7 +8,7 @@ class HttpClientAdapter implements HttpClient {
   HttpClientAdapter(this.client);
 
   @override
-  Future<Either<ServerFailure, dynamic>> request(
+  Future<Either<HttpFailure, dynamic>> request(
       {required String url,
       required String method,
       Map<String, dynamic>? body,
@@ -33,12 +33,12 @@ class HttpClientAdapter implements HttpClient {
         response = await futureResponse.timeout(const Duration(seconds: 10));
       }
     } catch (_) {
-      return Left(ServerFailure(HttpFailure.internalServerError.dataFailure));
+      return const Left(HttpFailure.internalServerError);
     }
     return _handleResponse(response);
   }
 
-  Either<ServerFailure, dynamic> _handleResponse(Response response) {
+  Either<HttpFailure, dynamic> _handleResponse(Response response) {
     switch (response.statusCode) {
       case 200:
         return Right(response.body.isEmpty ? null : response.body);
@@ -47,20 +47,17 @@ class HttpClientAdapter implements HttpClient {
       case 204:
         return const Right(null);
       case 400:
-        return Left(ServerFailure(HttpFailure.badRequest.dataFailure));
+        return const Left(HttpFailure.badRequest);
       case 401:
-        return Left(
-            ServerFailure(HttpFailure.unauthorized.dataFailure));
+        return const Left(HttpFailure.unauthorized);
       case 403:
-        return Left(ServerFailure(HttpFailure.forbidden.dataFailure));
+        return const Left(HttpFailure.forbidden);
       case 404:
-        return Left(ServerFailure(HttpFailure.notFound.dataFailure));
+        return const Left(HttpFailure.notFound);
       case 500:
-        return Left(
-            ServerFailure(HttpFailure.internalServerError.dataFailure));
+        return const Left(HttpFailure.internalServerError);
       default:
-        return Left(
-            ServerFailure(HttpFailure.internalServerError.dataFailure));
+        return const Left(HttpFailure.internalServerError);
     }
   }
 }

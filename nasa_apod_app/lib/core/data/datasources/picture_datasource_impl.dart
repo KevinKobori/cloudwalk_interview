@@ -21,7 +21,7 @@ class PictureDatasourceImpl implements PictureDatasource {
     return await requestResult.fold(
       /// Left
       (serverFailure) {
-        return Left(serverFailure);
+        return Left(serverFailure.dataFailure);
       },
 
       /// Right
@@ -61,7 +61,7 @@ class PictureDatasourceImpl implements PictureDatasource {
     return resultHttpClient.fold(
       /// Left
       (serverFailure) {
-        return Left(DomainFailure(serverFailure.error));
+        return Left(DomainFailure(serverFailure.dataFailure));
       },
       (data) {
         try {
