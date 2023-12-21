@@ -5,7 +5,7 @@ export 'design_system/widgets/organisms/apod_scroll_view.dart';
 export 'design_system/widgets/organisms/date_picker_component.dart';
 export 'design_system/widgets/organisms/picture_tile.dart';
 export 'design_system/widgets/reload_screen.dart';
-export 'failures/domain_failure_type_ui_extension.dart';
+export 'failures/domain_failure_to_ui_failure_extension.dart';
 export 'i18n/i18n.dart';
 export 'nasa_apod_app_builder.dart';
 export 'presenters/managers/loading_presenter_manager.dart';

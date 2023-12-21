@@ -1,15 +1,6 @@
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-enum MapperFailure {
-  invalidJsonFormat('Invalid Json Format'),
-  conversionError('Conversion Error');
-
-  final String message;
-
-  const MapperFailure(this.message);
-}
-
-extension MapperFailureTypeExtension on MapperFailure {
+extension MapperFailureToDomainFailureExtension on MapperFailure {
   DomainFailure get toDomainFailure {
     switch (this) {
       case MapperFailure.invalidJsonFormat:

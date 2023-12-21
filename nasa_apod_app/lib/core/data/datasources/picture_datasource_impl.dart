@@ -20,7 +20,7 @@ class PictureDatasourceImpl implements PictureDatasource {
 
     return await requestResult.fold(
       /// Left
-      (httpFailure) => Left(httpFailure.domainFailure),
+      (httpFailure) => Left(httpFailure.toDomainFailure),
 
       /// Right
       (data) {
@@ -62,7 +62,7 @@ class PictureDatasourceImpl implements PictureDatasource {
     final resultHttpClient = await httpClient.request(method: 'get', url: url);
     return resultHttpClient.fold(
       /// Left
-      (httpFailure) => Left(httpFailure.domainFailure),
+      (httpFailure) => Left(httpFailure.toDomainFailure),
 
       /// Right
       (data) {

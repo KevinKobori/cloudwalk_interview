@@ -6,8 +6,11 @@ import 'package:url_strategy/url_strategy.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   setPathUrlStrategy();
-  runApp(ModularApp(
-    module: AppModule(),
-    child: AppWidget(),
-  ));
+  
+  runApp(
+    ModularApp(
+      module: AppModule(),
+      child: AppWidget(),
+    ),
+  );
 }

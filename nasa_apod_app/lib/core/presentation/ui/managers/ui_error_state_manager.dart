@@ -6,7 +6,7 @@ mixin StreamUIFailureStateManager {
       BuildContext context, Stream<DomainFailure?> stream) {
     stream.listen((error) {
       if (error != null) {
-        showFailureMessage(context, error.i18nFailure);
+        showFailureMessage(context, error.toUIFailure);
       }
     });
   }
