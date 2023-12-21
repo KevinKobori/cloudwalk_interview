@@ -1,16 +1,18 @@
+import 'package:alice/alice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-class NasaApodAppBuilder extends StatelessWidget {
-  final RouterConfig<Object> routerConfig;
-  const NasaApodAppBuilder.router({
-    Key? key,
-    required this.routerConfig,
-  }) : super(key: key);
+class AppBuilder extends StatelessWidget {
+  final alice = Alice();
+
+  AppBuilder({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Modular.routerDelegate.setNavigatorKey(alice.getNavigatorKey());
+
     return ResponsiveApp(
       builder: (_) => MaterialApp.router(
         title: 'Nasa Apod App',
@@ -21,7 +23,7 @@ class NasaApodAppBuilder extends StatelessWidget {
           fontFamily: 'Secular_One',
         ),
         restorationScopeId: 'nasa_apod_app',
-        routerConfig: routerConfig,
+        routerConfig: Modular.routerConfig,
       ),
     ).animate().fadeIn(
           delay: const Duration(milliseconds: 50),
