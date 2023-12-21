@@ -1,19 +1,19 @@
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-extension ExternalFailureTypeExtension on ExternalFailureType {
+extension HttpFailureExtension on HttpFailure {
   DataFailureType get dataFailure {
     switch (this) {
-      case ExternalFailureType.badRequest:
+      case HttpFailure.badRequest:
         return DataFailureType.unexpected;
-      case ExternalFailureType.forbidden:
+      case HttpFailure.forbidden:
         return DataFailureType.unexpected;
-      case ExternalFailureType.invalidData:
+      case HttpFailure.invalidData:
         return DataFailureType.invalidData;
-      case ExternalFailureType.notFound:
+      case HttpFailure.notFound:
         return DataFailureType.notFound;
-      case ExternalFailureType.serverFailure:
+      case HttpFailure.serverFailure:
         return DataFailureType.unexpected;
-      case ExternalFailureType.unauthorized:
+      case HttpFailure.unauthorized:
         return DataFailureType.unexpected;
     }
   }

@@ -33,7 +33,7 @@ class HttpClientAdapter implements HttpClient {
         response = await futureResponse.timeout(const Duration(seconds: 10));
       }
     } catch (_) {
-      return Left(ServerFailure(ExternalFailureType.serverFailure.dataFailure));
+      return Left(ServerFailure(HttpFailure.internalServerError.dataFailure));
     }
     return _handleResponse(response);
   }
@@ -47,20 +47,20 @@ class HttpClientAdapter implements HttpClient {
       case 204:
         return const Right(null);
       case 400:
-        return Left(ServerFailure(ExternalFailureType.badRequest.dataFailure));
+        return Left(ServerFailure(HttpFailure.badRequest.dataFailure));
       case 401:
         return Left(
-            ServerFailure(ExternalFailureType.unauthorized.dataFailure));
+            ServerFailure(HttpFailure.unauthorized.dataFailure));
       case 403:
-        return Left(ServerFailure(ExternalFailureType.forbidden.dataFailure));
+        return Left(ServerFailure(HttpFailure.forbidden.dataFailure));
       case 404:
-        return Left(ServerFailure(ExternalFailureType.notFound.dataFailure));
+        return Left(ServerFailure(HttpFailure.notFound.dataFailure));
       case 500:
         return Left(
-            ServerFailure(ExternalFailureType.serverFailure.dataFailure));
+            ServerFailure(HttpFailure.internalServerError.dataFailure));
       default:
         return Left(
-            ServerFailure(ExternalFailureType.serverFailure.dataFailure));
+            ServerFailure(HttpFailure.internalServerError.dataFailure));
     }
   }
 }
