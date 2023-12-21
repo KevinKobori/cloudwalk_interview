@@ -42,8 +42,8 @@ class _PicturesPageState extends State<PicturesPage>
               scrollDirection: Axis.horizontal,
               children: [
                 OutlinedButton(
-                  onPressed: () {
-                    widget.picturesPresenter.loadPictures();
+                  onPressed: () async {
+                    await widget.picturesPresenter.loadPictures();
                   },
                   child: const Text('List all'),
                 ),

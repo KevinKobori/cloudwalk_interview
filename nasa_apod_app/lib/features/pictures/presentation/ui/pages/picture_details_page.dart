@@ -9,8 +9,11 @@ class PictureDetailsPage extends StatefulWidget {
   final PictureViewModel? pictureViewModel;
   final String pictureDate;
 
-  const PictureDetailsPage(this.pictureDate,
-      {super.key, required this.pictureViewModel});
+  const PictureDetailsPage(
+    this.pictureDate, {
+    required this.pictureViewModel,
+    super.key,
+  });
 
   @override
   State<PictureDetailsPage> createState() => _PictureDetailsPageState();
@@ -26,7 +29,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
         await ls.LocalStorage(localStorageConfigKeyPathFactory())
             .getItem(localLoadPicturesUseCaseFactory().itemKey);
 
-    int pictureMapIndex = pictureMapList.indexWhere(
+    final int pictureMapIndex = pictureMapList.indexWhere(
         (dynamic pictureMap) => pictureMap['date'] == widget.pictureDate);
     final pictureMap = pictureMapList[pictureMapIndex];
 

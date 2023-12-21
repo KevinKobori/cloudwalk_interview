@@ -72,7 +72,7 @@ class PictureDatasourceImpl implements PictureDatasource {
             },
             (pictureMap) {
               return PictureMapper()
-                  .fromMapToModel((pictureMap as Map<String, dynamic>));
+                  .fromMapToModel(pictureMap as Map<String, dynamic>);
             },
           );
         } catch (_) {

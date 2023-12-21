@@ -1,8 +1,7 @@
 import 'package:alice/alice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-
-import 'nasa_apod_app.dart';
+import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class AppWidget extends StatelessWidget {
   final alice = Alice();
