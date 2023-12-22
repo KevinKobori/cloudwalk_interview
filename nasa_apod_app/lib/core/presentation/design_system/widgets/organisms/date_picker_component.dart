@@ -72,7 +72,7 @@ class _DatePickerComponentState extends State<DatePickerComponent>
       setState(() async {
         _selectedDate.value = newSelectedDate;
 
-        await widget.picturesPresenter.searchPictureByDate(ApodDate(
+        await widget.picturesPresenter.loadPictureByDate(ApodDate(
           year: _selectedDate.value.year,
           month: _selectedDate.value.month,
           day: _selectedDate.value.day,

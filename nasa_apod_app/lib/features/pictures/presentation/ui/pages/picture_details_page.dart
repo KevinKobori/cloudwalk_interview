@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart' as cni;
 import 'package:dartz/dartz.dart' as dz;
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:localstorage/localstorage.dart' as ls;
+import 'package:nasa_apod_app/core/presentation/ui/managers/navigator_manager.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class PictureDetailsPage extends StatefulWidget {
@@ -61,14 +61,14 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.deepPurpleAccent,
         leading: IconButton(
           onPressed: () {
-            Modular.to.pop();
+            NavigatorManager.pop();
           },
           icon: const Icon(Icons.arrow_back_ios),
         ),
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.deepPurpleAccent,
       ),
       backgroundColor: Colors.black,
       body: ValueListenableBuilder(

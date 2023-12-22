@@ -1,44 +1,79 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nasa_apod_app/core/presentation/ui/managers/navigator_manager.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-class PicturesCubit extends Cubit<PicturesState> {
+class PicturesCubit extends Cubit<PicturesState> implements PicturesPresenter {
   final LoadLastTenDaysPicturesByDateUseCase loadLastTenDaysPicturesByDate;
 
   PicturesCubit({
     required this.loadLastTenDaysPicturesByDate,
   }) : super(PicturesIdle());
 
-  void fetchPictures() async {
-    try {
-      emit(PicturesLoading());
+  @override
+  void loadPictures() async {
+    emit(PicturesLoading());
 
-      final fetchResult = await fetchYourPictures();
-      fetchResult.fold(
-        (domainFailure) => emit(PicturesError(domainFailure.toUIFailure)),
-        (pictureViewModelList) => emit(PicturesLoaded(pictureViewModelList)),
-      );
-    } catch (e) {
-      emit(PicturesError(e.toString()));
-    }
+    final fetchResult = await _loadPictures();
+    fetchResult.fold(
+      (domainFailure) => emit(PicturesError(domainFailure.toUIFailure)),
+      (pictureViewModelList) => emit(PicturesLoaded(pictureViewModelList)),
+    );
   }
 
-  Future<Either<DomainFailure, List<PictureViewModel>>>
-      fetchYourPictures() async {
+  Future<Either<DomainFailure, List<PictureViewModel>>> _loadPictures() async {
     final nowDate = DateTime.now();
     final result = await loadLastTenDaysPicturesByDate.call(nowDate);
 
     return result.fold(
       (domainFailure) => Left(domainFailure),
       (pictureEntityList) {
-        final viewModelResult =
+        final pictureViewModelListResult =
             PictureMapper().fromEntityListToViewModelList(pictureEntityList);
-        return viewModelResult.fold(
+        return pictureViewModelListResult.fold(
           (mapperFailure) => Left(mapperFailure.fromMapperToDomain),
           (pictureViewModelList) =>
               Right(pictureViewModelList.toList().reversed.toList()),
         );
       },
     );
+  }
+
+  @override
+  Future<void> loadPictureByDate(ApodDate date) async {
+    emit(PicturesLoading());
+
+    final fetchResult = await _loadPictureByDate(date);
+    fetchResult.fold(
+      (domainFailure) => emit(PicturesError(domainFailure.toUIFailure)),
+      (pictureViewModelList) => emit(PicturesLoaded(pictureViewModelList)),
+    );
+  }
+
+  Future<Either<DomainFailure, List<PictureViewModel>>> _loadPictureByDate(
+      ApodDate date) async {
+    final datasource = PictureDatasourceImpl(httpClientAdapterFactory());
+
+    final result = await datasource.fetchByDate(apodApiUrlFactory(
+        apiKey: 'Ieuiin5UvhSz44qMh9rboqVMfOkYbkNebhwEtxPF',
+        requestPath: '&date=${date.value}'));
+
+    return result.fold(
+      (domainFailure) => Left(domainFailure),
+      (pictureModel) {
+        final pictureViewModelResult =
+            PictureMapper().fromModelToViewModel(pictureModel);
+        return pictureViewModelResult.fold(
+          (mapperFailure) => Left(mapperFailure.fromMapperToDomain),
+          (pictureViewModel) => Right([pictureViewModel]),
+        );
+      },
+    );
+  }
+
+  @override
+  void goToPictureDetails(String pictureDate,
+      {required PictureViewModel pictureViewModel}) {
+    NavigatorManager.pushNamed('/$pictureDate', arguments: pictureViewModel);
   }
 }

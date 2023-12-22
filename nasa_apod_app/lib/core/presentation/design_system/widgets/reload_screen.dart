@@ -3,7 +3,7 @@ import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class ReloadScreen extends StatelessWidget {
   final String error;
-  final Future<void> Function() reload;
+  final void Function() reload;
 
   const ReloadScreen({required this.error, required this.reload, super.key});
 

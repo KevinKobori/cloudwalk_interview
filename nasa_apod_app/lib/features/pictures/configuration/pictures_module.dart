@@ -5,7 +5,9 @@ class PicturesModule extends Module {
   PicturesModule();
 
   @override
-  void binds(i) {}
+  void binds(i) {
+    i.addSingleton<PicturesCubit>(() => picturesPresenterFactory());
+  }
 
   @override
   void routes(r) {
