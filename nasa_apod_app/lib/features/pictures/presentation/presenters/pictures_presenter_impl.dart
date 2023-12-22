@@ -1,9 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter/widgets.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-abstract class PicturesPresenter implements Listenable {
+abstract class PicturesPresenter {
   Stream<bool> get isLoadingStream;
   Stream<List<PictureViewModel>?> get picturesStream;
   Stream<NavigateToParams?> get navigateToStream;
@@ -66,10 +65,6 @@ class PicturesPresenterImpl
 
   @override
   Future<void> searchPictureByDate(ApodDate date) async {
-    await _loadPictureByDate(date);
-  }
-
-  Future<void> _loadPictureByDate(ApodDate date) async {
     isLoading = true;
 
     final datasource = PictureDatasourceImpl(httpClientAdapterFactory());
@@ -113,10 +108,4 @@ class PicturesPresenterImpl
     disposeNavigationPresenterManager();
     disposeLoadingPresenterManager();
   }
-
-  @override
-  void addListener(VoidCallback listener) {}
-
-  @override
-  void removeListener(VoidCallback listener) {}
 }

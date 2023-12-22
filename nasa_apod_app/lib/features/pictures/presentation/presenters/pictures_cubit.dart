@@ -9,7 +9,7 @@ class PicturesCubit extends Cubit<PicturesState> {
     required this.loadLastTenDaysPicturesByDate,
   }) : super(PicturesIdle());
 
-  Future<void> fetchPictures() async {
+  void fetchPictures() async {
     try {
       emit(PicturesLoading());
 

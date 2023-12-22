@@ -14,13 +14,18 @@ class _PicturesPageState extends State<PicturesPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => PicturesCubit(
-        loadLastTenDaysPicturesByDate:
-            remoteLoadPicturesUseCaseWithLocalFallbackFactory(),
-      )..fetchPictures(),
+          loadLastTenDaysPicturesByDate:
+              remoteLoadPicturesUseCaseWithLocalFallbackFactory())
+        ..fetchPictures(),
       child: BlocBuilder<PicturesCubit, PicturesState>(
         builder: (context, state) {
           if (state is PicturesError) {
-            return const Center(child: Text('ERROR'));
+            return ReloadScreen(
+              error: state.message,
+              reload: () async {},
+              //  widget.picturesPresenter.loadPictures,
+            );
+            // const Center(child: Text('ERROR'));
           } else if (state is PicturesLoading) {
             return const CircularProgressIndicator();
           } else if (state is PicturesLoaded) {
