@@ -14,7 +14,7 @@ abstract class PicturesPresenter implements Listenable {
   void dispose();
 }
 
-class PicturesState {
+class PicturesStateOld {
   List<PictureViewModel>? pictureViewModelList;
 }
 
@@ -25,9 +25,9 @@ class PicturesPresenterImpl
 
   PicturesPresenterImpl({required this.loadLastTenDaysPicturesByDate});
 
-  final _controller = StreamController<PicturesState>.broadcast();
+  final _controller = StreamController<PicturesStateOld>.broadcast();
 
-  final _state = PicturesState();
+  final _state = PicturesStateOld();
 
   void _update() => _controller.add(_state);
 

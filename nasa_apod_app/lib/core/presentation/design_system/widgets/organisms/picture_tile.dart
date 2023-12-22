@@ -4,19 +4,18 @@ import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class PictureTile extends StatelessWidget {
   final PictureViewModel pictureViewModel;
-  final PicturesPresenter picturesPresenter;
+  // final PicturesPresenter picturesPresenter;
 
   const PictureTile({
-    super.key,
-    required this.pictureViewModel,
-    required this.picturesPresenter,
+    required this.pictureViewModel, super.key,
+    // required this.picturesPresenter,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => picturesPresenter.goToPictureDetails(pictureViewModel.date,
-          pictureViewModel: pictureViewModel),
+      // onTap: () => picturesPresenter.goToPictureDetails(pictureViewModel.date,
+      //     pictureViewModel: pictureViewModel),
       child: Container(
         height: 180,
         margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
