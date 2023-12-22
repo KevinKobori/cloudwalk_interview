@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
@@ -16,7 +18,7 @@ class HttpClientAdapter implements HttpClient {
     final defaultHeaders = headers?.cast<String, String>() ?? {}
       ..addAll(
           {'content-type': 'application/json', 'accept': 'application/json'});
-    final jsonBody = body != null ? JsonMapper.tryEncode(body) : null;
+    final jsonBody = body != null ? json.encode(body) : null;
     var response = Response('', 500);
     Future<Response>? futureResponse;
     try {
