@@ -1,13 +1,10 @@
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-abstract class NetworkInfo {
-  Future<bool> get isConnected;
-}
-
-class NetworkInfoImpl implements NetworkInfo {
+class DeviceInfoHelperImpl implements DeviceInfoHelper {
   final InternetConnectionChecker connectionChecker;
 
-  NetworkInfoImpl(this.connectionChecker);
+  DeviceInfoHelperImpl(this.connectionChecker);
 
   @override
   Future<bool> get isConnected => connectionChecker.hasConnection;

@@ -3,7 +3,7 @@ import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class PictureRepositoryImpl implements PictureRepository {
   final PictureDatasource pictureDatasource;
-  final NetworkInfo networkInfo;
+  final DeviceInfoHelper networkInfo;
 
   PictureRepositoryImpl({
     required this.pictureDatasource,

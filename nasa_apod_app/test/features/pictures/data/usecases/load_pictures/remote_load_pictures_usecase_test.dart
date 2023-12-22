@@ -8,7 +8,7 @@ import '../../../../../apod.dart';
 
 void main() {
   late PictureDatasourceImpl pictureDatasource;
-  late NetworkInfo networkInfo;
+  late DeviceInfoHelper networkInfo;
   late PictureRepositoryImpl pictureRepository;
   late RemoteLoadLastTenDaysPicturesByDateUseCaseImpl sut;
   late HttpClientSpy httpClient;
@@ -20,7 +20,7 @@ void main() {
     nowDate = DateTime.now();
     httpClient = HttpClientSpy();
     pictureDatasource = PictureDatasourceImpl(httpClient);
-    networkInfo = NetworkInfoImpl(InternetConnectionChecker());
+    networkInfo = DeviceInfoHelperImpl(InternetConnectionChecker());
     pictureRepository = PictureRepositoryImpl(
       networkInfo: networkInfo,
       pictureDatasource: pictureDatasource,
@@ -113,8 +113,7 @@ void main() {
     expect(
         actual,
         predicate((element) =>
-            element is DomainFailure &&
-            element == DomainFailure.unexpected));
+            element is DomainFailure && element == DomainFailure.unexpected));
   });
 
   test('Should throw UnexpectedFailure if HttpClient not returns 200',
@@ -132,7 +131,6 @@ void main() {
     expect(
         actual,
         predicate((element) =>
-            element is DomainFailure &&
-            element == DomainFailure.unexpected));
+            element is DomainFailure && element == DomainFailure.unexpected));
   });
 }
