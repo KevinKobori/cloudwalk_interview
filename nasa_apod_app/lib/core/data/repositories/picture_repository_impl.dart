@@ -19,9 +19,7 @@ class PictureRepositoryImpl implements PictureRepository {
 
       return resultDataSource.fold(
         /// Left
-        (domainFailure) {
-          return Left(domainFailure);
-        },
+        (domainFailure) => Left(domainFailure),
 
         /// Right
         (pictureModelList) {
@@ -34,9 +32,7 @@ class PictureRepositoryImpl implements PictureRepository {
             },
 
             /// Right
-            (entityList) {
-              return Right(entityList);
-            },
+            (entityList) => Right(entityList),
           );
         },
       );

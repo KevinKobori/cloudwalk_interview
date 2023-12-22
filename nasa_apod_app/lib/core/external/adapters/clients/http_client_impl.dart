@@ -10,7 +10,7 @@ class HttpClientAdapter implements HttpClient {
   @override
   Future<Either<HttpFailure, dynamic>> request(
       {required String url,
-      required String method,
+      required HttpVerbs method,
       Map<String, dynamic>? body,
       Map<String, dynamic>? headers}) async {
     final defaultHeaders = headers?.cast<String, String>() ?? {}
@@ -20,14 +20,16 @@ class HttpClientAdapter implements HttpClient {
     var response = Response('', 500);
     Future<Response>? futureResponse;
     try {
-      if (method == 'post') {
+      if (method == HttpVerbs.post) {
         futureResponse = client.post(Uri.parse(url),
             headers: defaultHeaders, body: jsonBody);
-      } else if (method == 'get') {
-        futureResponse = client.get(Uri.parse(url), headers: defaultHeaders);
-      } else if (method == 'put') {
+      } else if (method == HttpVerbs.put) {
         futureResponse =
             client.put(Uri.parse(url), headers: defaultHeaders, body: jsonBody);
+      } else if (method == HttpVerbs.get) {
+        futureResponse = client.get(Uri.parse(url), headers: defaultHeaders);
+      } else if (method == HttpVerbs.delete) {
+        futureResponse = client.delete(Uri.parse(url), headers: defaultHeaders);
       }
       if (futureResponse != null) {
         response = await futureResponse.timeout(const Duration(seconds: 10));

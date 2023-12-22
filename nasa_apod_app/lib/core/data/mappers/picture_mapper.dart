@@ -2,8 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class PictureMapper {
-  MapperFailure get error => MapperFailure.conversionError;
-
   /// Data <<< FROM <<< Domain
   Either<MapperFailure, PictureModel> fromEntityToModel(PictureEntity entity) {
     return Right(
@@ -48,7 +46,7 @@ class PictureMapper {
       ).toList();
       return Right(result);
     } catch (_) {
-      return Left(error);
+      return const Left(MapperFailure.conversionError);
     }
   }
 
@@ -83,7 +81,7 @@ class PictureMapper {
       ).toList();
       return Right(result);
     } catch (_) {
-      return Left(error);
+      return const Left(MapperFailure.conversionError);
     }
   }
 
@@ -116,7 +114,7 @@ class PictureMapper {
       ).toList();
       return Right(result);
     } catch (_) {
-      return Left(error);
+      return const Left(MapperFailure.conversionError);
     }
   }
 
@@ -148,7 +146,7 @@ class PictureMapper {
               .fold((l) => l, (r) => r))).toList();
       return Right(result);
     } catch (_) {
-      return Left(error);
+      return const Left(MapperFailure.conversionError);
     }
   }
 
@@ -163,7 +161,7 @@ class PictureMapper {
         'title',
         'url',
       ])) {
-        return Left(error);
+        return const Left(MapperFailure.conversionError);
       }
       return Right(PictureModel(
         copyright: map['copyright'] ?? '',
@@ -177,7 +175,7 @@ class PictureMapper {
         url: map['url'] ?? '',
       ));
     } catch (_) {
-      return Left(error);
+      return const Left(MapperFailure.conversionError);
     }
   }
 
@@ -189,7 +187,7 @@ class PictureMapper {
           .toList();
       return Right(result);
     } catch (_) {
-      return Left(error);
+      return const Left(MapperFailure.conversionError);
     }
   }
 

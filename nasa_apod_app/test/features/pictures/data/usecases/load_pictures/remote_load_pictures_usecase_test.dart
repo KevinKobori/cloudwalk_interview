@@ -52,7 +52,7 @@ void main() {
 
     await sut.call(nowDate);
 
-    ApodTest.verify(() => httpClient.request(method: 'get', url: url));
+    ApodTest.verify(() => httpClient.request(method: HttpVerbs.get, url: url));
   });
 
   test('Should return pictures list on 200 with valid data', () async {
