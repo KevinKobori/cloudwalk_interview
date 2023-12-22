@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 import '../../../../../apod.dart';
@@ -43,10 +44,11 @@ void main() {
       picturesRepository: pictureRepository,
       apiKey: apiKey,
     );
+    registerFallbackValue<HttpVerbs>(HttpVerbs.get);
   });
 
   test('Should call HttpClient with correct values', () async {
-    final data = <Map<String, dynamic>>{};
+    final data = json.encode({});
 
     httpClient.mockRequestSuccess(data);
 
@@ -101,7 +103,7 @@ void main() {
       'Should throw UnexpectedFailure if HttpClient returns 200 with invalid data',
       () async {
     httpClient.mockRequestSuccess(
-        ApodResponsesFactory().generateInvalidPictureMapList());
+        json.encode(ApodResponsesFactory().generateInvalidPictureMapList()));
 
     final result = await sut.call(nowDate);
 
@@ -131,6 +133,6 @@ void main() {
     expect(
         actual,
         predicate((element) =>
-            element is DomainFailure && element == DomainFailure.unexpected));
+            element is DomainFailure && element == DomainFailure.notFound));
   });
 }

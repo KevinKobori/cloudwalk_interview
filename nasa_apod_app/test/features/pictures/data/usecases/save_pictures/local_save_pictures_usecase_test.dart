@@ -68,7 +68,7 @@ void main() {
       expect(
           actual,
           predicate((element) =>
-              element is DomainFailure && element == DomainFailure.unexpected));
+              element is DomainFailure && element == DomainFailure.unexpected && element == DomainFailure.unexpected));
     });
   });
 }

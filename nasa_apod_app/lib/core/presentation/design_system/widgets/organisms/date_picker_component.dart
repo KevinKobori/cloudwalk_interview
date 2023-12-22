@@ -33,7 +33,7 @@ class _DatePickerComponentState extends State<DatePickerComponent>
   late final RestorableRouteFuture<DateTime?> _restorableDatePickerRouteFuture =
       RestorableRouteFuture<DateTime?>(
     onComplete: _selectDate,
-    onPresent: (NavigatorState navigator, Object? arguments) {
+    onPresent: (navigator, arguments) {
       return navigator.restorablePush(
         _datePickerRoute,
         arguments: _selectedDate.value.millisecondsSinceEpoch,
@@ -48,7 +48,7 @@ class _DatePickerComponentState extends State<DatePickerComponent>
   ) {
     return DialogRoute<DateTime>(
       context: context,
-      builder: (BuildContext context) {
+      builder: (context) {
         return DatePickerDialog(
           restorationId: 'date_picker_dialog',
           initialEntryMode: DatePickerEntryMode.calendarOnly,
@@ -69,10 +69,10 @@ class _DatePickerComponentState extends State<DatePickerComponent>
 
   Future<void> _selectDate(DateTime? newSelectedDate) async {
     if (newSelectedDate != null) {
-      setState(() async {
+      setState(() {
         _selectedDate.value = newSelectedDate;
 
-        await widget.picturesPresenter.loadPictureByDate(ApodDate(
+        widget.picturesPresenter.loadPictureByDate(ApodDate(
           year: _selectedDate.value.year,
           month: _selectedDate.value.month,
           day: _selectedDate.value.day,

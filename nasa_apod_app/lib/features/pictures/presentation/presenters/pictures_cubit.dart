@@ -14,8 +14,8 @@ class PicturesCubit extends Cubit<PicturesState> implements PicturesPresenter {
   void loadPictures() async {
     emit(PicturesLoading());
 
-    final fetchResult = await _loadPictures();
-    fetchResult.fold(
+    final loadpicturesResult = await _loadPictures();
+    loadpicturesResult.fold(
       (domainFailure) => emit(PicturesError(domainFailure.toUIFailure)),
       (pictureViewModelList) => emit(PicturesLoaded(pictureViewModelList)),
     );
@@ -40,11 +40,11 @@ class PicturesCubit extends Cubit<PicturesState> implements PicturesPresenter {
   }
 
   @override
-  Future<void> loadPictureByDate(ApodDate date) async {
+  void loadPictureByDate(ApodDate date) async {
     emit(PicturesLoading());
 
-    final fetchResult = await _loadPictureByDate(date);
-    fetchResult.fold(
+    final loadPictureByDateResult = await _loadPictureByDate(date);
+    loadPictureByDateResult.fold(
       (domainFailure) => emit(PicturesError(domainFailure.toUIFailure)),
       (pictureViewModelList) => emit(PicturesLoaded(pictureViewModelList)),
     );
@@ -72,7 +72,7 @@ class PicturesCubit extends Cubit<PicturesState> implements PicturesPresenter {
   }
 
   @override
-  void goToPictureDetails(String pictureDate,
+  void pushToPictureDetails(String pictureDate,
       {required PictureViewModel pictureViewModel}) {
     NavigatorManager.pushNamed('/$pictureDate', arguments: pictureViewModel);
   }

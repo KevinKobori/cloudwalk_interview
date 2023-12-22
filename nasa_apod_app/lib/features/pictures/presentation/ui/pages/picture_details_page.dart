@@ -6,8 +6,8 @@ import 'package:nasa_apod_app/core/presentation/ui/managers/navigator_manager.da
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class PictureDetailsPage extends StatefulWidget {
-  final PictureViewModel? pictureViewModel;
   final String pictureDate;
+  final PictureViewModel? pictureViewModel;
 
   const PictureDetailsPage(
     this.pictureDate, {
@@ -44,7 +44,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (widget.pictureViewModel == null) {
+      // if (widget.pictureViewModel == null) {
         final result = await getPictureViewModelFromLocalStorage();
         result.fold(
           (domainFailure) {},
@@ -52,7 +52,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
             rxPictureViewModel.value = pictureViewModel;
           },
         );
-      }
+      // }
     });
     super.initState();
   }

@@ -15,7 +15,7 @@ class PictureTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => picturesPresenter.goToPictureDetails(pictureViewModel.date,
+      onTap: () => picturesPresenter.pushToPictureDetails(pictureViewModel.date,
           pictureViewModel: pictureViewModel),
       child: Container(
         height: 180,
@@ -27,9 +27,9 @@ class PictureTile extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              offset: const Offset(0, 0),
-              spreadRadius: 5,
-              blurRadius: 10,
+              offset: const Offset(0, 4),
+              spreadRadius: 4,
+              blurRadius: 8,
               color: Colors.grey.shade700,
             )
           ],

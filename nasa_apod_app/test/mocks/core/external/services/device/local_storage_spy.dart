@@ -9,21 +9,21 @@ class LocalStorageSpy extends Mock implements LocalStorage {
   }
 
   When<Future<Either<LocalStorageFailure, dynamic>>> mockFetchCall() =>
-      when(() async => await fetch(any()));
+      when(() => fetch(any()));
   void mockFetchSuccess(dynamic json) async =>
       mockFetchCall().thenAnswer((_) async => Right(json));
   void mockFetchFailure(LocalStorageFailure error) =>
       mockFetchCall().thenAnswer((_) async => Left(error));
 
   When<Future<Either<LocalStorageFailure, void>>> mockDeleteCall() =>
-      when(() async => await delete(any()));
+      when(() => delete(any()));
   void mockDeleteSuccess() =>
       mockDeleteCall().thenAnswer((_) async => const Right(null));
   void mockDeleteFailure(LocalStorageFailure error) =>
       mockDeleteCall().thenAnswer((_) async => Left(error));
 
   When<Future<Either<LocalStorageFailure, void>>> mockSaveCall() =>
-      when(() async => await save(
+      when(() => save(
           itemKey: any(named: 'itemKey'),
           itemValue: any<Map<String, dynamic>>(named: 'itemValue')));
   void mockSaveSuccess() =>
