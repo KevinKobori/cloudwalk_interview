@@ -35,7 +35,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
 
     final viewModelResult = PictureMapper().fromMapToViewModel(pictureMap);
     return viewModelResult.fold((l) {
-      return dz.Left(l.toDomainFailure);
+      return dz.Left(l.fromMapperToDomain);
     }, (r) {
       return dz.Right(r);
     });

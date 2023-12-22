@@ -20,7 +20,7 @@ class LocalValidatePicturesUseCaseImpl implements LocalValidatePicturesUseCase {
         return deleteResult.fold(
           /// Left
           (mapperFailure) {
-            return Left(mapperFailure.toDomainFailure);
+            return Left(mapperFailure.fromMapperToDomain);
           },
 
           /// Right
@@ -40,7 +40,7 @@ class LocalValidatePicturesUseCaseImpl implements LocalValidatePicturesUseCase {
             return deleteResult.fold(
               /// Left
               (domainFailure) {
-                return Left(mapperFailure.toDomainFailure);
+                return Left(mapperFailure.fromMapperToDomain);
               },
 
               /// Right

@@ -16,7 +16,7 @@ class LocalLoadLastTenDaysPicturesByDateUseCaseImpl
     final dataResult = await localStorage.fetch(itemKey);
     return dataResult.fold(
       /// Left
-      (mapperFailure) => Left(mapperFailure.toDomainFailure),
+      (mapperFailure) => Left(mapperFailure.fromMapperToDomain),
 
       /// Right
       (localData) {
@@ -28,7 +28,7 @@ class LocalLoadLastTenDaysPicturesByDateUseCaseImpl
             PictureMapper().fromMapListToEntityList(localData);
         return entityListResult.fold(
           /// Left
-          (mapperFailure) => Left(mapperFailure.toDomainFailure),
+          (mapperFailure) => Left(mapperFailure.fromMapperToDomain),
 
           /// Right
           (pictureEntity) => Right(pictureEntity),

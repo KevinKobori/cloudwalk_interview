@@ -1,7 +1,7 @@
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 extension HttpFailureToDomainFailureExtension on HttpFailure {
-  DomainFailure get toDomainFailure {
+  DomainFailure get fromHttpToDomain {
     switch (this) {
       case HttpFailure.badRequest:
         return DomainFailure.unexpected;

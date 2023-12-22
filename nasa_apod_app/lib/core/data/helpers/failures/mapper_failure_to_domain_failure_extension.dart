@@ -1,7 +1,7 @@
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 extension MapperFailureToDomainFailureExtension on MapperFailure {
-  DomainFailure get toDomainFailure {
+  DomainFailure get fromMapperToDomain {
     switch (this) {
       case MapperFailure.invalidJsonFormat:
         return DomainFailure.unexpected;

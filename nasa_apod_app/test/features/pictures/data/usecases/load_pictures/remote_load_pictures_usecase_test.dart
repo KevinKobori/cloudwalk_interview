@@ -8,7 +8,7 @@ import '../../../../../apod.dart';
 
 void main() {
   late PictureDatasourceImpl pictureDatasource;
-  late DeviceInfoHelper networkInfo;
+  late DeviceInfo networkInfo;
   late PictureRepositoryImpl pictureRepository;
   late RemoteLoadLastTenDaysPicturesByDateUseCaseImpl sut;
   late HttpClientSpy httpClient;
@@ -20,7 +20,7 @@ void main() {
     nowDate = DateTime.now();
     httpClient = HttpClientSpy();
     pictureDatasource = PictureDatasourceImpl(httpClient);
-    networkInfo = DeviceInfoHelperImpl(InternetConnectionChecker());
+    networkInfo = DeviceInfoImpl(InternetConnectionChecker());
     pictureRepository = PictureRepositoryImpl(
       networkInfo: networkInfo,
       pictureDatasource: pictureDatasource,

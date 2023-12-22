@@ -3,7 +3,7 @@ import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class PictureRepositoryImpl implements PictureRepository {
   final PictureDatasource pictureDatasource;
-  final DeviceInfoHelper networkInfo;
+  final DeviceInfo networkInfo;
 
   PictureRepositoryImpl({
     required this.pictureDatasource,
@@ -30,7 +30,7 @@ class PictureRepositoryImpl implements PictureRepository {
           return entityListResult.fold(
             /// Left
             (mapperFailure) {
-              return Left(mapperFailure.toDomainFailure);
+              return Left(mapperFailure.fromMapperToDomain);
             },
 
             /// Right
