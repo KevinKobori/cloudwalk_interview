@@ -4,7 +4,7 @@ import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class HttpClientSpy extends Mock implements HttpClient {
   When<Future<Either<HttpFailure, dynamic>>> mockRequestCall() =>
-      when(() => request(
+      when(() async => await request(
           url: any(named: 'url'),
           method: any(named: 'method'),
           body: any(named: 'body'),

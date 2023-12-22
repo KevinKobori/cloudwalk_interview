@@ -115,7 +115,7 @@ void main() {
 
     test('When load data should throw UnexpectedFailure if localStorage throws',
         () async {
-      localStorage.mockFetchFailure(MapperFailure.conversionError);
+      localStorage.mockFetchFailure(LocalStorageFailure.unknownError);
 
       final result = await sut.call(null);
 

@@ -32,8 +32,9 @@ class PictureMapper {
                 PictureMapper().fromEntityToModel(pictureEntity);
             return pictureModelResult.fold(
               /// Left
-              (_) {
+              (mapperFailure) {
                 return;
+                // return Left(mapperFailure); // TODO: Need to fix this possibility of return an error during the proccess
               },
 
               /// Right

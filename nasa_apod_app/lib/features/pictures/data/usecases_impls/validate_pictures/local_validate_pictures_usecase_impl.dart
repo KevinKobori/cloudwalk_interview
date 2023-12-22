@@ -19,8 +19,8 @@ class LocalValidatePicturesUseCaseImpl implements LocalValidatePicturesUseCase {
         final deleteResult = await localStorage.delete(itemKey);
         return deleteResult.fold(
           /// Left
-          (mapperFailure) {
-            return Left(mapperFailure.fromMapperToDomain);
+          (localStorageFailure) {
+            return Left(localStorageFailure.fromLocalStorageToDomain);
           },
 
           /// Right

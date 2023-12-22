@@ -24,9 +24,8 @@ class LocalSavePicturesUseCaseImpl implements LocalSavePicturesUseCase {
             await localStorage.save(itemKey: itemKey, itemValue: mapList);
         return saveResult.fold(
           /// Left
-          (mapperFailure) {
-            return Left(mapperFailure.fromMapperToDomain);
-          },
+          (localStorageFailure) =>
+              Left(localStorageFailure.fromLocalStorageToDomain),
 
           /// Right
           (_) => const Right(null),

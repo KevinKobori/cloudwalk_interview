@@ -47,7 +47,7 @@ void main() {
         () async {
       final mapList = DeviceLocalStorageFactory().generateValidPictureMapList();
 
-      localStorage.mockSaveFailure(MapperFailure.conversionError);
+      localStorage.mockSaveFailure(LocalStorageFailure.unknownError);
 
       late final List<PictureEntity> matcher;
 
