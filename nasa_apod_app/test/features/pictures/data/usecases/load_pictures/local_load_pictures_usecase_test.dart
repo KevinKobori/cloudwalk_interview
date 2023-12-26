@@ -33,7 +33,7 @@ void main() {
       final data = DeviceLocalStorageFactory().generateValidPictureMapList();
       final mapList = data;
       late final List<PictureEntity> matcher;
-      PictureMapper().fromMapListToEntityList(mapList).fold(
+      PictureMapper.fromMapListToEntityList(mapList).fold(
         (domainFailure) {},
         (pictureEntityList) {
           matcher = pictureEntityList;

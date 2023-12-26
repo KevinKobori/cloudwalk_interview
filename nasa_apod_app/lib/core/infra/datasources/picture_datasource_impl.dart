@@ -34,7 +34,7 @@ class PictureDatasourceImpl implements PictureDatasource {
               /// Right
               (mapList) {
                 final modelListResult =
-                    PictureMapper().fromMapListToModelList(mapList);
+                    PictureMapper.fromMapListToModelList(mapList);
                 return modelListResult.fold(
                   /// Left
                   (mapperFailure) => Left(mapperFailure.fromMapperToDomain),
@@ -68,7 +68,7 @@ class PictureDatasourceImpl implements PictureDatasource {
 
           /// Right
           (pictureMap) {
-            final modelResult = PictureMapper()
+            final modelResult = PictureMapper
                 .fromMapToModel(pictureMap as Map<String, dynamic>);
             return modelResult.fold(
               /// Left

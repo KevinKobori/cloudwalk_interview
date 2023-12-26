@@ -26,7 +26,7 @@ void main() {
 
       localStorage.mockSaveSuccess();
 
-      await PictureMapper().fromMapListToEntityList(mapList).fold(
+      await PictureMapper.fromMapListToEntityList(mapList).fold(
         (domainFailure) {},
         (pictureEntityList) async {
           final result = await sut.call(pictureEntityList);
@@ -51,7 +51,7 @@ void main() {
 
       late final List<PictureEntity> matcher;
 
-      PictureMapper().fromMapListToEntityList(mapList).fold(
+      PictureMapper.fromMapListToEntityList(mapList).fold(
         (domainFailure) {},
         (pictureEntityList) {
           matcher = pictureEntityList;

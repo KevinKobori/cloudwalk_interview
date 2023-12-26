@@ -32,7 +32,7 @@ class LocalValidatePicturesUseCaseImpl implements LocalValidatePicturesUseCase {
 
       /// Right
       (data) {
-        final modelListResult = PictureMapper().fromMapListToModelList(data);
+        final modelListResult = PictureMapper.fromMapListToModelList(data);
         return modelListResult.fold(
           /// Left
           (mapperFailure) async {

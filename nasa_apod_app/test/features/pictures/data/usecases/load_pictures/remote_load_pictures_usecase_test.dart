@@ -78,7 +78,7 @@ void main() {
 
     late final List<PictureEntity> matcher;
 
-    PictureMapper().fromMapListToEntityList(mapList).fold(
+    PictureMapper.fromMapListToEntityList(mapList).fold(
       (domainFailure) {},
       (pictureEntityList) {
         matcher = pictureEntityList;

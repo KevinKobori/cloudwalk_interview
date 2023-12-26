@@ -29,7 +29,7 @@ class PicturesCubit extends Cubit<PicturesState> implements PicturesPresenter {
       (domainFailure) => Left(domainFailure),
       (pictureEntityList) {
         final pictureViewModelListResult =
-            PictureMapper().fromEntityListToViewModelList(pictureEntityList);
+            PictureMapper.fromEntityListToViewModelList(pictureEntityList);
         return pictureViewModelListResult.fold(
           (mapperFailure) => Left(mapperFailure.fromMapperToDomain),
           (pictureViewModelList) =>
@@ -62,7 +62,7 @@ class PicturesCubit extends Cubit<PicturesState> implements PicturesPresenter {
       (domainFailure) => Left(domainFailure),
       (pictureModel) {
         final pictureViewModelResult =
-            PictureMapper().fromModelToViewModel(pictureModel);
+            PictureMapper.fromModelToViewModel(pictureModel);
         return pictureViewModelResult.fold(
           (mapperFailure) => Left(mapperFailure.fromMapperToDomain),
           (pictureViewModel) => Right([pictureViewModel]),
