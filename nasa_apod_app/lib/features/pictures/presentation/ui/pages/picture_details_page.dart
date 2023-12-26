@@ -33,9 +33,9 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
         (dynamic pictureMap) => pictureMap['date'] == widget.pictureDate);
     final pictureMap = pictureMapList[pictureMapIndex];
 
-    final viewModelResult = PictureMapper.fromMapToViewModel(pictureMap);
+    final viewModelResult = PictureMapper.fromJsonToViewModel(pictureMap);
     return viewModelResult.fold((l) {
-      return dz.Left(l.fromMapperToDomain);
+      return dz.Left(l.fromJsonperToDomain);
     }, (r) {
       return dz.Right(r);
     });

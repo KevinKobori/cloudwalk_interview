@@ -13,10 +13,10 @@ class LocalSavePicturesUseCaseImpl implements LocalSavePicturesUseCase {
   @override
   Future<Either<DomainFailure, void>> call(
       List<PictureEntity> pictureEntityList) async {
-    final result = PictureMapper.fromEntityListToMapList(pictureEntityList);
+    final result = PictureMapper.fromEntityListToJsonList(pictureEntityList);
     return await result.fold(
       /// Left
-      (mapperFailure) => Left(mapperFailure.fromMapperToDomain),
+      (mapperFailure) => Left(mapperFailure.fromJsonperToDomain),
 
       /// Right
       (mapList) async {

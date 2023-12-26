@@ -35,7 +35,7 @@ class JsonMapper {
   }
 
   static Either<MapperFailure, List<Map<String, dynamic>>>
-      fromDynamicListToMapList(dynamic data) {
+      fromDynamicListToJsonList(dynamic data) {
     try {
       final list = List<Map<String, dynamic>>.from(
         (data as List<dynamic>).map(

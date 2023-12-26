@@ -126,7 +126,7 @@ class PictureMapper {
   /// fromViewModelListToEntityList
   ///
   /// External <<< FROM <<< Data
-  static Either<MapperFailure, Map<String, dynamic>> fromModelToMap(
+  static Either<MapperFailure, Map<String, dynamic>> fromModelToJson(
       PictureModel model) {
     return Right(<String, dynamic>{
       'copyright': model.copyright,
@@ -141,11 +141,11 @@ class PictureMapper {
   }
 
   static Either<MapperFailure, List<Map<String, dynamic>>>
-      fromModelListToMapList(List<PictureModel> pictureModelList) {
+      fromModelListToJsonList(List<PictureModel> pictureModelList) {
     try {
       final result = List<Map<String, dynamic>>.from(pictureModelList.map(
           (pictureModel) => PictureMapper
-              .fromModelToMap(pictureModel)
+              .fromModelToJson(pictureModel)
               .fold((l) => l, (r) => r))).toList();
       return Right(result);
     } catch (_) {
@@ -154,7 +154,7 @@ class PictureMapper {
   }
 
   /// External >>> TO >>> Data
-  static Either<MapperFailure, PictureModel> fromMapToModel(
+  static Either<MapperFailure, PictureModel> fromJsonToModel(
       Map<String, dynamic> map) {
     try {
       if (!map.keys.toSet().containsAll([
@@ -183,11 +183,11 @@ class PictureMapper {
     }
   }
 
-  static Either<MapperFailure, List<PictureModel>> fromMapListToModelList(
+  static Either<MapperFailure, List<PictureModel>> fromJsonListToModelList(
       List<Map<String, dynamic>> mapList) {
     try {
       final result = List<PictureModel>.from(mapList.map((map) =>
-              PictureMapper.fromMapToModel(map).fold((l) => l, (r) => r)))
+              PictureMapper.fromJsonToModel(map).fold((l) => l, (r) => r)))
           .toList();
       return Right(result);
     } catch (_) {
@@ -197,9 +197,9 @@ class PictureMapper {
 
   /// [REMOVE_OTHERS]
   /// External > Domain [REMOVE_THIS]
-  static Either<MapperFailure, PictureEntity> fromMapToEntity(
+  static Either<MapperFailure, PictureEntity> fromJsonToEntity(
       Map<String, dynamic> pictureMap) {
-    return PictureMapper.fromMapToModel(pictureMap).fold((mapperFailure) {
+    return PictureMapper.fromJsonToModel(pictureMap).fold((mapperFailure) {
       return Left(mapperFailure);
     }, (pictureModel) {
       return PictureMapper.fromModelToEntity(pictureModel).fold(
@@ -214,9 +214,9 @@ class PictureMapper {
   }
 
   /// [REMOVE_OTHERS]
-  static Either<MapperFailure, List<PictureEntity>> fromMapListToEntityList(
+  static Either<MapperFailure, List<PictureEntity>> fromJsonListToEntityList(
       List<Map<String, dynamic>> data) {
-    return PictureMapper.fromMapListToModelList(data).fold(
+    return PictureMapper.fromJsonListToModelList(data).fold(
       /// Left
       (mapperFailure) {
         return Left(mapperFailure);
@@ -233,9 +233,9 @@ class PictureMapper {
   }
 
   /// External > Presenter [REMOVE_THIS]
-  static Either<MapperFailure, PictureViewModel> fromMapToViewModel(
+  static Either<MapperFailure, PictureViewModel> fromJsonToViewModel(
       Map<String, dynamic> pictureMap) {
-    final asd = fromMapToEntity(pictureMap);
+    final asd = fromJsonToEntity(pictureMap);
 
     return asd.fold(
       (mapperFailure) {
@@ -262,13 +262,13 @@ class PictureMapper {
 
   /// Domain > External [REMOVE_THIS]
   static Either<MapperFailure, List<Map<String, dynamic>>>
-      fromEntityListToMapList(List<PictureEntity> pictureEntityList) {
+      fromEntityListToJsonList(List<PictureEntity> pictureEntityList) {
     return PictureMapper.fromEntityListToModelList(pictureEntityList).fold(
       (mapperFailure) {
         return Left(mapperFailure);
       },
       (pictureModelList) {
-        return PictureMapper.fromModelListToMapList(pictureModelList).fold(
+        return PictureMapper.fromModelListToJsonList(pictureModelList).fold(
           (mapperFailure) {
             return Left(mapperFailure);
           },

@@ -21,23 +21,23 @@ class PictureDatasourceImpl implements PictureDatasource {
         final dynamicListResult = JsonMapper.tryDecode(data);
         return dynamicListResult.fold(
           /// Left
-          (mapperFailure) => Left(mapperFailure.fromMapperToDomain),
+          (mapperFailure) => Left(mapperFailure.fromJsonperToDomain),
 
           /// Right
           (dynamicList) {
             final mapListResult =
-                JsonMapper.fromDynamicListToMapList(dynamicList);
+                JsonMapper.fromDynamicListToJsonList(dynamicList);
             return mapListResult.fold(
               /// Left
-              (mapperFailure) => Left(mapperFailure.fromMapperToDomain),
+              (mapperFailure) => Left(mapperFailure.fromJsonperToDomain),
 
               /// Right
               (mapList) {
                 final modelListResult =
-                    PictureMapper.fromMapListToModelList(mapList);
+                    PictureMapper.fromJsonListToModelList(mapList);
                 return modelListResult.fold(
                   /// Left
-                  (mapperFailure) => Left(mapperFailure.fromMapperToDomain),
+                  (mapperFailure) => Left(mapperFailure.fromJsonperToDomain),
 
                   /// Right
                   (picturesList) => Right(picturesList),
@@ -64,15 +64,15 @@ class PictureDatasourceImpl implements PictureDatasource {
         final mapResult = JsonMapper.tryDecode(data);
         return mapResult.fold(
           /// Left
-          (mapperFailure) => Left(mapperFailure.fromMapperToDomain),
+          (mapperFailure) => Left(mapperFailure.fromJsonperToDomain),
 
           /// Right
           (pictureMap) {
             final modelResult = PictureMapper
-                .fromMapToModel(pictureMap as Map<String, dynamic>);
+                .fromJsonToModel(pictureMap as Map<String, dynamic>);
             return modelResult.fold(
               /// Left
-              (mapperFailure) => Left(mapperFailure.fromMapperToDomain),
+              (mapperFailure) => Left(mapperFailure.fromJsonperToDomain),
 
               /// Right
               (pictureModel) => Right(pictureModel),

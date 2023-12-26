@@ -26,10 +26,10 @@ class LocalLoadLastTenDaysPicturesByDateUseCaseImpl
         }
 
         final entityListResult =
-            PictureMapper.fromMapListToEntityList(localData);
+            PictureMapper.fromJsonListToEntityList(localData);
         return entityListResult.fold(
           /// Left
-          (mapperFailure) => Left(mapperFailure.fromMapperToDomain),
+          (mapperFailure) => Left(mapperFailure.fromJsonperToDomain),
 
           /// Right
           (pictureEntity) => Right(pictureEntity),

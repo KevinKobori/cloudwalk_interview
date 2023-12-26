@@ -28,7 +28,7 @@ class PictureRepositoryImpl implements PictureRepository {
           return entityListResult.fold(
             /// Left
             (mapperFailure) {
-              return Left(mapperFailure.fromMapperToDomain);
+              return Left(mapperFailure.fromJsonperToDomain);
             },
 
             /// Right
