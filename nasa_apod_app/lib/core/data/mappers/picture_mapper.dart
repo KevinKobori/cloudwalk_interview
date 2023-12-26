@@ -4,21 +4,21 @@ import 'package:nasa_apod_app/nasa_apod_app.dart';
 class PictureMapper {
   /// Data <<< FROM <<< Domain
   static Either<MapperFailure, PictureModel> fromEntityToModel(
-      PictureEntity entity) {
+      PictureEntity pictureEntity) {
     return Right(
       PictureModel(
-        copyright: entity.copyright,
+        copyright: pictureEntity.copyright,
         date: DateTime(
-          entity.date.year,
-          entity.date.month,
-          entity.date.day,
+          pictureEntity.date.year,
+          pictureEntity.date.month,
+          pictureEntity.date.day,
         ),
-        explanation: entity.explanation,
-        hdurl: entity.hdurl,
-        mediaType: entity.mediaType,
-        serviceVersion: entity.serviceVersion,
-        title: entity.title,
-        url: entity.url,
+        explanation: pictureEntity.explanation,
+        hdurl: pictureEntity.hdurl,
+        mediaType: pictureEntity.mediaType,
+        serviceVersion: pictureEntity.serviceVersion,
+        title: pictureEntity.title,
+        url: pictureEntity.url,
       ),
     );
   }
@@ -54,20 +54,20 @@ class PictureMapper {
 
   /// Data >>> TO >>> Domain
   static Either<MapperFailure, PictureEntity> fromModelToEntity(
-      PictureModel model) {
+      PictureModel pictureModel) {
     return Right(PictureEntity(
-      copyright: model.copyright,
+      copyright: pictureModel.copyright,
       date: ApodDate(
-        day: model.date.day,
-        month: model.date.month,
-        year: model.date.year,
+        day: pictureModel.date.day,
+        month: pictureModel.date.month,
+        year: pictureModel.date.year,
       ),
-      explanation: model.explanation,
-      hdurl: model.hdurl,
-      mediaType: model.mediaType,
-      serviceVersion: model.serviceVersion,
-      title: model.title,
-      url: model.url,
+      explanation: pictureModel.explanation,
+      hdurl: pictureModel.hdurl,
+      mediaType: pictureModel.mediaType,
+      serviceVersion: pictureModel.serviceVersion,
+      title: pictureModel.title,
+      url: pictureModel.url,
     ));
   }
 
@@ -77,9 +77,9 @@ class PictureMapper {
       final result = List<PictureEntity>.from(
         pictureModelList.map((pictureModel) {
           return PictureMapper.fromModelToEntity(pictureModel).fold(
-                (mapperFailure) => mapperFailure,
-                (pictureEntity) => pictureEntity,
-              );
+            (mapperFailure) => mapperFailure,
+            (pictureEntity) => pictureEntity,
+          );
         }),
       ).toList();
       return Right(result);
@@ -90,16 +90,16 @@ class PictureMapper {
 
   /// Presentation <<< FROM <<< Domain
   static Either<MapperFailure, PictureViewModel> fromEntityToViewModel(
-      PictureEntity entity) {
+      PictureEntity pictureEntity) {
     return Right(PictureViewModel(
-      copyright: entity.copyright,
-      date: entity.date.value,
-      explanation: entity.explanation,
-      hdurl: entity.hdurl,
-      mediaType: entity.mediaType,
-      serviceVersion: entity.serviceVersion,
-      title: entity.title,
-      url: entity.url,
+      copyright: pictureEntity.copyright,
+      date: pictureEntity.date.value,
+      explanation: pictureEntity.explanation,
+      hdurl: pictureEntity.hdurl,
+      mediaType: pictureEntity.mediaType,
+      serviceVersion: pictureEntity.serviceVersion,
+      title: pictureEntity.title,
+      url: pictureEntity.url,
     ));
   }
 
@@ -110,9 +110,9 @@ class PictureMapper {
         pictureEntityList.map(
           (pictureEntity) =>
               PictureMapper.fromEntityToViewModel(pictureEntity).fold(
-                    (pictureEntity) => pictureEntity,
-                    (mapperFailure) => mapperFailure,
-                  ),
+            (pictureEntity) => pictureEntity,
+            (mapperFailure) => mapperFailure,
+          ),
         ),
       ).toList();
       return Right(result);
@@ -127,25 +127,27 @@ class PictureMapper {
   ///
   /// External <<< FROM <<< Data
   static Either<MapperFailure, Map<String, dynamic>> fromModelToJson(
-      PictureModel model) {
-    return Right(<String, dynamic>{
-      'copyright': model.copyright,
-      'date': '${model.date.year}-${model.date.month}-${model.date.day}',
-      'explanation': model.explanation,
-      'hdurl': model.hdurl,
-      'media_type': model.mediaType,
-      'service_version': model.serviceVersion,
-      'title': model.title,
-      'url': model.url,
-    });
+      PictureModel pictureModel) {
+    return Right(
+        // PictureModel.toJson(pictureModel)
+        <String, dynamic>{
+          'copyright': pictureModel.copyright,
+          'date':
+              '${pictureModel.date.year}-${pictureModel.date.month}-${pictureModel.date.day}',
+          'explanation': pictureModel.explanation,
+          'hdurl': pictureModel.hdurl,
+          'media_type': pictureModel.mediaType,
+          'service_version': pictureModel.serviceVersion,
+          'title': pictureModel.title,
+          'url': pictureModel.url,
+        });
   }
 
   static Either<MapperFailure, List<Map<String, dynamic>>>
       fromModelListToJsonList(List<PictureModel> pictureModelList) {
     try {
       final result = List<Map<String, dynamic>>.from(pictureModelList.map(
-          (pictureModel) => PictureMapper
-              .fromModelToJson(pictureModel)
+          (pictureModel) => PictureMapper.fromModelToJson(pictureModel)
               .fold((l) => l, (r) => r))).toList();
       return Right(result);
     } catch (_) {
@@ -155,9 +157,9 @@ class PictureMapper {
 
   /// External >>> TO >>> Data
   static Either<MapperFailure, PictureModel> fromJsonToModel(
-      Map<String, dynamic> map) {
+      Map<String, dynamic> pictureJson) {
     try {
-      if (!map.keys.toSet().containsAll([
+      if (!pictureJson.keys.toSet().containsAll([
         'date',
         'explanation',
         'media_type',
@@ -168,15 +170,16 @@ class PictureMapper {
         return const Left(MapperFailure.conversionError);
       }
       return Right(PictureModel(
-        copyright: map['copyright'] ?? '',
-        date:
-            map['date'] != null ? DateTime.parse(map['date']) : DateTime.now(),
-        explanation: map['explanation'] ?? '',
-        hdurl: map['hdurl'] ?? '',
-        mediaType: map['media_type'] ?? '',
-        serviceVersion: map['service_version'] ?? '',
-        title: map['title'] ?? '',
-        url: map['url'] ?? '',
+        copyright: pictureJson['copyright'] ?? '',
+        date: pictureJson['date'] != null
+            ? DateTime.parse(pictureJson['date'])
+            : DateTime.now(),
+        explanation: pictureJson['explanation'] ?? '',
+        hdurl: pictureJson['hdurl'] ?? '',
+        mediaType: pictureJson['media_type'] ?? '',
+        serviceVersion: pictureJson['service_version'] ?? '',
+        title: pictureJson['title'] ?? '',
+        url: pictureJson['url'] ?? '',
       ));
     } catch (_) {
       return const Left(MapperFailure.conversionError);
@@ -186,10 +189,12 @@ class PictureMapper {
   static Either<MapperFailure, List<PictureModel>> fromJsonListToModelList(
       List<Map<String, dynamic>> picturesJsonList) {
     try {
-      final result = List<PictureModel>.from(picturesJsonList.map((map) =>
-              PictureMapper.fromJsonToModel(map).fold((l) => l, (r) => r)))
-          .toList();
-      return Right(result);
+      final picturesModelList = List<PictureModel>.from(picturesJsonList.map(
+          (pisctureJson) => PictureMapper.fromJsonToModel(pisctureJson).fold(
+                (mapperFailure) => mapperFailure,
+                (pisctureModel) => pisctureModel,
+              ))).toList();
+      return Right(picturesModelList);
     } catch (_) {
       return const Left(MapperFailure.conversionError);
     }
@@ -215,8 +220,8 @@ class PictureMapper {
 
   /// [REMOVE_OTHERS]
   static Either<MapperFailure, List<PictureEntity>> fromJsonListToEntityList(
-      List<Map<String, dynamic>> data) {
-    return PictureMapper.fromJsonListToModelList(data).fold(
+      List<Map<String, dynamic>> pictureJson) {
+    return PictureMapper.fromJsonListToModelList(pictureJson).fold(
       /// Left
       (mapperFailure) {
         return Left(mapperFailure);

@@ -73,8 +73,8 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
       backgroundColor: Colors.black,
       body: ValueListenableBuilder(
         valueListenable: rxPictureViewModel,
-        builder: (_, viewModel, __) {
-          final picture = widget.pictureViewModel ?? viewModel;
+        builder: (_, pictureViewModel, __) {
+          final picture = widget.pictureViewModel ?? pictureViewModel;
           return ListView(
             children: [
               cni.CachedNetworkImage(
