@@ -59,26 +59,26 @@ void main() {
 
   test('Should return pictures list on 200 with valid data', () async {
     final data =
-        json.encode(ApodResponsesFactory().generateValidPictureMapList());
+        json.encode(ApodResponsesFactory().generateValidPictureJsonList());
 
     httpClient.mockRequestSuccess(data);
 
     final dynamicList = json.decode(data);
 
-    final resultMapList = JsonMapper.fromDynamicListToJsonList(dynamicList);
+    final picturesJsonListResult = JsonMapper.fromDynamicListToJsonList(dynamicList);
 
-    late final List<Map<String, dynamic>> mapList;
+    late final List<Map<String, dynamic>> picturesJsonList;
 
-    resultMapList.fold(
+    picturesJsonListResult.fold(
       (l) {},
       (r) {
-        mapList = r;
+        picturesJsonList = r;
       },
     );
 
     late final List<PictureEntity> matcher;
 
-    PictureMapper.fromJsonListToEntityList(mapList).fold(
+    PictureMapper.fromJsonListToEntityList(picturesJsonList).fold(
       (domainFailure) {},
       (pictureEntityList) {
         matcher = pictureEntityList;
@@ -103,7 +103,7 @@ void main() {
       'Should throw UnexpectedFailure if HttpClient returns 200 with invalid data',
       () async {
     httpClient.mockRequestSuccess(
-        json.encode(ApodResponsesFactory().generateInvalidPictureMapList()));
+        json.encode(ApodResponsesFactory().generateInvalidPictureJsonList()));
 
     final result = await sut.call(nowDate);
 

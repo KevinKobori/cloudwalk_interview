@@ -19,9 +19,9 @@ class LocalSavePicturesUseCaseImpl implements LocalSavePicturesUseCase {
       (mapperFailure) => Left(mapperFailure.fromJsonperToDomain),
 
       /// Right
-      (mapList) async {
+      (picturesJsonList) async {
         final saveResult =
-            await localStorage.save(itemKey: itemKey, itemValue: mapList);
+            await localStorage.save(itemKey: itemKey, itemValue: picturesJsonList);
         return saveResult.fold(
           /// Left
           (localStorageFailure) =>

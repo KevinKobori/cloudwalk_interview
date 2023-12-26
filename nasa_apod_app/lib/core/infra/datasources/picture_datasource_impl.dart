@@ -25,16 +25,16 @@ class PictureDatasourceImpl implements PictureDatasource {
 
           /// Right
           (dynamicList) {
-            final mapListResult =
+            final picturesJsonListResult =
                 JsonMapper.fromDynamicListToJsonList(dynamicList);
-            return mapListResult.fold(
+            return picturesJsonListResult.fold(
               /// Left
               (mapperFailure) => Left(mapperFailure.fromJsonperToDomain),
 
               /// Right
-              (mapList) {
+              (picturesJsonList) {
                 final modelListResult =
-                    PictureMapper.fromJsonListToModelList(mapList);
+                    PictureMapper.fromJsonListToModelList(picturesJsonList);
                 return modelListResult.fold(
                   /// Left
                   (mapperFailure) => Left(mapperFailure.fromJsonperToDomain),
@@ -67,9 +67,9 @@ class PictureDatasourceImpl implements PictureDatasource {
           (mapperFailure) => Left(mapperFailure.fromJsonperToDomain),
 
           /// Right
-          (pictureMap) {
+          (pictureJson) {
             final modelResult = PictureMapper
-                .fromJsonToModel(pictureMap as Map<String, dynamic>);
+                .fromJsonToModel(pictureJson as Map<String, dynamic>);
             return modelResult.fold(
               /// Left
               (mapperFailure) => Left(mapperFailure.fromJsonperToDomain),

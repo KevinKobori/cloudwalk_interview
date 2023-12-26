@@ -25,15 +25,15 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
 
   Future<dz.Either<DomainFailure, PictureViewModel>>
       getPictureViewModelFromLocalStorage() async {
-    final pictureMapList =
+    final pictureJsonList =
         await ls.LocalStorage(localStorageConfigKeyPathFactory())
             .getItem(localLoadPicturesUseCaseFactory().itemKey);
 
-    final int pictureMapIndex = pictureMapList.indexWhere(
-        (dynamic pictureMap) => pictureMap['date'] == widget.pictureDate);
-    final pictureMap = pictureMapList[pictureMapIndex];
+    final int pictureMapIndex = pictureJsonList.indexWhere(
+        (dynamic pictureJson) => pictureJson['date'] == widget.pictureDate);
+    final pictureJson = pictureJsonList[pictureMapIndex];
 
-    final viewModelResult = PictureMapper.fromJsonToViewModel(pictureMap);
+    final viewModelResult = PictureMapper.fromJsonToViewModel(pictureJson);
     return viewModelResult.fold((l) {
       return dz.Left(l.fromJsonperToDomain);
     }, (r) {

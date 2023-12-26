@@ -20,7 +20,7 @@ void main() {
 
   group('Loading', () {
     test('When load data should call localStorage with correct key', () async {
-      final data = DeviceLocalStorageFactory().generateValidPictureMapList();
+      final data = DeviceLocalStorageFactory().generateValidPictureJsonList();
       localStorage.mockFetchSuccess(data);
 
       await sut.call(null);
@@ -30,10 +30,10 @@ void main() {
 
     test('When load data should return a list of pictures on success',
         () async {
-      final data = DeviceLocalStorageFactory().generateValidPictureMapList();
-      final mapList = data;
+      final data = DeviceLocalStorageFactory().generateValidPictureJsonList();
+      final picturesJsonList = data;
       late final List<PictureEntity> matcher;
-      PictureMapper.fromJsonListToEntityList(mapList).fold(
+      PictureMapper.fromJsonListToEntityList(picturesJsonList).fold(
         (domainFailure) {},
         (pictureEntityList) {
           matcher = pictureEntityList;
@@ -77,7 +77,7 @@ void main() {
         'When load data should throw UnexpectedFailure if localStorage is isvalid',
         () async {
       localStorage.mockFetchSuccess(
-          DeviceLocalStorageFactory().generateInvalidPictureMapList());
+          DeviceLocalStorageFactory().generateInvalidPictureJsonList());
 
       final result = await sut.call(null);
 
@@ -97,7 +97,7 @@ void main() {
         'When load data should throw UnexpectedFailure if localStorage is incomplete',
         () async {
       localStorage.mockFetchSuccess(
-          DeviceLocalStorageFactory().generateIncompletePictureMapList());
+          DeviceLocalStorageFactory().generateIncompletePictureJsonList());
 
       final result = await sut.call(null);
 

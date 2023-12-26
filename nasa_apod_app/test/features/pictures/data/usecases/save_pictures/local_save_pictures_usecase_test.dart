@@ -21,12 +21,12 @@ void main() {
   group('Saving', () {
     test('When save data should call localStorage with correct values',
         () async {
-      final data = DeviceLocalStorageFactory().generateValidPictureMapList();
-      final mapList = data;
+      final data = DeviceLocalStorageFactory().generateValidPictureJsonList();
+      final picturesJsonList = data;
 
       localStorage.mockSaveSuccess();
 
-      await PictureMapper.fromJsonListToEntityList(mapList).fold(
+      await PictureMapper.fromJsonListToEntityList(picturesJsonList).fold(
         (domainFailure) {},
         (pictureEntityList) async {
           final result = await sut.call(pictureEntityList);
@@ -45,13 +45,13 @@ void main() {
 
     test('When save data should throw UnexpectedFailure if save throws',
         () async {
-      final mapList = DeviceLocalStorageFactory().generateValidPictureMapList();
+      final picturesJsonList = DeviceLocalStorageFactory().generateValidPictureJsonList();
 
       localStorage.mockSaveFailure(LocalStorageFailure.unknownError);
 
       late final List<PictureEntity> matcher;
 
-      PictureMapper.fromJsonListToEntityList(mapList).fold(
+      PictureMapper.fromJsonListToEntityList(picturesJsonList).fold(
         (domainFailure) {},
         (pictureEntityList) {
           matcher = pictureEntityList;
