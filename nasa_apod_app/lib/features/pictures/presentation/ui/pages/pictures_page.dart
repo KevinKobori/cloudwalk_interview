@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:gap/gap.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class PicturesPage extends StatefulWidget {
@@ -29,7 +28,7 @@ class _PicturesPageState extends State<PicturesPage> {
                 onPressed: picturesPresenter.loadPictures,
                 child: const Text('List all'),
               ),
-              const Gap(16),
+              AppGaps.medium,
               DatePickerComponent(picturesPresenter),
             ],
           ),

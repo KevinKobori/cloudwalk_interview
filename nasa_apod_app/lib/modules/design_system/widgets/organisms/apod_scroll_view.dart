@@ -25,7 +25,7 @@ class ApodScrollView extends StatelessWidget {
             child: Center(child: header ?? const SizedBox()),
           ),
           Padding(
-            padding: UIPaddings.scrolledScreen,
+            padding: AppPaddings.scrolledScreen,
             child: body,
           ),
           AppGaps.extraLarge,

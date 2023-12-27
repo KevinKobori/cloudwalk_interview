@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart' as cni;
 import 'package:dartz/dartz.dart' as dz;
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:localstorage/localstorage.dart' as ls;
-import 'package:nasa_apod_app/core/presentation/ui/managers/navigator_manager.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class PictureDetailsPage extends StatefulWidget {
@@ -102,7 +100,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const Gap(16),
+                    AppGaps.medium,
                     Text(
                       picture.date,
                       style: const TextStyle(
@@ -112,7 +110,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                         fontFamily: 'Secular_One',
                       ),
                     ),
-                    const Gap(8),
+                    AppGaps.small,
                     Text(
                       picture.title,
                       style: const TextStyle(
@@ -122,7 +120,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const Gap(24),
+                    AppGaps.large,
                     Text(
                       picture.explanation,
                       style: const TextStyle(
@@ -131,7 +129,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                           fontFamily: 'Secular_One',
                           fontWeight: FontWeight.w400),
                     ),
-                    const Gap(32),
+                    AppGaps.extraLarge,
                   ],
                 ),
               ),

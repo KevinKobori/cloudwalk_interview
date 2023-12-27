@@ -1,11 +1,11 @@
-import 'package:nasa_apod_app/nasa_apod_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 Future<void> showMewnuDialog({
   required BuildContext context,
-  Widget? header,
   required Widget child,
+  Widget? header,
 }) async {
   SchedulerBinding.instance.addPostFrameCallback((_) async {
     await showDialog<Widget>(
@@ -13,7 +13,7 @@ Future<void> showMewnuDialog({
       barrierDismissible: false,
       builder: (context) => SimpleDialog(
         backgroundColor: Colors.transparent,
-        insetPadding: UIPaddings.staticScreen,
+        insetPadding: AppPaddings.staticScreen,
         elevation: 0,
         contentPadding: EdgeInsets.zero,
         children: <Widget>[

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:nasa_apod_app/core/presentation/design_system/constants/app_gaps.dart';
+import 'package:nasa_apod_app/modules/design_system/theme/data/app_gaps.dart';
 
 Future<void> showLoadingDialog(
     {required BuildContext context, required String description}) async {
