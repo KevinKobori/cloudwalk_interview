@@ -1,3 +1,3 @@
-abstract class DeviceInfo {
-  Future<bool> get isConnected;
+mixin DeviceInfo {
+  Future<bool> isConnected();
 }

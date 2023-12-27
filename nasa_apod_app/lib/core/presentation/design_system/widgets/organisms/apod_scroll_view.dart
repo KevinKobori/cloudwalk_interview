@@ -1,12 +1,12 @@
-import 'package:nasa_apod_app/nasa_apod_app.dart';
 import 'package:flutter/material.dart';
+import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class ApodScrollView extends StatelessWidget {
   const ApodScrollView(
-      {super.key,
+      {required this.body,
+      super.key,
       this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
-      this.header,
-      required this.body});
+      this.header});
 
   final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
   final Widget? header;
@@ -19,7 +19,7 @@ class ApodScrollView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          UIBlancBox.verticalSpaceLarge,
+          AppGaps.large,
           SizedBox(
             height: 48,
             child: Center(child: header ?? const SizedBox()),
@@ -28,7 +28,7 @@ class ApodScrollView extends StatelessWidget {
             padding: UIPaddings.scrolledScreen,
             child: body,
           ),
-          UIBlancBox.verticalSpaceExtraLarge,
+          AppGaps.extraLarge,
         ],
       ),
     );

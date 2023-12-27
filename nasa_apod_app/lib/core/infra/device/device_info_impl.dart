@@ -1,11 +1,20 @@
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class DeviceInfoImpl implements DeviceInfo {
-  final InternetConnectionChecker connectionChecker;
+  final Connectivity connectionChecker;
 
   DeviceInfoImpl(this.connectionChecker);
 
   @override
-  Future<bool> get isConnected => connectionChecker.hasConnection;
+  Future<bool> isConnected() async {
+    final connectivityResult = await connectionChecker.checkConnectivity();
+    if (connectivityResult == ConnectivityResult.mobile) {
+      return true;
+    } else if (connectivityResult == ConnectivityResult.wifi) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

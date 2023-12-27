@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-class UIPaddings {
+class AppPaddings {
   static const double kPADDING24 = 24.0;
   static const double kPADDING16 = 16.0;
   static const double kPADDING8 = 8.0;

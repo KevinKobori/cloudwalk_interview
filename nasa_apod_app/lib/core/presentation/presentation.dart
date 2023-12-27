@@ -1,5 +1,5 @@
-export 'design_system/constants/ui_blanc_box.dart';
-export 'design_system/constants/ui_paddings.dart';
+export 'design_system/constants/app_gaps.dart';
+export 'design_system/constants/ui_paddingsdart';
 export 'design_system/widgets/organisms/apod_dialog_body.dart';
 export 'design_system/widgets/organisms/apod_scroll_view.dart';
 export 'design_system/widgets/organisms/date_picker_component.dart';

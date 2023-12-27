@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart' as cni;
 import 'package:dartz/dartz.dart' as dz;
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:localstorage/localstorage.dart' as ls;
 import 'package:nasa_apod_app/core/presentation/ui/managers/navigator_manager.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
@@ -45,13 +46,13 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       // if (widget.pictureViewModel == null) {
-        final result = await getPictureViewModelFromLocalStorage();
-        result.fold(
-          (domainFailure) {},
-          (pictureViewModel) {
-            rxPictureViewModel.value = pictureViewModel;
-          },
-        );
+      final result = await getPictureViewModelFromLocalStorage();
+      result.fold(
+        (domainFailure) {},
+        (pictureViewModel) {
+          rxPictureViewModel.value = pictureViewModel;
+        },
+      );
       // }
     });
     super.initState();
@@ -101,7 +102,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const SizedBox(height: 16),
+                    const Gap(16),
                     Text(
                       picture.date,
                       style: const TextStyle(
@@ -111,7 +112,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                         fontFamily: 'Secular_One',
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const Gap(8),
                     Text(
                       picture.title,
                       style: const TextStyle(
@@ -121,7 +122,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const Gap(24),
                     Text(
                       picture.explanation,
                       style: const TextStyle(
@@ -130,7 +131,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                           fontFamily: 'Secular_One',
                           fontWeight: FontWeight.w400),
                     ),
-                    const SizedBox(height: 32),
+                    const Gap(32),
                   ],
                 ),
               ),

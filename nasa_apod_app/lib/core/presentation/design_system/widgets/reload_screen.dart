@@ -17,7 +17,7 @@ class ReloadScreen extends StatelessWidget {
           Text(error,
               style: const TextStyle(fontSize: 16),
               textAlign: TextAlign.center),
-          const SizedBox(height: 10),
+          AppGaps.small,
           ElevatedButton(
             onPressed: reload,
             child: Text(I18n.strings.reload),

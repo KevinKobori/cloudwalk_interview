@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:nasa_apod_app/core/presentation/design_system/constants/app_gaps.dart';
 
 Future<void> showLoadingDialog(
     {required BuildContext context, required String description}) async {
@@ -15,7 +16,7 @@ Future<void> showLoadingDialog(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const CircularProgressIndicator(color: Colors.white),
-              const SizedBox(height: 10),
+              AppGaps.small,
               Text(
                 description,
                 textAlign: TextAlign.center,

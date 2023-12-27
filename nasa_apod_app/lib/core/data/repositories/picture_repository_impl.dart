@@ -13,7 +13,7 @@ class PictureRepositoryImpl implements PictureRepository {
   @override
   Future<Either<DomainFailure, List<PictureEntity>>> getLastTenDaysData(
       String url) async {
-    if (await networkInfo.isConnected) {
+    if (await networkInfo.isConnected()) {
       final resultDataSource =
           await pictureDatasource.fetchLastTenDaysData(url);
 

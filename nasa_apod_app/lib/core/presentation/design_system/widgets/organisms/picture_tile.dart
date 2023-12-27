@@ -58,7 +58,7 @@ class PictureTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const SizedBox(height: 16),
+                  AppGaps.medium,
                   Text(
                     pictureViewModel.date,
                     style: const TextStyle(
