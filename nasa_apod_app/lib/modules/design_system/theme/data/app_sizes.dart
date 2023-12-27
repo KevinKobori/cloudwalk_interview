@@ -1,13 +1,10 @@
-enum AppSizes {
-  zero(0),
-  extraSmall(4),
-  small(8),
-  semiSmall(12),
-  medium(16),
-  semiLarge(20),
-  large(24),
-  extraLarge(32);
-
-  final double value;
-  const AppSizes(this.value);
+class AppSizes {
+  static const double zero = 0;
+  static const double extraSmall = 4;
+  static const double small = 8;
+  static const double semiSmall = 12;
+  static const double medium = 16;
+  static const double semiLarge = 20;
+  static const double large = 24;
+  static const double extraLarge = 32;
 }
