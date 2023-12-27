@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class ReloadScreen extends StatelessWidget {
@@ -9,6 +8,8 @@ class ReloadScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final gap = DesignSystem.of(context).widgets.gap;
+
     return Padding(
       padding: const EdgeInsets.all(40),
       child: Column(
@@ -17,7 +18,7 @@ class ReloadScreen extends StatelessWidget {
           Text(error,
               style: const TextStyle(fontSize: 16),
               textAlign: TextAlign.center),
-          AppGaps.small,
+          gap.small,
           ElevatedButton(
             onPressed: reload,
             child: Text(I18n.strings.reload),

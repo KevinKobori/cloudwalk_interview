@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
@@ -15,6 +14,7 @@ class _PicturesPageState extends State<PicturesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final gap = DesignSystem.of(context).widgets.gap;
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -28,7 +28,7 @@ class _PicturesPageState extends State<PicturesPage> {
                 onPressed: picturesPresenter.loadPictures,
                 child: const Text('List all'),
               ),
-              AppGaps.medium,
+              gap.medium,
               DatePickerComponent(picturesPresenter),
             ],
           ),

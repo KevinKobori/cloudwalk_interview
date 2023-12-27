@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class PictureTile extends StatelessWidget {
@@ -14,6 +13,8 @@ class PictureTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final gap = DesignSystem.of(context).widgets.gap;
+
     return GestureDetector(
       onTap: () => picturesPresenter.pushToPictureDetails(pictureViewModel.date,
           pictureViewModel: pictureViewModel),
@@ -58,7 +59,7 @@ class PictureTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  AppGaps.medium,
+                  gap.medium,
                   Text(
                     pictureViewModel.date,
                     style: const TextStyle(

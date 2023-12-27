@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nasa_apod_app/core/presentation/ui/managers/navigator_manager.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class PicturesCubit extends Cubit<PicturesState> implements PicturesPresenter {

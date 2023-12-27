@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class ApodScrollView extends StatelessWidget {
@@ -14,12 +13,13 @@ class ApodScrollView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final gap = DesignSystem.of(context).widgets.gap;
     return SingleChildScrollView(
       keyboardDismissBehavior: keyboardDismissBehavior,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          AppGaps.large,
+          gap.large,
           SizedBox(
             height: 48,
             child: Center(child: header ?? const SizedBox()),
@@ -28,7 +28,7 @@ class ApodScrollView extends StatelessWidget {
             padding: AppPaddings.scrolledScreen,
             child: body,
           ),
-          AppGaps.extraLarge,
+          gap.extraLarge,
         ],
       ),
     );

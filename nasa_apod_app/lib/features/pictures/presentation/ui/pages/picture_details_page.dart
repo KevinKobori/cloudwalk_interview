@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart' as cni;
 import 'package:dartz/dartz.dart' as dz;
-import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart' as ls;
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
@@ -58,6 +57,8 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final gap = DesignSystem.of(context).widgets.gap;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -100,7 +101,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    AppGaps.medium,
+                    gap.medium,
                     Text(
                       picture.date,
                       style: const TextStyle(
@@ -110,7 +111,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                         fontFamily: 'Secular_One',
                       ),
                     ),
-                    AppGaps.small,
+                    gap.small,
                     Text(
                       picture.title,
                       style: const TextStyle(
@@ -120,7 +121,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    AppGaps.large,
+                    gap.large,
                     Text(
                       picture.explanation,
                       style: const TextStyle(
@@ -129,7 +130,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                           fontFamily: 'Secular_One',
                           fontWeight: FontWeight.w400),
                     ),
-                    AppGaps.extraLarge,
+                    gap.extraLarge,
                   ],
                 ),
               ),

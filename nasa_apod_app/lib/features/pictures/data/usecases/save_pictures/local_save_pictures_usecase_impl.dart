@@ -20,8 +20,8 @@ class LocalSavePicturesUseCaseImpl implements LocalSavePicturesUseCase {
 
       /// Right
       (picturesJsonList) async {
-        final saveResult =
-            await localStorage.save(itemKey: itemKey, itemValue: picturesJsonList);
+        final saveResult = await localStorage.save(
+            itemKey: itemKey, itemValue: picturesJsonList);
         return saveResult.fold(
           /// Left
           (localStorageFailure) =>

@@ -65,7 +65,8 @@ void main() {
 
     final dynamicList = json.decode(data);
 
-    final picturesJsonListResult = JsonMapper.fromDynamicListToJsonList(dynamicList);
+    final picturesJsonListResult =
+        JsonMapper.fromDynamicListToJsonList(dynamicList);
 
     late final List<Map<String, dynamic>> picturesJsonList;
 

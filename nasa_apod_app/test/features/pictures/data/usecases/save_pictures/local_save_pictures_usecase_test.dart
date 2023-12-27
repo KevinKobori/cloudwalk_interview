@@ -45,7 +45,8 @@ void main() {
 
     test('When save data should throw UnexpectedFailure if save throws',
         () async {
-      final picturesJsonList = DeviceLocalStorageFactory().generateValidPictureJsonList();
+      final picturesJsonList =
+          DeviceLocalStorageFactory().generateValidPictureJsonList();
 
       localStorage.mockSaveFailure(LocalStorageFailure.unknownError);
 
@@ -68,7 +69,9 @@ void main() {
       expect(
           actual,
           predicate((element) =>
-              element is DomainFailure && element == DomainFailure.unexpected && element == DomainFailure.unexpected));
+              element is DomainFailure &&
+              element == DomainFailure.unexpected &&
+              element == DomainFailure.unexpected));
     });
   });
 }

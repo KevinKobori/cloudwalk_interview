@@ -68,8 +68,8 @@ class PictureDatasourceImpl implements PictureDatasource {
 
           /// Right
           (pictureJson) {
-            final modelResult = PictureMapper
-                .fromJsonToModel(pictureJson as Map<String, dynamic>);
+            final modelResult = PictureMapper.fromJsonToModel(
+                pictureJson as Map<String, dynamic>);
             return modelResult.fold(
               /// Left
               (mapperFailure) => Left(mapperFailure.fromJsonperToDomain),
