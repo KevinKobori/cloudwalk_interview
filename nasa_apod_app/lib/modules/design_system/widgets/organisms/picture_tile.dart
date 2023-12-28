@@ -13,8 +13,6 @@ class PictureTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final gap = DesignSystem.of(context).widgets.gap;
-
     return GestureDetector(
       onTap: () => picturesPresenter.pushToPictureDetails(pictureViewModel.date,
           pictureViewModel: pictureViewModel),
@@ -59,7 +57,7 @@ class PictureTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  gap.medium,
+                  AppGapsSizes.medium,
                   Text(
                     pictureViewModel.date,
                     style: const TextStyle(

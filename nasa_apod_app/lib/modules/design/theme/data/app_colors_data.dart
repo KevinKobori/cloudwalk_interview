@@ -1,6 +1,6 @@
-part of darwin_theme_data;
+part of app_theme_data;
 
-class AppPaleteColorsData {
+class AppPaletteColorsData {
   static const blackChocolate = Color(0x1919190A);
   static const brightGray = Color(0xFFEAEAEA);
   static const cultured = Color(0xFFF4F4F4);
@@ -33,80 +33,83 @@ class AppPaleteColorsData {
   static const int _shadeEletricPink = 0xFFFF1F70;
 }
 
-class AppColorsData {
-  final Color dotsIndicatorGreyColor;
-  final Color grey;
-  final Color white;
-  final Color black;
-  final Color shadowColor;
-  final Color dividerLightGrey;
-  final Color textColorGrey;
-  final Color disabled;
-  final Color disableCard;
-  final Color dividerColor;
-  final Color appBarColor;
-  final Color separatorColor;
-  final Color darkGrey;
-  final Color appPinkCard;
-  final Color dotsAddressColor;
-  final Color dotColorGreen;
-  final Color dotColorYelow;
-  final Color primarySwatch;
-  final Color primaryDotShadow;
-  final MaterialColor primary;
-  final Color foreground;
-  final Color canvas;
-  final Color good;
+// class AppColorsData {
+//   final AppPaletteColorsData palette;
+//   final Color dotsIndicatorGreyColor;
+//   final Color grey;
+//   final Color white;
+//   final Color black;
+//   final Color shadowColor;
+//   final Color dividerLightGrey;
+//   final Color textColorGrey;
+//   final Color disabled;
+//   final Color disableCard;
+//   final Color dividerColor;
+//   final Color appBarColor;
+//   final Color separatorColor;
+//   final Color darkGrey;
+//   final Color appPinkCard;
+//   final Color dotsAddressColor;
+//   final Color dotColorGreen;
+//   final Color dotColorYelow;
+//   final Color primarySwatch;
+//   final Color primaryDotShadow;
+//   final MaterialColor primary;
+//   final Color foreground;
+//   final Color canvas;
+//   final Color good;
 
-  const AppColorsData({
-    required this.dotsIndicatorGreyColor,
-    required this.grey,
-    required this.white,
-    required this.black,
-    required this.shadowColor,
-    required this.dividerLightGrey,
-    required this.textColorGrey,
-    required this.disabled,
-    required this.disableCard,
-    required this.dividerColor,
-    required this.appBarColor,
-    required this.separatorColor,
-    required this.darkGrey,
-    required this.appPinkCard,
-    required this.dotsAddressColor,
-    required this.dotColorGreen,
-    required this.dotColorYelow,
-    required this.primarySwatch,
-    required this.primaryDotShadow,
-    required this.primary,
-    required this.foreground,
-    required this.canvas,
-    required this.good,
-  });
+//   const AppColorsData({
+//     required this.palette,
+//     required this.dotsIndicatorGreyColor,
+//     required this.grey,
+//     required this.white,
+//     required this.black,
+//     required this.shadowColor,
+//     required this.dividerLightGrey,
+//     required this.textColorGrey,
+//     required this.disabled,
+//     required this.disableCard,
+//     required this.dividerColor,
+//     required this.appBarColor,
+//     required this.separatorColor,
+//     required this.darkGrey,
+//     required this.appPinkCard,
+//     required this.dotsAddressColor,
+//     required this.dotColorGreen,
+//     required this.dotColorYelow,
+//     required this.primarySwatch,
+//     required this.primaryDotShadow,
+//     required this.primary,
+//     required this.foreground,
+//     required this.canvas,
+//     required this.good,
+//   });
 
-  factory AppColorsData._light() => const AppColorsData(
-        dotsIndicatorGreyColor: AppPaleteColorsData.brightGray,
-        grey: AppPaleteColorsData.spanishGray,
-        white: AppPaleteColorsData.white,
-        black: AppPaleteColorsData.eerieBlack,
-        shadowColor: AppPaleteColorsData.blackChocolate,
-        dividerLightGrey: AppPaleteColorsData.cultured,
-        textColorGrey: AppPaleteColorsData.nickel,
-        disabled: AppPaleteColorsData.lavenderGray,
-        disableCard: AppPaleteColorsData.brightGray,
-        dividerColor: AppPaleteColorsData.brightGray,
-        appBarColor: AppPaleteColorsData.cultured,
-        separatorColor: AppPaleteColorsData.gainsboro,
-        darkGrey: AppPaleteColorsData.nickel,
-        appPinkCard: AppPaleteColorsData.electricPink,
-        dotsAddressColor: AppPaleteColorsData.taupeGray,
-        dotColorGreen: AppPaleteColorsData.mediumTurquoise,
-        dotColorYelow: AppPaleteColorsData.pastelOrange,
-        primarySwatch: AppPaleteColorsData.maroonX11,
-        primaryDotShadow: AppPaleteColorsData.debianRed,
-        primary: AppPaleteColorsData.shadeEletricPink,
-        foreground: AppPaleteColorsData.white,
-        canvas: AppPaleteColorsData.white,
-        good: AppPaleteColorsData.mediumTurquoise,
-      );
-}
+//   factory AppColorsData._light() => AppColorsData(
+//         palette: AppPaletteColorsData(),
+//         dotsIndicatorGreyColor: AppPaletteColorsData.brightGray,
+//         grey: AppPaletteColorsData.spanishGray,
+//         white: AppPaletteColorsData.white,
+//         black: AppPaletteColorsData.eerieBlack,
+//         shadowColor: AppPaletteColorsData.blackChocolate,
+//         dividerLightGrey: AppPaletteColorsData.cultured,
+//         textColorGrey: AppPaletteColorsData.nickel,
+//         disabled: AppPaletteColorsData.lavenderGray,
+//         disableCard: AppPaletteColorsData.brightGray,
+//         dividerColor: AppPaletteColorsData.brightGray,
+//         appBarColor: AppPaletteColorsData.cultured,
+//         separatorColor: AppPaletteColorsData.gainsboro,
+//         darkGrey: AppPaletteColorsData.nickel,
+//         appPinkCard: AppPaletteColorsData.electricPink,
+//         dotsAddressColor: AppPaletteColorsData.taupeGray,
+//         dotColorGreen: AppPaletteColorsData.mediumTurquoise,
+//         dotColorYelow: AppPaletteColorsData.pastelOrange,
+//         primarySwatch: AppPaletteColorsData.maroonX11,
+//         primaryDotShadow: AppPaletteColorsData.debianRed,
+//         primary: AppPaletteColorsData.shadeEletricPink,
+//         foreground: AppPaletteColorsData.white,
+//         canvas: AppPaletteColorsData.white,
+//         good: AppPaletteColorsData.mediumTurquoise,
+//       );
+// }

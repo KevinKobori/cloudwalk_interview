@@ -1,4 +1,4 @@
-part of darwin_theme_data;
+part of app_theme_data;
 
 class AppIconsData {
   final String fontFamily;
@@ -14,7 +14,7 @@ class AppIconsData {
   });
 
   factory AppIconsData._standard() => AppIconsData(
-        fontFamily: 'darwin_icons',
+        fontFamily: 'app_icons',
         fontPackage: 'nasa_apod_app',
         characters: AppIconCharactersData._standard(),
         sizes: AppIconSizesData._standard(),
@@ -24,8 +24,7 @@ class AppIconsData {
 class AppIconCharactersData {
   const AppIconCharactersData();
 
-  factory AppIconCharactersData._standard() =>
-      const AppIconCharactersData();
+  factory AppIconCharactersData._standard() => const AppIconCharactersData();
 }
 
 class AppIconSizesData {
@@ -39,9 +38,13 @@ class AppIconSizesData {
     required this.large,
   });
 
-  factory AppIconSizesData._standard() => AppIconSizesData(
-        small: AppSizesData._standard().medium,
-        medium: AppSizesData._standard().large,
-        large: AppSizesData._standard().extraLarge,
-      );
+  factory AppIconSizesData._standard() {
+    final appSizes = AppSpacingsData._standard();
+
+    return AppIconSizesData(
+      small: appSizes.medium,
+      medium: appSizes.large,
+      large: appSizes.extraLarge,
+    );
+  }
 }

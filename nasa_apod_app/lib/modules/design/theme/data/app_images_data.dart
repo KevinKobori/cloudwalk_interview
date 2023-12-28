@@ -1,18 +1,18 @@
-part of darwin_theme_data;
+part of app_theme_data;
 
 class AppImagesData {
-  final Widget darwinLogo;
+  final Widget appLogo;
   final Widget chatSquareText;
   final ImageProvider vehicleDamageLeftFront;
 
   const AppImagesData({
-    required this.darwinLogo,
+    required this.appLogo,
     required this.chatSquareText,
     required this.vehicleDamageLeftFront,
   });
 
   factory AppImagesData._standard() => AppImagesData(
-        darwinLogo: SvgPicture.asset(
+        appLogo: SvgPicture.asset(
           'assets/icons/logo.svg',
         ),
         chatSquareText: SvgPicture.asset(

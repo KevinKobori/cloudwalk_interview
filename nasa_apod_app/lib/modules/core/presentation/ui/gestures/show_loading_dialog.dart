@@ -3,8 +3,6 @@ import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 Future<void> showLoadingDialog(
     {required BuildContext context, required String description}) async {
-  final gap = DesignSystem.of(context).widgets.gap;
-
   SchedulerBinding.instance.addPostFrameCallback((_) async {
     await showDialog<Widget>(
       context: context,
@@ -17,7 +15,7 @@ Future<void> showLoadingDialog(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const CircularProgressIndicator(color: Colors.white),
-              gap.small,
+              AppGapsSizes.small,
               Text(
                 description,
                 textAlign: TextAlign.center,

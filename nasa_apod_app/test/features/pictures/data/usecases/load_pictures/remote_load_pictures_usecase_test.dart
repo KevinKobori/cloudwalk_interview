@@ -1,7 +1,7 @@
 import 'dart:convert';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
@@ -21,7 +21,7 @@ void main() {
     nowDate = DateTime.now();
     httpClient = HttpClientSpy();
     pictureDatasource = PictureDatasourceImpl(httpClient);
-    networkInfo = DeviceInfoImpl(InternetConnectionChecker());
+    networkInfo = DeviceInfoImpl(Connectivity());
     pictureRepository = PictureRepositoryImpl(
       networkInfo: networkInfo,
       pictureDatasource: pictureDatasource,

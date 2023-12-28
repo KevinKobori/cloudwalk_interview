@@ -25,10 +25,10 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = DesignSystem.of(context).data;
+    final theme = Theme.of(context);
     return TextButton(
       onPressed: onPressed,
-      style: buttonType.style(theme),
+      style: buttonType.style(theme: theme),
       child: Text(label),
     );
   }
@@ -41,36 +41,36 @@ enum AppButtonType {
 }
 
 extension AppButtonStyleExtension on AppButtonType {
-  ButtonStyle style(AppThemeData theme) {
-    final colors = theme.colors;
-    final borderRadius = theme.radius.border;
+  ButtonStyle style({required ThemeData theme}) {
+    final borderRadius = theme.data.radius.border;
+    final colorScheme = theme.colorScheme;
     switch (this) {
       case AppButtonType.filled:
         return TextButton.styleFrom(
-          foregroundColor: colors.white,
-          backgroundColor: colors.primary,
-          disabledBackgroundColor: colors.disabled,
+          foregroundColor: Colors.white,
+          backgroundColor: colorScheme.primary,
+          disabledBackgroundColor: colorScheme.onSurface.withOpacity(0.38),
           shape: RoundedRectangleBorder(
             borderRadius: borderRadius.large,
           ),
         );
       case AppButtonType.outlined:
         return TextButton.styleFrom(
-          foregroundColor: colors.primary,
-          backgroundColor: colors.white,
-          disabledBackgroundColor: colors.disabled,
+          foregroundColor: colorScheme.primary,
+          backgroundColor: Colors.white,
+          disabledBackgroundColor: colorScheme.onSurface.withOpacity(0.38),
           shape: RoundedRectangleBorder(
             borderRadius: borderRadius.large,
             side: BorderSide(
-              color: colors.primary,
+              color: colorScheme.primary,
             ),
           ),
         );
       case AppButtonType.text:
         return TextButton.styleFrom(
-          foregroundColor: colors.primary,
-          backgroundColor: colors.white,
-          disabledBackgroundColor: colors.disabled,
+          foregroundColor: colorScheme.primary,
+          backgroundColor: Colors.white,
+          disabledBackgroundColor: colorScheme.onSurface.withOpacity(0.38),
           shape: RoundedRectangleBorder(
             borderRadius: borderRadius.large,
           ),

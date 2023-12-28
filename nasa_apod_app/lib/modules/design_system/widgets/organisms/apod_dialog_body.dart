@@ -1,10 +1,9 @@
 import 'dart:ui';
 
 import 'package:nasa_apod_app/nasa_apod_app.dart';
-import 'package:flutter/material.dart';
 
 class ApodDialogBody extends StatelessWidget {
-  const ApodDialogBody({super.key, this.header, required this.child});
+  const ApodDialogBody({required this.child, super.key, this.header});
 
   final Widget? header;
   final Widget child;

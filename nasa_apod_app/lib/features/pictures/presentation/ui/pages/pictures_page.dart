@@ -1,20 +1,26 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class PicturesPage extends StatefulWidget {
-  const PicturesPage({super.key});
+  final PicturesPresenter picturesPresenter;
+  const PicturesPage({
+    required this.picturesPresenter,
+    super.key,
+  });
 
   @override
   State<PicturesPage> createState() => _PicturesPageState();
 }
 
 class _PicturesPageState extends State<PicturesPage> {
-  final picturesPresenter = Modular.get<PicturesCubit>();
+  @override
+  void initState() {
+    widget.picturesPresenter.loadPictures();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final gap = DesignSystem.of(context).widgets.gap;
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -25,32 +31,32 @@ class _PicturesPageState extends State<PicturesPage> {
             scrollDirection: Axis.horizontal,
             children: [
               OutlinedButton(
-                onPressed: picturesPresenter.loadPictures,
+                onPressed: widget.picturesPresenter.loadPictures,
                 child: const Text('List all'),
               ),
-              gap.medium,
-              DatePickerComponent(picturesPresenter),
+              AppGapsSizes.medium,
+              DatePickerComponent(widget.picturesPresenter),
             ],
           ),
         ),
       ),
       body: Center(
         child: BlocBuilder<PicturesCubit, PicturesState>(
-          bloc: picturesPresenter..loadPictures(),
+          bloc: widget.picturesPresenter as PicturesCubit,
           builder: (context, state) {
             if (state is PicturesLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is PicturesError) {
               return ReloadScreen(
                 error: state.message,
-                reload: picturesPresenter.loadPictures,
+                reload: widget.picturesPresenter.loadPictures,
               );
             } else if (state is PicturesLoaded) {
               return ListView.builder(
                 itemCount: state.pictureViewModelList?.length ?? 0,
                 itemBuilder: (context, index) {
                   return PictureTile(
-                    picturesPresenter: picturesPresenter,
+                    picturesPresenter: widget.picturesPresenter,
                     pictureViewModel: state.pictureViewModelList![index],
                   );
                 },

@@ -35,16 +35,16 @@ class AppIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = DesignSystem.of(context).data;
-    final color = this.color ?? theme.colors.foreground;
+    final theme = Theme.of(context);
+    final color = this.color ?? theme.colorScheme.onPrimary;
 
     return Text(
       data,
       style: TextStyle(
-        fontFamily: theme.icons.fontFamily,
-        package: theme.icons.fontPackage,
+        fontFamily: theme.data.icons.fontFamily,
+        package: theme.data.icons.fontPackage,
         color: color,
-        fontSize: size.resolve(theme),
+        fontSize: size.resolve(theme.data),
         decoration: TextDecoration.none,
       ),
     );
@@ -69,8 +69,9 @@ class AppAnimatedIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = DesignSystem.of(context).data;
-    final color = this.color ?? theme.colors.foreground;
+    final theme = Theme.of(context);
+
+    final color = this.color ?? theme.colorScheme.onPrimary;
     if (!isAnimated) {
       return AppIcon(
         data,
@@ -81,10 +82,10 @@ class AppAnimatedIcon extends StatelessWidget {
     }
     return AnimatedDefaultTextStyle(
       style: TextStyle(
-        fontFamily: theme.icons.fontFamily,
-        package: theme.icons.fontPackage,
+        fontFamily: theme.data.icons.fontFamily,
+        package: theme.data.icons.fontPackage,
         color: color,
-        fontSize: size.resolve(theme),
+        fontSize: size.resolve(theme.data),
         decoration: TextDecoration.none,
       ),
       duration: duration,

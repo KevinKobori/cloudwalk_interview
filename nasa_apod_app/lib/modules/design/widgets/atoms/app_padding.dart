@@ -59,10 +59,10 @@ class AppEdgeInsets {
 
   EdgeInsets toEdgeInsets(AppThemeData theme) {
     return EdgeInsets.only(
-      left: left.size(theme),
-      top: top.size(theme),
-      right: right.size(theme),
-      bottom: bottom.size(theme),
+      left: left.toDouble(theme),
+      top: top.toDouble(theme),
+      right: right.toDouble(theme),
+      bottom: bottom.toDouble(theme),
     );
   }
 }
@@ -109,7 +109,7 @@ class AppPadding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = DesignSystem.of(context).data;
+    final theme = Theme.of(context).data;
     return Padding(
       padding: padding.toEdgeInsets(theme),
       child: child,

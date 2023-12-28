@@ -40,8 +40,8 @@ class AppGap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = DesignSystem.of(context).data;
-    return Gap(type.size(theme));
+    final theme = Theme.of(context).data;
+    return Gap(type.toDouble(theme));
   }
 }
 
@@ -57,7 +57,7 @@ enum AppGapSize {
 }
 
 extension AppGapSizeExtension on AppGapSize {
-  double size(AppThemeData theme) {
+  double toDouble(AppThemeData theme) {
     switch (this) {
       case AppGapSize.none:
         return theme.spacings.none;

@@ -57,8 +57,6 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final gap = DesignSystem.of(context).widgets.gap;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -101,7 +99,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    gap.medium,
+                    AppGapsSizes.medium,
                     Text(
                       picture.date,
                       style: const TextStyle(
@@ -111,7 +109,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                         fontFamily: 'Secular_One',
                       ),
                     ),
-                    gap.small,
+                    AppGapsSizes.small,
                     Text(
                       picture.title,
                       style: const TextStyle(
@@ -121,7 +119,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    gap.large,
+                    AppGapsSizes.large,
                     Text(
                       picture.explanation,
                       style: const TextStyle(
@@ -130,7 +128,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                           fontFamily: 'Secular_One',
                           fontWeight: FontWeight.w400),
                     ),
-                    gap.extraLarge,
+                    AppGapsSizes.extraLarge,
                   ],
                 ),
               ),

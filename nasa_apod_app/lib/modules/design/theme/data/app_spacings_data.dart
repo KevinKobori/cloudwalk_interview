@@ -1,4 +1,4 @@
-part of darwin_theme_data;
+part of app_theme_data;
 
 class AppSpacingsData {
   final double none;
@@ -21,16 +21,18 @@ class AppSpacingsData {
     required this.extraLarge,
   });
 
-  factory AppSpacingsData._standard() => AppSpacingsData(
-        none: AppSizesData._standard().none,
-        extraSmall: AppSizesData._standard().extraSmall,
-        small: AppSizesData._standard().small,
-        semiSmall: AppSizesData._standard().semiSmall,
-        medium: AppSizesData._standard().medium,
-        semiLarge: AppSizesData._standard().semiLarge,
-        large: AppSizesData._standard().large,
-        extraLarge: AppSizesData._standard().extraLarge,
-      );
+  factory AppSpacingsData._standard() {
+    return const AppSpacingsData(
+      none: 0,
+      extraSmall: 4,
+      small: 8,
+      semiSmall: 12,
+      medium: 16,
+      semiLarge: 20,
+      large: 24,
+      extraLarge: 32,
+    );
+  }
 
   AppEdgeInsetsSpacingData asInsets() => AppEdgeInsetsSpacingData(this);
 }

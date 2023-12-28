@@ -1,4 +1,4 @@
-part of darwin_theme_data;
+part of app_theme_data;
 
 class AppShadowsData {
   final BoxShadow small;
@@ -11,21 +11,24 @@ class AppShadowsData {
     required this.large,
   });
 
-  factory AppShadowsData._standard() => AppShadowsData(
-        small: BoxShadow(
-          blurRadius: 2.0,
-          spreadRadius: 1.0,
-          color: AppPaleteColorsData.white.withOpacity(.4),
-        ),
-        medium: BoxShadow(
-          blurRadius: 4.0,
-          spreadRadius: 1.0,
-          color: AppPaleteColorsData.white.withOpacity(.4),
-        ),
-        large: BoxShadow(
-          blurRadius: 8.0,
-          spreadRadius: 2.0,
-          color: AppPaleteColorsData.white.withOpacity(.4),
-        ),
-      );
+  factory AppShadowsData._standard() {
+    final double extraSmall = AppSpacingsData._standard().extraSmall;
+    return AppShadowsData(
+      small: BoxShadow(
+        blurRadius: extraSmall / 2,
+        spreadRadius: extraSmall / 4,
+        color: AppPaletteColorsData.white.withOpacity(.4),
+      ),
+      medium: BoxShadow(
+        blurRadius: extraSmall,
+        spreadRadius: extraSmall / 4,
+        color: AppPaletteColorsData.white.withOpacity(.4),
+      ),
+      large: BoxShadow(
+        blurRadius: extraSmall * 2,
+        spreadRadius: extraSmall / 2,
+        color: AppPaletteColorsData.white.withOpacity(.4),
+      ),
+    );
+  }
 }

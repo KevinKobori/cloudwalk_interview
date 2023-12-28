@@ -8,8 +8,6 @@ class ReloadScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final gap = DesignSystem.of(context).widgets.gap;
-
     return Padding(
       padding: const EdgeInsets.all(40),
       child: Column(
@@ -18,7 +16,7 @@ class ReloadScreen extends StatelessWidget {
           Text(error,
               style: const TextStyle(fontSize: 16),
               textAlign: TextAlign.center),
-          gap.small,
+          AppGapsSizes.small,
           ElevatedButton(
             onPressed: reload,
             child: Text(I18n.strings.reload),

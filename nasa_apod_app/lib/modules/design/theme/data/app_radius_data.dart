@@ -1,4 +1,4 @@
-part of darwin_theme_data;
+part of app_theme_data;
 
 class AppRadiusData {
   final Radius small;
@@ -12,17 +12,17 @@ class AppRadiusData {
   });
 
   AppRadiusData._standard()
-      : small = Radius.circular(AppSizesData._standard().small),
-        medium = Radius.circular(AppSizesData._standard().semiSmall),
-        large = Radius.circular(AppSizesData._standard().semiLarge);
+      : small = Radius.circular(AppSpacingsData._standard().small),
+        medium = Radius.circular(AppSpacingsData._standard().semiSmall),
+        large = Radius.circular(AppSpacingsData._standard().semiLarge);
 
-  _AppBorderRadiusData get border => _AppBorderRadiusData(this);
+  AppBorderRadiusData get border => AppBorderRadiusData(this);
 }
 
-class _AppBorderRadiusData {
+class AppBorderRadiusData {
   final AppRadiusData _radius;
 
-  const _AppBorderRadiusData(this._radius);
+  const AppBorderRadiusData(this._radius);
 
   BorderRadius get small => BorderRadius.all(_radius.small);
   BorderRadius get regular => BorderRadius.all(_radius.medium);

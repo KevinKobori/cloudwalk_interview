@@ -1,4 +1,4 @@
-part of darwin_theme_data;
+part of app_theme_data;
 
 class AppDurationsData {
   final bool areAnimationEnabled;

@@ -13,22 +13,20 @@ class ApodScrollView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final gap = DesignSystem.of(context).widgets.gap;
     return SingleChildScrollView(
       keyboardDismissBehavior: keyboardDismissBehavior,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          gap.large,
+          AppGapsSizes.large,
           SizedBox(
             height: 48,
             child: Center(child: header ?? const SizedBox()),
           ),
-          Padding(
-            padding: AppPaddings.scrolledScreen,
+          AppPaddingsSizes.scrolledScreen(
             child: body,
           ),
-          gap.extraLarge,
+          AppGapsSizes.extraLarge,
         ],
       ),
     );
