@@ -4,7 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class PicturesCubit extends Cubit<PicturesState> implements PicturesPresenter {
-  final LoadLastTenDaysPicturesByDateUseCase loadLastTenDaysPicturesByDate;
+  final RemoteLoadLastTenDaysPicturesByDateUseCase loadLastTenDaysPicturesByDate;
 
   PicturesCubit({
     required this.loadLastTenDaysPicturesByDate,
