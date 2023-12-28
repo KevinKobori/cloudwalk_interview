@@ -1,9 +1,7 @@
-export 'adapters/clients/http_client.dart';
-export 'adapters/storages/local_storage.dart';
-export 'datasources/picture_datasource_impl.dart';
-export 'device/device_info_impl.dart';
-export 'failures/http_failure.dart';
-export 'failures/http_failure_to_domain_failure_extension.dart.dart';
-export 'failures/local_storage_failure.dart';
-export 'failures/local_storage_failure_to_domain_failure_extension.dart';
-export 'mappers/json_mapper.dart';
+export 'datasources/picture_datasource.dart';
+export 'device/device_info.dart';
+export 'failures/mapper_failure.dart';
+export 'failures/mapper_failure_to_domain_failure_extension.dart';
+export 'mappers/picture_mapper.dart';
+export 'models/picture_model.dart';
+export 'repositories/picture_repository_impl.dart';
