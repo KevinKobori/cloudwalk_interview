@@ -1,14 +1,14 @@
 enum HttpFailure {
-  // Custom
+  /// Custom
   unknownError('Unknown Error', -1),
   invalidData('Invalid Data', -2),
 
-  // 1xx Informative
+  /// 1xx Informative
   continueProccess('Continue', 100),
   switchingProtocols('Switching Protocols', 101),
   processing('Processing', 102),
 
-  // 2xx Success
+  /// 2xx Success
   ok('OK', 200),
   created('Created', 201),
   accepted('Accepted', 202),
@@ -20,7 +20,7 @@ enum HttpFailure {
   alreadyReported('Already Reported', 208),
   iMUsed('IM Used', 226),
 
-  // 3xx Redirecting
+  /// 3xx Redirecting
   multipleChoices('Multiple Choices', 300),
   movedPermanently('Moved Permanently', 301),
   found('Found', 302),
@@ -30,7 +30,7 @@ enum HttpFailure {
   temporaryRedirect('Temporary Redirect', 307),
   permanentRedirect('Permanent Redirect', 308),
 
-  // 4xx Client Error
+  /// 4xx Client Error
   badRequest('Bad Request', 400),
   unauthorized('Unauthorized', 401),
   paymentRequired('Payment Required', 402),
@@ -62,7 +62,7 @@ enum HttpFailure {
   unavailableForLegalReasons('Unavailable For Legal Reasons', 451),
   clientClosedRequest('Client Closed Request', 499),
 
-  // 5xx Server Error
+  /// 5xx Server Error
   internalServerError('Internal Server Error', 500),
   notImplemented('Not Implemented', 501),
   badGateway('Bad Gateway', 502),

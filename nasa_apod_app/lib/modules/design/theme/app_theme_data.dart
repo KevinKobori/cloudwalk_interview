@@ -13,7 +13,6 @@ part 'data/app_spacings_data.dart';
 
 class AppThemeData {
   final AppIconsData icons;
-  final AppPaletteColorsData palleteColors;
   final AppRadiusData radius;
   final AppSpacingsData spacings;
   final AppShadowsData shadows;
@@ -22,8 +21,6 @@ class AppThemeData {
 
   const AppThemeData({
     required this.icons,
-    required this.palleteColors,
-    // required this.typographies,
     required this.radius,
     required this.spacings,
     required this.shadows,
@@ -33,8 +30,6 @@ class AppThemeData {
 
   factory AppThemeData.standard() => AppThemeData(
         icons: AppIconsData._standard(),
-        // typographies: AppTypographiesData._standard(),
-        palleteColors: AppPaletteColorsData(),
         radius: AppRadiusData._standard(),
         spacings: AppSpacingsData._standard(),
         shadows: AppShadowsData._standard(),
