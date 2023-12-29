@@ -28,23 +28,35 @@ class AppIconCharactersData {
 }
 
 class AppIconSizesData {
+  final double extraSmall;
   final double small;
+  final double semiSmall;
   final double medium;
+  final double semiLarge;
   final double large;
+  final double extraLarge;
 
   const AppIconSizesData({
+    required this.extraSmall,
     required this.small,
+    required this.semiSmall,
     required this.medium,
+    required this.semiLarge,
     required this.large,
+    required this.extraLarge,
   });
 
   factory AppIconSizesData._standard() {
     final appSizes = AppSpacingsData._standard();
 
     return AppIconSizesData(
-      small: appSizes.medium,
-      medium: appSizes.large,
-      large: appSizes.extraLarge,
+      extraSmall: appSizes.extraSmall,
+      small: appSizes.small,
+      semiSmall: appSizes.semiSmall,
+      medium: appSizes.medium,
+      semiLarge: appSizes.semiLarge,
+      large: appSizes.large,
+      extraLarge: appSizes.extraLarge,
     );
   }
 }

@@ -1,28 +1,76 @@
 import 'package:flutter/material.dart';
 
-enum AppTextStyle {
-  title,
-  body,
-  caption,
-  button,
-  overline,
+enum AppTextStyleType {
+  displayLarge,
+  displayMedium,
+  displaySmall,
+  headlineLarge,
+  headlineMedium,
+  headlineSmall,
+  titleLarge,
+  titleMedium,
+  titleSmall,
+  bodyLarge,
+  bodyMedium,
+  bodySmall,
+  labelLarge,
+  labelMedium,
+  labelSmall,
 }
 
 class AppText extends StatelessWidget {
   final String data;
-  final AppTextStyle style;
+  final AppTextStyleType styleType;
 
-  const AppText.title(
+  const AppText(
     this.data, {
+    this.styleType = AppTextStyleType.labelMedium,
     super.key,
-  }) : style = AppTextStyle.title;
+  });
 
   @override
   Widget build(BuildContext context) {
-    final style = Theme.of(context).textTheme.bodyLarge;
+    final textTheme = Theme.of(context).textTheme;
     return Text(
       data,
-      style: style,
+      style: styleType.toTextStyle(textTheme),
     );
+  }
+}
+
+extension AppTextStyleExtension on AppTextStyleType {
+  TextStyle toTextStyle(TextTheme textTheme) {
+    switch (this) {
+      case AppTextStyleType.displayLarge:
+        return textTheme.displayLarge!;
+      case AppTextStyleType.displayMedium:
+        return textTheme.displayMedium!;
+      case AppTextStyleType.displaySmall:
+        return textTheme.displaySmall!;
+      case AppTextStyleType.headlineLarge:
+        return textTheme.headlineLarge!;
+      case AppTextStyleType.headlineMedium:
+        return textTheme.headlineMedium!;
+      case AppTextStyleType.headlineSmall:
+        return textTheme.headlineSmall!;
+      case AppTextStyleType.titleLarge:
+        return textTheme.titleLarge!;
+      case AppTextStyleType.titleMedium:
+        return textTheme.titleMedium!;
+      case AppTextStyleType.titleSmall:
+        return textTheme.titleSmall!;
+      case AppTextStyleType.bodyLarge:
+        return textTheme.bodyLarge!;
+      case AppTextStyleType.bodyMedium:
+        return textTheme.bodyMedium!;
+      case AppTextStyleType.bodySmall:
+        return textTheme.bodySmall!;
+      case AppTextStyleType.labelLarge:
+        return textTheme.labelLarge!;
+      case AppTextStyleType.labelMedium:
+        return textTheme.labelMedium!;
+      case AppTextStyleType.labelSmall:
+        return textTheme.labelSmall!;
+    }
   }
 }

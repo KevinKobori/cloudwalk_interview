@@ -3,35 +3,14 @@ import 'package:nasa_apod_app/nasa_apod_app.dart';
 class AppIcon extends StatelessWidget {
   final String data;
   final Color? color;
-  final AppIconSize size;
+  final AppIconSizeType sizeType;
 
   const AppIcon(
     this.data, {
-    Key? key,
+    super.key,
     this.color,
-    this.size = AppIconSize.medium,
-  }) : super(key: key);
-
-  const AppIcon.small(
-    this.data, {
-    Key? key,
-    this.color,
-  })  : size = AppIconSize.small,
-        super(key: key);
-
-  const AppIcon.medium(
-    this.data, {
-    Key? key,
-    this.color,
-  })  : size = AppIconSize.medium,
-        super(key: key);
-
-  const AppIcon.large(
-    this.data, {
-    Key? key,
-    this.color,
-  })  : size = AppIconSize.large,
-        super(key: key);
+    this.sizeType = AppIconSizeType.medium,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +23,7 @@ class AppIcon extends StatelessWidget {
         fontFamily: theme.data.icons.fontFamily,
         package: theme.data.icons.fontPackage,
         color: color,
-        fontSize: size.resolve(theme.data),
+        fontSize: sizeType.toDouble(theme.data),
         decoration: TextDecoration.none,
       ),
     );
@@ -54,15 +33,15 @@ class AppIcon extends StatelessWidget {
 class AppAnimatedIcon extends StatelessWidget {
   const AppAnimatedIcon(
     this.data, {
-    Key? key,
+    super.key,
     this.color,
-    this.size = AppIconSize.small,
+    this.sizeType = AppIconSizeType.small,
     this.duration = const Duration(milliseconds: 200),
-  }) : super(key: key);
+  });
 
   final String data;
   final Color? color;
-  final AppIconSize size;
+  final AppIconSizeType sizeType;
   final Duration duration;
 
   bool get isAnimated => duration.inMilliseconds > 0;
@@ -77,7 +56,7 @@ class AppAnimatedIcon extends StatelessWidget {
         data,
         key: key,
         color: color,
-        size: size,
+        sizeType: sizeType,
       );
     }
     return AnimatedDefaultTextStyle(
@@ -85,32 +64,30 @@ class AppAnimatedIcon extends StatelessWidget {
         fontFamily: theme.data.icons.fontFamily,
         package: theme.data.icons.fontPackage,
         color: color,
-        fontSize: size.resolve(theme.data),
+        fontSize: sizeType.toDouble(theme.data),
         decoration: TextDecoration.none,
       ),
       duration: duration,
-      child: Text(
-        data,
-      ),
+      child: Text(data),
     );
   }
 }
 
-enum AppIconSize {
+enum AppIconSizeType {
   small,
   medium,
   large,
 }
 
-extension AppIconSizeExtension on AppIconSize {
-  double resolve(AppThemeData theme) {
+extension AppIconSizeExtension on AppIconSizeType {
+  double toDouble(AppThemeData theme) {
     final sizes = theme.icons.sizes;
     switch (this) {
-      case AppIconSize.small:
+      case AppIconSizeType.small:
         return sizes.small;
-      case AppIconSize.medium:
+      case AppIconSizeType.medium:
         return sizes.medium;
-      case AppIconSize.large:
+      case AppIconSizeType.large:
         return sizes.large;
     }
   }

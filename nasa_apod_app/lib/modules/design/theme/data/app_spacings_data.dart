@@ -33,20 +33,4 @@ class AppSpacingsData {
       extraLarge: 32,
     );
   }
-
-  AppEdgeInsetsSpacingData asInsets() => AppEdgeInsetsSpacingData(this);
-}
-
-class AppEdgeInsetsSpacingData {
-  const AppEdgeInsetsSpacingData(this._spacing);
-
-  EdgeInsets get extraSmall => EdgeInsets.all(_spacing.extraSmall);
-  EdgeInsets get small => EdgeInsets.all(_spacing.small);
-  EdgeInsets get semiSmall => EdgeInsets.all(_spacing.semiSmall);
-  EdgeInsets get medium => EdgeInsets.all(_spacing.medium);
-  EdgeInsets get semiLarge => EdgeInsets.all(_spacing.semiLarge);
-  EdgeInsets get large => EdgeInsets.all(_spacing.large);
-  EdgeInsets get extraLarge => EdgeInsets.all(_spacing.extraLarge);
-
-  final AppSpacingsData _spacing;
 }

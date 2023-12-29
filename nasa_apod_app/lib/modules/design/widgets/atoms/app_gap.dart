@@ -2,53 +2,21 @@ import 'package:gap/gap.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class AppGap extends StatelessWidget {
-  final AppGapSize type;
+  final AppGapSizeType sizeType;
 
-  const AppGap(this.type, {Key? key}) : super(key: key);
-
-  const AppGap.none({Key? key})
-      : type = AppGapSize.none,
-        super(key: key);
-
-  const AppGap.extraSmall({Key? key})
-      : type = AppGapSize.extraSmall,
-        super(key: key);
-
-  const AppGap.small({Key? key})
-      : type = AppGapSize.small,
-        super(key: key);
-
-  const AppGap.semiSmall({Key? key})
-      : type = AppGapSize.semiSmall,
-        super(key: key);
-
-  const AppGap.medium({Key? key})
-      : type = AppGapSize.medium,
-        super(key: key);
-
-  const AppGap.large({Key? key})
-      : type = AppGapSize.large,
-        super(key: key);
-
-  const AppGap.semiLarge({Key? key})
-      : type = AppGapSize.semiLarge,
-        super(key: key);
-
-  const AppGap.extraLarge({Key? key})
-      : type = AppGapSize.extraLarge,
-        super(key: key);
+  const AppGap(this.sizeType, {super.key});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).data;
-    return Gap(type.toDouble(theme));
+    return Gap(sizeType.toDouble(theme));
   }
 }
 
-enum AppGapSize {
+enum AppGapSizeType {
   none,
-  semiSmall,
   extraSmall,
+  semiSmall,
   small,
   medium,
   semiLarge,
@@ -56,24 +24,24 @@ enum AppGapSize {
   extraLarge,
 }
 
-extension AppGapSizeExtension on AppGapSize {
+extension AppGapSizeExtension on AppGapSizeType {
   double toDouble(AppThemeData theme) {
     switch (this) {
-      case AppGapSize.none:
+      case AppGapSizeType.none:
         return theme.spacings.none;
-      case AppGapSize.extraSmall:
+      case AppGapSizeType.extraSmall:
         return theme.spacings.extraSmall;
-      case AppGapSize.small:
+      case AppGapSizeType.small:
         return theme.spacings.small;
-      case AppGapSize.semiSmall:
+      case AppGapSizeType.semiSmall:
         return theme.spacings.semiSmall;
-      case AppGapSize.medium:
+      case AppGapSizeType.medium:
         return theme.spacings.medium;
-      case AppGapSize.semiLarge:
+      case AppGapSizeType.semiLarge:
         return theme.spacings.semiLarge;
-      case AppGapSize.large:
+      case AppGapSizeType.large:
         return theme.spacings.large;
-      case AppGapSize.extraLarge:
+      case AppGapSizeType.extraLarge:
         return theme.spacings.extraLarge;
     }
   }
