@@ -25,7 +25,7 @@ enum AppGapSizeType {
 }
 
 extension AppGapSizeExtension on AppGapSizeType {
-  double toDouble(AppThemeData theme) {
+  double toDouble(AppThemeSizesData theme) {
     switch (this) {
       case AppGapSizeType.none:
         return theme.spacings.none;

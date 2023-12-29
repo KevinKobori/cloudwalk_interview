@@ -80,7 +80,7 @@ enum AppIconSizeType {
 }
 
 extension AppIconSizeExtension on AppIconSizeType {
-  double toDouble(AppThemeData theme) {
+  double toDouble(AppThemeSizesData theme) {
     final sizes = theme.icons.sizes;
     switch (this) {
       case AppIconSizeType.small:

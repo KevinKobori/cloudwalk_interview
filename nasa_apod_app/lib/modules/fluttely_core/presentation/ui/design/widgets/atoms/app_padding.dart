@@ -27,7 +27,7 @@ class AppEdgeInsets {
     this.bottom = AppGapSizeType.none,
   });
 
-  EdgeInsets toEdgeInsets(AppThemeData theme) {
+  EdgeInsets toEdgeInsets(AppThemeSizesData theme) {
     return EdgeInsets.only(
       left: left.toDouble(theme),
       top: top.toDouble(theme),

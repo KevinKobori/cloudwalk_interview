@@ -9,5 +9,3 @@ export 'ui/design/theme/data/k.app.gaps.dart';
 export 'ui/design/theme/data/k.app.paddings.dart';
 export 'ui/design/theme/k.app.theme.data.dart';
 export 'ui/design/widgets/widgets.dart';
-export 'ui/managers/keyboard.manager.dart';
-export 'ui/managers/navigator.manager.dart';

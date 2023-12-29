@@ -10,7 +10,7 @@ part 'data/app_radius_data.dart';
 part 'data/app_shadows_data.dart';
 part 'data/app_spacings_data.dart';
 
-class AppThemeData {
+class AppThemeSizesData {
   final AppIconsData icons;
   final AppRadiusData radius;
   final AppSpacingsData spacings;
@@ -18,7 +18,7 @@ class AppThemeData {
   final AppDurationsData durations;
   final AppImagesData images;
 
-  const AppThemeData({
+  const AppThemeSizesData({
     required this.icons,
     required this.radius,
     required this.spacings,
@@ -27,7 +27,7 @@ class AppThemeData {
     required this.images,
   });
 
-  factory AppThemeData.standard() => AppThemeData(
+  factory AppThemeSizesData.standard() => AppThemeSizesData(
         icons: AppIconsData._standard(),
         radius: AppRadiusData._standard(),
         spacings: AppSpacingsData._standard(),
