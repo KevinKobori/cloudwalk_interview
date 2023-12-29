@@ -26,5 +26,5 @@ class ApodTest {
   static void testWidgets(String description,
           Future<void> Function(ft.WidgetTester tester) body) =>
       ft.testWidgets(description,
-          (ft.WidgetTester tester) async => await body.call(tester));
+          (tester) async => await body.call(tester));
 }

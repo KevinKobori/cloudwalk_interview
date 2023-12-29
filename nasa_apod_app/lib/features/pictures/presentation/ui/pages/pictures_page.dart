@@ -1,6 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
+class ColorsUtils {
+  static Color background = Colors.black;
+}
+
 class PicturesPage extends StatefulWidget {
   final PicturesPresenter picturesPresenter;
   const PicturesPage({
@@ -21,10 +25,11 @@ class _PicturesPageState extends State<PicturesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: theme.colorScheme.background,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: ColorsUtils.background,
         title: SizedBox(
           height: 32,
           child: ListView(
@@ -55,10 +60,15 @@ class _PicturesPageState extends State<PicturesPage> {
               return ListView.builder(
                 itemCount: state.pictureViewModelList?.length ?? 0,
                 itemBuilder: (context, index) {
-                  return ApodPicturesListTile(
-                    picturesPresenter: widget.picturesPresenter,
-                    pictureViewModel: state.pictureViewModelList![index],
+                  return AppPadding(
+                    padding: KAppEdgeInsets.allLarge,
+                    // Theme.of(context).data.spacings.large.toInsets(),
+                    child: ApodPicturesListTile(
+                      picturesPresenter: widget.picturesPresenter,
+                      pictureViewModel: state.pictureViewModelList![index],
+                    ),
                   );
+                  // return Icon(Theme.of(context).data.)
                 },
               );
             } else {

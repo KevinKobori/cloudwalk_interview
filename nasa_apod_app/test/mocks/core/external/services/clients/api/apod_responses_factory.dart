@@ -1,4 +1,4 @@
-import 'package:nasa_apod_app/nasa_apod_app.dart';
+import 'package:fluttely_core/fluttely_core.dart';
 
 import '../../../../../../apod.dart';
 

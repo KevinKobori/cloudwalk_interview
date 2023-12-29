@@ -8,7 +8,7 @@ class AppWidget extends StatelessWidget {
     return AppBuilder(
       title: 'Nasa Apod App',
       theme: kThemeData,
-      themeSizes: kAppThemeData,
+      themeSizes: kAppThemeSizesData,
     );
   }
 }
