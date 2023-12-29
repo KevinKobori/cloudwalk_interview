@@ -1,6 +1,5 @@
 library app_theme_data;
 
-
 import 'package:fluttely_core/fluttely_core.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -20,12 +19,12 @@ class AppThemeSizesData {
   final AppImagesData images;
 
   const AppThemeSizesData({
-     required this.icons,
-     required this.radius,
-     required this.spacings,
-     required this.shadows,
-     required this.durations,
-     required this.images,
+    required this.icons,
+    required this.radius,
+    required this.spacings,
+    required this.shadows,
+    required this.durations,
+    required this.images,
   });
 
   factory AppThemeSizesData.standard() => AppThemeSizesData(

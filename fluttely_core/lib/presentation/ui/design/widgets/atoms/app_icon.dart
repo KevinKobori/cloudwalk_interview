@@ -1,6 +1,5 @@
 import 'package:fluttely_core/fluttely_core.dart';
 
-
 class AppIcon extends StatelessWidget {
   final String data;
   final Color? color;

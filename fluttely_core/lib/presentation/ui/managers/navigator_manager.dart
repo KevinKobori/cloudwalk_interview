@@ -15,9 +15,9 @@ abstract class NavigatorManager {
       return;
     }
 
-    unawaited(Modular.to.pushNamed(route, arguments: arguments)
-        // .onError((error, stackTrace) => Exception.handle(error))
-        );
+    unawaited(Modular.to
+        .pushNamed(route, arguments: arguments)
+        .onError((error, stackTrace) => error));
   }
 
   static void navigate(String route, {dynamic arguments}) async {
