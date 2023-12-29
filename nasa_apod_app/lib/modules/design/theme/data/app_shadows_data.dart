@@ -17,17 +17,17 @@ class AppShadowsData {
       small: BoxShadow(
         blurRadius: extraSmall / 2,
         spreadRadius: extraSmall / 4,
-        color: AppPaletteColorsData.white.withOpacity(.4),
+        color: Colors.white.withOpacity(.4),
       ),
       medium: BoxShadow(
         blurRadius: extraSmall,
         spreadRadius: extraSmall / 4,
-        color: AppPaletteColorsData.white.withOpacity(.4),
+        color: Colors.white.withOpacity(.4),
       ),
       large: BoxShadow(
         blurRadius: extraSmall * 2,
         spreadRadius: extraSmall / 2,
-        color: AppPaletteColorsData.white.withOpacity(.4),
+        color: Colors.white.withOpacity(.4),
       ),
     );
   }

@@ -11,7 +11,6 @@ class RemoteLoadLastTenDaysPicturesByDateUseCaseImpl
     required this.apiKey,
   });
 
-  
   @override
   Future<Either<DomainFailure, List<PictureEntity>>> call(DateTime date) async {
     /// Logic for retrieving Astronomy Picture of the Day (Apod) images
