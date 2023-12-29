@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-class PictureTile extends StatelessWidget {
+class ApodPicturesListTile extends StatelessWidget {
   final PictureViewModel pictureViewModel;
   final PicturesPresenter picturesPresenter;
 
-  const PictureTile({
+  const ApodPicturesListTile({
     required this.pictureViewModel,
     required this.picturesPresenter,
     super.key,
@@ -57,7 +57,7 @@ class PictureTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  AppGapsSizes.medium,
+                  KAppGaps.medium,
                   Text(
                     pictureViewModel.date,
                     style: const TextStyle(

@@ -1,10 +1,10 @@
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-class DatePickerComponent extends StatefulWidget
+class ApodDatePickerDialog extends StatefulWidget
     implements PreferredSizeWidget {
   final PicturesPresenter picturesPresenter;
 
-  const DatePickerComponent(
+  const ApodDatePickerDialog(
     this.picturesPresenter, {
     super.key,
   }) : preferredSize = const Size.fromHeight(kToolbarHeight);
@@ -13,10 +13,10 @@ class DatePickerComponent extends StatefulWidget
   final Size preferredSize;
 
   @override
-  State<DatePickerComponent> createState() => _DatePickerComponentState();
+  State<ApodDatePickerDialog> createState() => _ApodDatePickerDialogState();
 }
 
-class _DatePickerComponentState extends State<DatePickerComponent>
+class _ApodDatePickerDialogState extends State<ApodDatePickerDialog>
     with RestorationMixin {
   @override
   String? get restorationId => 'main';

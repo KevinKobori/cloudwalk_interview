@@ -34,8 +34,8 @@ class _PicturesPageState extends State<PicturesPage> {
                 onPressed: widget.picturesPresenter.loadPictures,
                 child: const Text('List all'),
               ),
-              AppGapsSizes.medium,
-              DatePickerComponent(widget.picturesPresenter),
+              KAppGaps.medium,
+              ApodDatePickerDialog(widget.picturesPresenter),
             ],
           ),
         ),
@@ -47,7 +47,7 @@ class _PicturesPageState extends State<PicturesPage> {
             if (state is PicturesLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is PicturesError) {
-              return ReloadScreen(
+              return ApodReloadPage(
                 error: state.message,
                 reload: widget.picturesPresenter.loadPictures,
               );
@@ -55,7 +55,7 @@ class _PicturesPageState extends State<PicturesPage> {
               return ListView.builder(
                 itemCount: state.pictureViewModelList?.length ?? 0,
                 itemBuilder: (context, index) {
-                  return PictureTile(
+                  return ApodPicturesListTile(
                     picturesPresenter: widget.picturesPresenter,
                     pictureViewModel: state.pictureViewModelList![index],
                   );

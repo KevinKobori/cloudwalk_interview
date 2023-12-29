@@ -99,7 +99,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    AppGapsSizes.medium,
+                    KAppGaps.medium,
                     Text(
                       picture.date,
                       style: const TextStyle(
@@ -109,7 +109,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                         fontFamily: 'Secular_One',
                       ),
                     ),
-                    AppGapsSizes.small,
+                    KAppGaps.small,
                     Text(
                       picture.title,
                       style: const TextStyle(
@@ -119,7 +119,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    AppGapsSizes.large,
+                    KAppGaps.large,
                     Text(
                       picture.explanation,
                       style: const TextStyle(
@@ -128,7 +128,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                           fontFamily: 'Secular_One',
                           fontWeight: FontWeight.w400),
                     ),
-                    AppGapsSizes.extraLarge,
+                    KAppGaps.extraLarge,
                   ],
                 ),
               ),

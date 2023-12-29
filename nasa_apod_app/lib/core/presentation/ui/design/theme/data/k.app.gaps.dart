@@ -1,6 +1,6 @@
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-class AppGapsSizes {
+class KAppGaps {
   static const none = AppGap(AppGapSizeType.none);
   static const extraSmall = AppGap(AppGapSizeType.extraSmall);
   static const small = AppGap(AppGapSizeType.small);

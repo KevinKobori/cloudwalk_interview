@@ -1,5 +1,6 @@
 export 'package:flutter/material.dart';
 
+export 'core/core.dart';
 export 'features/features.dart';
-export 'modules/core/core.dart';
-export 'modules/design/design.dart';
+export 'modules/fluttely_core/fluttely_core.dart';
+export 'modules/fluttely_design/fluttely_design.dart';

@@ -1,0 +1,13 @@
+export 'failures/domain_failure.to_ui_failure.extension.dart';
+export 'i18n/i18n.dart';
+export 'i18n/strings/en_us.dart';
+export 'i18n/strings/pt_br.dart';
+export 'i18n/strings/translation.dart';
+export 'presenters/viewmodels/picture.viewmodel.dart';
+export 'ui/design/theme/data/k.app.edge_insets.dart';
+export 'ui/design/theme/data/k.app.gaps.dart';
+export 'ui/design/theme/data/k.app.paddings.dart';
+export 'ui/design/theme/k.app.theme.data.dart';
+export 'ui/design/widgets/widgets.dart';
+export 'ui/managers/keyboard.manager.dart';
+export 'ui/managers/navigator.manager.dart';
