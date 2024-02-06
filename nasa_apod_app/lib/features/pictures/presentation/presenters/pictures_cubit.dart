@@ -40,7 +40,7 @@ class PicturesCubit extends Cubit<PicturesState> implements PicturesPresenter {
   }
 
   @override
-  void loadPictureByDate(ApodDate date) async {
+  void loadPictureByDate(DateTime date) async {
     emit(PicturesLoading());
 
     final loadPictureByDateResult = await _loadPictureByDate(date);
@@ -51,12 +51,12 @@ class PicturesCubit extends Cubit<PicturesState> implements PicturesPresenter {
   }
 
   Future<Either<DomainFailure, List<PictureViewModel>>> _loadPictureByDate(
-      ApodDate date) async {
+      DateTime date) async {
     final datasource = PictureDatasourceImpl(httpClientAdapterFactory());
-    final value = '${date.year}-${date.month}-${date.day}';
+    final apodDate = DateTimeMapper.getStringFromDateTimeYMD(date);
     final result = await datasource.fetchByDate(apodApiUrlFactory(
         apiKey: 'Ieuiin5UvhSz44qMh9rboqVMfOkYbkNebhwEtxPF',
-        requestPath: '&date=$value'));
+        requestPath: '&date=$apodDate'));
     return result.fold(
       (domainFailure) => Left(domainFailure),
       (pictureModel) {

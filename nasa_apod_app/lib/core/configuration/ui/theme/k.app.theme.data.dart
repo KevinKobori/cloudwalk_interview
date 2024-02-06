@@ -43,7 +43,12 @@ final ThemeData kThemeData = ThemeData(
   // images: Images(
   //   logo: ,
   // ),
-  colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+  colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple).copyWith(
+    // background: Colors.black,
+  ),
+  appBarTheme: const AppBarTheme(
+    backgroundColor: Colors.black,
+  )
   // colorScheme: ColorScheme(
   //   // primaryColor: Cor principal usada no app, para widgets como AppBar.
   //   primary: const Color(0xFF1E88E5), // Exemplo: Google Blue 600

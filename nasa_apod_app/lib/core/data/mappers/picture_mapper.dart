@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-class PictureMapper {
+abstract final class PictureMapper {
   /// Data <<< FROM <<< Domain
   static Either<MapperFailure, PictureModel> fromEntityToModel(
       PictureEntity pictureEntity) {
@@ -57,11 +57,7 @@ class PictureMapper {
       PictureModel pictureModel) {
     return Right(PictureEntity(
       copyright: pictureModel.copyright,
-      date: ApodDate(
-        day: pictureModel.date.day,
-        month: pictureModel.date.month,
-        year: pictureModel.date.year,
-      ),
+      date: DateTimeMapper.getYMDFromDateTime(pictureModel.date),
       explanation: pictureModel.explanation,
       hdurl: pictureModel.hdurl,
       mediaType: pictureModel.mediaType,

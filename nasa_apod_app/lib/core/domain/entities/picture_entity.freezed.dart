@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$PictureEntity {
   String get copyright => throw _privateConstructorUsedError;
-  ApodDate get date => throw _privateConstructorUsedError;
+  DateTime get date => throw _privateConstructorUsedError;
   String get explanation => throw _privateConstructorUsedError;
   String get hdurl => throw _privateConstructorUsedError;
   String get mediaType => throw _privateConstructorUsedError;
@@ -38,15 +38,13 @@ abstract class $PictureEntityCopyWith<$Res> {
   @useResult
   $Res call(
       {String copyright,
-      ApodDate date,
+      DateTime date,
       String explanation,
       String hdurl,
       String mediaType,
       String serviceVersion,
       String title,
       String url});
-
-  $ApodDateCopyWith<$Res> get date;
 }
 
 /// @nodoc
@@ -79,7 +77,7 @@ class _$PictureEntityCopyWithImpl<$Res, $Val extends PictureEntity>
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as ApodDate,
+              as DateTime,
       explanation: null == explanation
           ? _value.explanation
           : explanation // ignore: cast_nullable_to_non_nullable
@@ -106,14 +104,6 @@ class _$PictureEntityCopyWithImpl<$Res, $Val extends PictureEntity>
               as String,
     ) as $Val);
   }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $ApodDateCopyWith<$Res> get date {
-    return $ApodDateCopyWith<$Res>(_value.date, (value) {
-      return _then(_value.copyWith(date: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -126,16 +116,13 @@ abstract class _$$PictureEntityImplCopyWith<$Res>
   @useResult
   $Res call(
       {String copyright,
-      ApodDate date,
+      DateTime date,
       String explanation,
       String hdurl,
       String mediaType,
       String serviceVersion,
       String title,
       String url});
-
-  @override
-  $ApodDateCopyWith<$Res> get date;
 }
 
 /// @nodoc
@@ -166,7 +153,7 @@ class __$$PictureEntityImplCopyWithImpl<$Res>
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as ApodDate,
+              as DateTime,
       explanation: null == explanation
           ? _value.explanation
           : explanation // ignore: cast_nullable_to_non_nullable
@@ -211,7 +198,7 @@ class _$PictureEntityImpl implements _PictureEntity {
   @override
   final String copyright;
   @override
-  final ApodDate date;
+  final DateTime date;
   @override
   final String explanation;
   @override
@@ -263,7 +250,7 @@ class _$PictureEntityImpl implements _PictureEntity {
 abstract class _PictureEntity implements PictureEntity {
   const factory _PictureEntity(
       {required final String copyright,
-      required final ApodDate date,
+      required final DateTime date,
       required final String explanation,
       required final String hdurl,
       required final String mediaType,
@@ -274,7 +261,7 @@ abstract class _PictureEntity implements PictureEntity {
   @override
   String get copyright;
   @override
-  ApodDate get date;
+  DateTime get date;
   @override
   String get explanation;
   @override

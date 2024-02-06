@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 part 'picture_entity.freezed.dart';
 
@@ -7,7 +6,7 @@ part 'picture_entity.freezed.dart';
 class PictureEntity with _$PictureEntity {
   const factory PictureEntity({
     required String copyright,
-    required ApodDate date,
+    required DateTime date,
     required String explanation,
     required String hdurl,
     required String mediaType,

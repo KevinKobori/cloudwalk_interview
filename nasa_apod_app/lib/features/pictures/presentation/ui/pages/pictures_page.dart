@@ -27,9 +27,16 @@ class _PicturesPageState extends State<PicturesPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: theme.colorScheme.onBackground,
+      backgroundColor:
+      //  Colors.transparent
+      theme.colorScheme.background.withOpacity(0)
+      ,
+      extendBodyBehindAppBar: true,
+      extendBody: true,
       appBar: AppBar(
-        backgroundColor: ColorsUtils.background,
+        // backgroundColor: theme.colorScheme.background.withOpacity(0.6),
+        // Colors.transparent,
+        // backgroundColor: ColorsUtils.background,
         title: SizedBox(
           height: 32,
           child: ListView(
@@ -61,7 +68,7 @@ class _PicturesPageState extends State<PicturesPage> {
                 itemCount: state.pictureViewModelList?.length ?? 0,
                 itemBuilder: (context, index) {
                   return AppPadding(
-                    padding: KAppEdgeInsets.allLarge,
+                    padding: ApodEdgeInsetsConstants.allLarge,
                     // Theme.of(context).data.spacings.large.toInsets(),
                     child: ApodPicturesListTile(
                       picturesPresenter: widget.picturesPresenter,

@@ -71,11 +71,7 @@ class _ApodDatePickerDialogState extends State<ApodDatePickerDialog>
       setState(() {
         _selectedDate.value = newSelectedDate;
 
-        widget.picturesPresenter.loadPictureByDate(ApodDate(
-          year: _selectedDate.value.year,
-          month: _selectedDate.value.month,
-          day: _selectedDate.value.day,
-        ));
+        widget.picturesPresenter.loadPictureByDate(_selectedDate.value);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
               'Selected: ${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}'),

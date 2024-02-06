@@ -62,7 +62,7 @@ class ApodPicturesListTile extends StatelessWidget {
                     padding: const AppEdgeInsets.all(AppGapSizeType.large),
                     child: Text(
                       pictureViewModel.date,
-                      style: Theme.of(context).textTheme.headlineLarge,
+                      style: Theme.of(context).textTheme.bodyLarge,
                       // style: const TextStyle(
                       //   color: Colors.white,
                       //   fontSize: 20,
