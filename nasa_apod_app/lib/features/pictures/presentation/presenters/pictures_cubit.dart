@@ -53,11 +53,10 @@ class PicturesCubit extends Cubit<PicturesState> implements PicturesPresenter {
   Future<Either<DomainFailure, List<PictureViewModel>>> _loadPictureByDate(
       ApodDate date) async {
     final datasource = PictureDatasourceImpl(httpClientAdapterFactory());
-
+    final value = '${date.year}-${date.month}-${date.day}';
     final result = await datasource.fetchByDate(apodApiUrlFactory(
         apiKey: 'Ieuiin5UvhSz44qMh9rboqVMfOkYbkNebhwEtxPF',
-        requestPath: '&date=${date.value}'));
-
+        requestPath: '&date=$value'));
     return result.fold(
       (domainFailure) => Left(domainFailure),
       (pictureModel) {

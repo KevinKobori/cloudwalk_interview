@@ -1,0 +1,6 @@
+[submodule "packages/remo_core"]
+	path = packages/remo_core
+	url = https://github.com/Remottely/remo_core.git
+[submodule "packages/design_system_toolkit"]
+	path = packages/design_system_toolkit
+	url = https://github.com/Fluttely/design_system_toolkit.git

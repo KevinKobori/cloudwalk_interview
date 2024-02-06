@@ -40,7 +40,7 @@ void main() {
       verify(() => localStorage.save(
               itemKey: 'pictures_list',
               itemValue: any<dynamic>(named: 'itemValue')))
-          .called(1); // TODO: NOW - CHANGE EXPECTED VALUE
+          .called(1); // TODO(all): NOW - CHANGE EXPECTED VALUE
     });
 
     test('When save data should throw UnexpectedFailure if save throws',

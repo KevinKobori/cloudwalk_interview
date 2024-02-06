@@ -35,7 +35,7 @@ class PictureMapper {
               /// Left
               (mapperFailure) {
                 return;
-                // return Left(mapperFailure); // TODO: Need to fix this possibility of return an error during the proccess
+                // return Left(mapperFailure); // TODO(all): Need to fix this possibility of return an error during the proccess
               },
 
               /// Right
@@ -93,7 +93,8 @@ class PictureMapper {
       PictureEntity pictureEntity) {
     return Right(PictureViewModel(
       copyright: pictureEntity.copyright,
-      date: pictureEntity.date.value,
+      date:
+          '${pictureEntity.date.year}-${pictureEntity.date.month}-${pictureEntity.date.day}',
       explanation: pictureEntity.explanation,
       hdurl: pictureEntity.hdurl,
       mediaType: pictureEntity.mediaType,

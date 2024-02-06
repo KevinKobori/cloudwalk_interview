@@ -14,14 +14,14 @@ class ApodTest {
 
   /// mocktail
   static mt.VerificationResult verify(Future<void> Function() body) =>
-      mt.verify(() => body.call());
+      mt.verify(() async => body.call());
 
   /// flutter_test
-  static void setUp(Future<void> Function() body) =>
+  static void setUp(Future<void> Function() body) async =>
       ft.setUp(() => body.call());
-  static void setUpAll(Future<void> Function() body) =>
+  static void setUpAll(Future<void> Function() body) async =>
       ft.setUpAll(() => body.call());
-  static void test(String description, Future<void> Function() body) =>
+  static void test(String description, Future<void> Function() body) async =>
       ft.test(description, () => body.call());
   static void testWidgets(String description,
           Future<void> Function(ft.WidgetTester tester) body) =>

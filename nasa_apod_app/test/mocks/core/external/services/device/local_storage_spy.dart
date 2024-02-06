@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:fluttely_core/fluttely_core.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class LocalStorageSpy extends Mock implements LocalStorage {
   LocalStorageSpy() {
@@ -9,21 +9,21 @@ class LocalStorageSpy extends Mock implements LocalStorage {
   }
 
   When<Future<Either<LocalStorageFailure, dynamic>>> mockFetchCall() =>
-      when(() => fetch(any()));
+      when(() async => fetch(any()));
   void mockFetchSuccess(dynamic json) async =>
       mockFetchCall().thenAnswer((_) async => Right(json));
   void mockFetchFailure(LocalStorageFailure error) =>
       mockFetchCall().thenAnswer((_) async => Left(error));
 
   When<Future<Either<LocalStorageFailure, void>>> mockDeleteCall() =>
-      when(() => delete(any()));
+      when(() async => delete(any()));
   void mockDeleteSuccess() =>
       mockDeleteCall().thenAnswer((_) async => const Right(null));
   void mockDeleteFailure(LocalStorageFailure error) =>
       mockDeleteCall().thenAnswer((_) async => Left(error));
 
   When<Future<Either<LocalStorageFailure, void>>> mockSaveCall() =>
-      when(() => save(
+      when(() async => save(
           itemKey: any(named: 'itemKey'),
           itemValue: any<Map<String, dynamic>>(named: 'itemValue')));
   void mockSaveSuccess() =>
