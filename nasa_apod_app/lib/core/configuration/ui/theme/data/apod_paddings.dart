@@ -1,6 +1,6 @@
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-class KAppPaddings {
+class ApodPaddings {
   static AppPadding staticScreen({required Widget child}) => AppPadding(
         padding: const AppEdgeInsets.all(AppGapSizeType.large),
         child: child,

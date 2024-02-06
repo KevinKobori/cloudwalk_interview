@@ -15,8 +15,8 @@ dependencies:
   json_annotation: ^4.8.1
   remo_core:
     path: ../packages/remo_core
-  design_system_toolkit:
-    path: ../packages/design_system_toolkit
+  # design_system_toolkit:
+  #   path: ../packages/design_system_toolkit
 
 dev_dependencies:
   build_runner: ^2.4.8

@@ -1,6 +1,6 @@
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-class ApodEdgeInsetsConstants {
+class ApodEdgeInsets {
   static const allNone = AppEdgeInsets.all(AppGapSizeType.none);
   static const allExtraSmall = AppEdgeInsets.all(AppGapSizeType.extraSmall);
   static const allSmall = AppEdgeInsets.all(AppGapSizeType.small);

@@ -46,7 +46,7 @@ class _PicturesPageState extends State<PicturesPage> {
                 onPressed: widget.picturesPresenter.loadPictures,
                 child: const Text('List all'),
               ),
-              KAppGaps.medium,
+              ApodGaps.medium,
               ApodDatePickerDialog(widget.picturesPresenter),
             ],
           ),
@@ -68,7 +68,7 @@ class _PicturesPageState extends State<PicturesPage> {
                 itemCount: state.pictureViewModelList?.length ?? 0,
                 itemBuilder: (context, index) {
                   return AppPadding(
-                    padding: ApodEdgeInsetsConstants.allLarge,
+                    padding: ApodEdgeInsets.allLarge,
                     // Theme.of(context).data.spacings.large.toInsets(),
                     child: ApodPicturesListTile(
                       picturesPresenter: widget.picturesPresenter,

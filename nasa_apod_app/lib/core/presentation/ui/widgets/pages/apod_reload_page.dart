@@ -16,7 +16,7 @@ class ApodReloadPage extends StatelessWidget {
           Text(error,
               style: const TextStyle(fontSize: 16),
               textAlign: TextAlign.center),
-          KAppGaps.small,
+          ApodGaps.small,
           ElevatedButton(
             onPressed: reload,
             child: Text(I18n.strings.reload),

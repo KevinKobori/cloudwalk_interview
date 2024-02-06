@@ -57,7 +57,7 @@ class ApodPicturesListTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  KAppGaps.medium,
+                  ApodGaps.medium,
                   AppPadding(
                     padding: const AppEdgeInsets.all(AppGapSizeType.large),
                     child: Text(
