@@ -12,7 +12,7 @@ core
     - mappers
     - models
     - repositories
-    - services
+    - adapters
 - domain
     - entities
     - failures
@@ -21,7 +21,7 @@ core
 - external
     - failures
     - network
-    - services
+    - adapters
 - presentation
     - design_system
     - failures

@@ -39,8 +39,8 @@
         - fromViewModelListToEntityList()
 
     - Infra <<< FROM <<< Data:
-        - fromModelToMap()
-        - fromModelListToMapList()
+        - fromModelToJson()
+        - fromModelListToJsonList()
     - Infra >>> TO >>> Data:
-        - fromMapToModel()
-        - fromMapListToModelList()
+        - fromJsonToModel()
+        - fromJsonListToModelList()

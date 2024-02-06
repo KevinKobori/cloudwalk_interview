@@ -4,16 +4,22 @@ Interview test reference: https://gist.github.com/cloudwalk-tests/68db9331919d02
 This repository contains the implementation of a mobile application following the Clean Architecture principles. The architecture is organized into separate layers to ensure modularity, maintainability, and testability. Below is a step-by-step guide outlining the key aspects of the project development.
 
 
-# Quick Start 
+# Quick Start
+
+```shell
+git clone --recurse-submodules https://github.com/KevinKobori/cloudwalk_interview.git
+```
 
 ```shell
    cd nasa_apod_app
+   dart run build_runner build --delete-conflicting-outputs
    flutter run
 ```
 # Have any issue? Run on web:
 
 ```shell
    cd nasa_apod_app
+   dart run build_runner build --delete-conflicting-outputs
    flutter run -d chrome --web-renderer html
 ```
 

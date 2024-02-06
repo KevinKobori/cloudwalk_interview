@@ -14,12 +14,12 @@ mixin PictureFactory {
         'invalid_key': 'invalid_value',
       };
 
-  List<Map<String, dynamic>> generateValidPictureMapList() => [
+  List<Map<String, dynamic>> generateValidPictureJsonList() => [
         generateValidPictureMap(),
         generateValidPictureMap(),
       ];
 
-  List<Map<String, dynamic>> generateInvalidPictureMapList() => [
+  List<Map<String, dynamic>> generateInvalidPictureJsonList() => [
         generateInvalidPictureMap(),
         generateInvalidPictureMap(),
       ];

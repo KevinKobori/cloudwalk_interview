@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class RemoteLoadLastTenDaysPicturesByDateWithLocalFallbackUseCaseImpl
-    implements LoadLastTenDaysPicturesByDateUseCase {
+    implements RemoteLoadLastTenDaysPicturesByDateUseCase {
   final RemoteLoadLastTenDaysPicturesByDateUseCase
       remoteLoadLastTenDaysPicturesByDate;
   final LocalLoadLastTenDaysPicturesByDateUseCase

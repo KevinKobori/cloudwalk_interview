@@ -1,42 +1,21 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class PictureModel extends Equatable {
-  final String copyright;
-  final DateTime date;
-  final String explanation;
-  final String hdurl;
-  final String mediaType;
-  final String serviceVersion;
-  final String title;
-  final String url;
+part 'picture_model.freezed.dart';
+part 'picture_model.g.dart';
 
-  const PictureModel({
-    required this.copyright,
-    required this.date,
-    required this.explanation,
-    required this.hdurl,
-    required this.mediaType,
-    required this.serviceVersion,
-    required this.title,
-    required this.url,
-  });
+@freezed
+class PictureModel with _$PictureModel {
+  const factory PictureModel({
+    required String copyright,
+    required DateTime date,
+    required String explanation,
+    required String hdurl,
+    required String mediaType,
+    required String serviceVersion,
+    required String title,
+    required String url,
+  }) = _PictureModel;
 
-  @override
-  String toString() {
-    return 'PictureModel(copyright: $copyright, date: $date, explanation: $explanation, hdurl: $hdurl, media_type: $mediaType, service_version: $serviceVersion, title: $title, url: $url)';
-  }
-
-  @override
-  List<Object> get props {
-    return [
-      copyright,
-      date,
-      explanation,
-      hdurl,
-      mediaType,
-      serviceVersion,
-      title,
-      url,
-    ];
-  }
+  factory PictureModel.fromJson(Map<String, Object?> json) =>
+      _$PictureModelFromJson(json);
 }

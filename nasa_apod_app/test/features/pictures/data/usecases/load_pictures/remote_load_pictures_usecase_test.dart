@@ -1,14 +1,15 @@
 import 'dart:convert';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 import '../../../../../apod.dart';
 
 void main() {
   late PictureDatasourceImpl pictureDatasource;
-  late NetworkInfo networkInfo;
+  late DeviceInfo networkInfo;
   late PictureRepositoryImpl pictureRepository;
   late RemoteLoadLastTenDaysPicturesByDateUseCaseImpl sut;
   late HttpClientSpy httpClient;
@@ -20,7 +21,7 @@ void main() {
     nowDate = DateTime.now();
     httpClient = HttpClientSpy();
     pictureDatasource = PictureDatasourceImpl(httpClient);
-    networkInfo = NetworkInfoImpl(InternetConnectionChecker());
+    networkInfo = DeviceInfoImpl(Connectivity());
     pictureRepository = PictureRepositoryImpl(
       networkInfo: networkInfo,
       pictureDatasource: pictureDatasource,
@@ -43,40 +44,42 @@ void main() {
       picturesRepository: pictureRepository,
       apiKey: apiKey,
     );
+    registerFallbackValue<HttpVerbs>(HttpVerbs.get);
   });
 
   test('Should call HttpClient with correct values', () async {
-    final data = <Map<String, dynamic>>{};
+    final data = json.encode({});
 
     httpClient.mockRequestSuccess(data);
 
     await sut.call(nowDate);
 
-    ApodTest.verify(() => httpClient.request(method: 'get', url: url));
+    ApodTest.verify(() => httpClient.request(method: HttpVerbs.get, url: url));
   });
 
   test('Should return pictures list on 200 with valid data', () async {
     final data =
-        json.encode(ApodResponsesFactory().generateValidPictureMapList());
+        json.encode(ApodResponsesFactory().generateValidPictureJsonList());
 
     httpClient.mockRequestSuccess(data);
 
     final dynamicList = json.decode(data);
 
-    final resultMapList = JsonMapper.fromDynamicListToMapList(dynamicList);
+    final picturesJsonListResult =
+        JsonMapper.fromDynamicListToJsonList(dynamicList);
 
-    late final List<Map<String, dynamic>> mapList;
+    late final List<Map<String, dynamic>> picturesJsonList;
 
-    resultMapList.fold(
+    picturesJsonListResult.fold(
       (l) {},
       (r) {
-        mapList = r;
+        picturesJsonList = r;
       },
     );
 
     late final List<PictureEntity> matcher;
 
-    PictureMapper().fromMapListToEntityList(mapList).fold(
+    PictureMapper.fromJsonListToEntityList(picturesJsonList).fold(
       (domainFailure) {},
       (pictureEntityList) {
         matcher = pictureEntityList;
@@ -101,7 +104,7 @@ void main() {
       'Should throw UnexpectedFailure if HttpClient returns 200 with invalid data',
       () async {
     httpClient.mockRequestSuccess(
-        ApodResponsesFactory().generateInvalidPictureMapList());
+        json.encode(ApodResponsesFactory().generateInvalidPictureJsonList()));
 
     final result = await sut.call(nowDate);
 
@@ -113,8 +116,7 @@ void main() {
     expect(
         actual,
         predicate((element) =>
-            element is DomainFailure &&
-            element == DomainFailure.unexpected));
+            element is DomainFailure && element == DomainFailure.unexpected));
   });
 
   test('Should throw UnexpectedFailure if HttpClient not returns 200',
@@ -132,7 +134,6 @@ void main() {
     expect(
         actual,
         predicate((element) =>
-            element is DomainFailure &&
-            element == DomainFailure.unexpected));
+            element is DomainFailure && element == DomainFailure.notFound));
   });
 }

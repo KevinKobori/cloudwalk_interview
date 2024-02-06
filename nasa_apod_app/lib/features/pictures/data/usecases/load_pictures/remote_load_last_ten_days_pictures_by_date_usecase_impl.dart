@@ -32,7 +32,7 @@ class RemoteLoadLastTenDaysPicturesByDateUseCaseImpl
   }
 
   static String getNasaApodStartDate(DateTime date) {
-    var lastTenDaysUS =
+    final lastTenDaysUS =
         DateTime(date.year, date.month, date.day - 9, date.hour - 1);
     return getNasaApodDateFormat(lastTenDaysUS);
   }
@@ -40,9 +40,9 @@ class RemoteLoadLastTenDaysPicturesByDateUseCaseImpl
   static String getNasaApodDateFormat(DateTime date) {
     final dateRequestAPIFormat =
         DateTime(date.year, date.month, date.day, date.hour - 1);
-    String year = dateRequestAPIFormat.year.toString();
-    String month = dateRequestAPIFormat.month.toString().padLeft(2, '0');
-    String day = dateRequestAPIFormat.day.toString().padLeft(2, '0');
+    final String year = dateRequestAPIFormat.year.toString();
+    final String month = dateRequestAPIFormat.month.toString().padLeft(2, '0');
+    final String day = dateRequestAPIFormat.day.toString().padLeft(2, '0');
     return '$year-$month-$day';
   }
 }

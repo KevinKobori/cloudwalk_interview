@@ -1,82 +1,89 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nasa_apod_app/nasa_apod_app.dart';
+
+class ColorsUtils {
+  static Color background = Colors.black;
+}
 
 class PicturesPage extends StatefulWidget {
   final PicturesPresenter picturesPresenter;
-
-  const PicturesPage(this.picturesPresenter, {super.key});
+  const PicturesPage({
+    required this.picturesPresenter,
+    super.key,
+  });
 
   @override
   State<PicturesPage> createState() => _PicturesPageState();
 }
 
-class _PicturesPageState extends State<PicturesPage>
-    with LoadingStateManager, NavigationStateManager, RouteAware {
+class _PicturesPageState extends State<PicturesPage> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await widget.picturesPresenter.loadPictures();
-    });
+    widget.picturesPresenter.loadPictures();
     super.initState();
   }
 
   @override
-  void dispose() {
-    widget.picturesPresenter.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      handleLoading(context, widget.picturesPresenter.isLoadingStream);
-      handleNavigation(context,
-          streamView: widget.picturesPresenter.navigateToStream);
-      return Scaffold(
-        backgroundColor: Colors.black,
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          title: SizedBox(
-            height: 32,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                OutlinedButton(
-                  onPressed: () async {
-                    await widget.picturesPresenter.loadPictures();
-                  },
-                  child: const Text('List all'),
-                ),
-                const SizedBox(width: 16),
-                DatePickerComponent(widget.picturesPresenter),
-              ],
-            ),
+    final theme = Theme.of(context);
+    return Scaffold(
+      backgroundColor:
+      //  Colors.transparent
+      theme.colorScheme.background.withOpacity(0)
+      ,
+      extendBodyBehindAppBar: true,
+      extendBody: true,
+      appBar: AppBar(
+        // backgroundColor: theme.colorScheme.background.withOpacity(0.6),
+        // Colors.transparent,
+        // backgroundColor: ColorsUtils.background,
+        title: SizedBox(
+          height: 32,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              OutlinedButton(
+                onPressed: widget.picturesPresenter.loadPictures,
+                child: const Text('List all'),
+              ),
+              KAppGaps.medium,
+              ApodDatePickerDialog(widget.picturesPresenter),
+            ],
           ),
         ),
-        body: StreamBuilder<List<PictureViewModel>?>(
-          stream: widget.picturesPresenter.picturesStream,
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return ReloadScreen(
-                error: '${snapshot.error}',
+      ),
+      body: Center(
+        child: BlocBuilder<PicturesCubit, PicturesState>(
+          bloc: widget.picturesPresenter as PicturesCubit,
+          builder: (context, state) {
+            if (state is PicturesLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is PicturesError) {
+              return ApodReloadPage(
+                error: state.message,
                 reload: widget.picturesPresenter.loadPictures,
               );
-            }
-            if (snapshot.hasData) {
+            } else if (state is PicturesLoaded) {
               return ListView.builder(
-                itemCount: snapshot.data!.length,
+                itemCount: state.pictureViewModelList?.length ?? 0,
                 itemBuilder: (context, index) {
-                  return PictureTile(
-                    picturesPresenter: widget.picturesPresenter,
-                    pictureViewModel: snapshot.data![index],
+                  return AppPadding(
+                    padding: ApodEdgeInsetsConstants.allLarge,
+                    // Theme.of(context).data.spacings.large.toInsets(),
+                    child: ApodPicturesListTile(
+                      picturesPresenter: widget.picturesPresenter,
+                      pictureViewModel: state.pictureViewModelList![index],
+                    ),
                   );
+                  // return Icon(Theme.of(context).data.)
                 },
               );
+            } else {
+              return const SizedBox.shrink();
             }
-            return const SizedBox();
           },
         ),
-      );
-    });
+      ),
+    );
   }
 }

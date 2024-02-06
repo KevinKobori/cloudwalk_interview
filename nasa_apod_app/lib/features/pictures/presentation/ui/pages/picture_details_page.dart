@@ -1,13 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart' as cni;
 import 'package:dartz/dartz.dart' as dz;
-import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:localstorage/localstorage.dart' as ls;
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class PictureDetailsPage extends StatefulWidget {
-  final PictureViewModel? pictureViewModel;
   final String pictureDate;
+  final PictureViewModel? pictureViewModel;
 
   const PictureDetailsPage(
     this.pictureDate, {
@@ -25,17 +23,17 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
 
   Future<dz.Either<DomainFailure, PictureViewModel>>
       getPictureViewModelFromLocalStorage() async {
-    final pictureMapList =
+    final pictureJsonList =
         await ls.LocalStorage(localStorageConfigKeyPathFactory())
             .getItem(localLoadPicturesUseCaseFactory().itemKey);
 
-    final int pictureMapIndex = pictureMapList.indexWhere(
-        (dynamic pictureMap) => pictureMap['date'] == widget.pictureDate);
-    final pictureMap = pictureMapList[pictureMapIndex];
+    final int pictureMapIndex = pictureJsonList.indexWhere(
+        (dynamic pictureJson) => pictureJson['date'] == widget.pictureDate);
+    final pictureJson = pictureJsonList[pictureMapIndex];
 
-    final viewModelResult = PictureMapper().fromMapToViewModel(pictureMap);
+    final viewModelResult = PictureMapper.fromJsonToViewModel(pictureJson);
     return viewModelResult.fold((l) {
-      return dz.Left(l.toDomainFailure);
+      return dz.Left(l.fromJsonperToDomain);
     }, (r) {
       return dz.Right(r);
     });
@@ -44,15 +42,15 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (widget.pictureViewModel == null) {
-        final result = await getPictureViewModelFromLocalStorage();
-        result.fold(
-          (domainFailure) {},
-          (pictureViewModel) {
-            rxPictureViewModel.value = pictureViewModel;
-          },
-        );
-      }
+      // if (widget.pictureViewModel == null) {
+      final result = await getPictureViewModelFromLocalStorage();
+      result.fold(
+        (domainFailure) {},
+        (pictureViewModel) {
+          rxPictureViewModel.value = pictureViewModel;
+        },
+      );
+      // }
     });
     super.initState();
   }
@@ -61,20 +59,20 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.deepPurpleAccent,
         leading: IconButton(
           onPressed: () {
-            Modular.to.pop();
+            NavigatorManager.pop();
           },
           icon: const Icon(Icons.arrow_back_ios),
         ),
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.deepPurpleAccent,
       ),
       backgroundColor: Colors.black,
       body: ValueListenableBuilder(
         valueListenable: rxPictureViewModel,
-        builder: (_, viewModel, __) {
-          final picture = widget.pictureViewModel ?? viewModel;
+        builder: (_, pictureViewModel, __) {
+          final picture = widget.pictureViewModel ?? pictureViewModel;
           return ListView(
             children: [
               cni.CachedNetworkImage(
@@ -101,7 +99,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const SizedBox(height: 16),
+                    KAppGaps.medium,
                     Text(
                       picture.date,
                       style: const TextStyle(
@@ -111,7 +109,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                         fontFamily: 'Secular_One',
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    KAppGaps.small,
                     Text(
                       picture.title,
                       style: const TextStyle(
@@ -121,7 +119,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    KAppGaps.large,
                     Text(
                       picture.explanation,
                       style: const TextStyle(
@@ -130,7 +128,7 @@ class _PictureDetailsPageState extends State<PictureDetailsPage> {
                           fontFamily: 'Secular_One',
                           fontWeight: FontWeight.w400),
                     ),
-                    const SizedBox(height: 32),
+                    KAppGaps.extraLarge,
                   ],
                 ),
               ),

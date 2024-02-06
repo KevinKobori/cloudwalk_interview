@@ -21,12 +21,12 @@ void main() {
   group('Saving', () {
     test('When save data should call localStorage with correct values',
         () async {
-      final data = DeviceLocalStorageFactory().generateValidPictureMapList();
-      final mapList = data;
+      final data = DeviceLocalStorageFactory().generateValidPictureJsonList();
+      final picturesJsonList = data;
 
       localStorage.mockSaveSuccess();
 
-      await PictureMapper().fromMapListToEntityList(mapList).fold(
+      await PictureMapper.fromJsonListToEntityList(picturesJsonList).fold(
         (domainFailure) {},
         (pictureEntityList) async {
           final result = await sut.call(pictureEntityList);
@@ -40,18 +40,19 @@ void main() {
       verify(() => localStorage.save(
               itemKey: 'pictures_list',
               itemValue: any<dynamic>(named: 'itemValue')))
-          .called(1); // TODO: NOW - CHANGE EXPECTED VALUE
+          .called(1); // TODO(all): NOW - CHANGE EXPECTED VALUE
     });
 
     test('When save data should throw UnexpectedFailure if save throws',
         () async {
-      final mapList = DeviceLocalStorageFactory().generateValidPictureMapList();
+      final picturesJsonList =
+          DeviceLocalStorageFactory().generateValidPictureJsonList();
 
-      localStorage.mockSaveFailure(MapperFailure.conversionError);
+      localStorage.mockSaveFailure(LocalStorageFailure.unknownError);
 
       late final List<PictureEntity> matcher;
 
-      PictureMapper().fromMapListToEntityList(mapList).fold(
+      PictureMapper.fromJsonListToEntityList(picturesJsonList).fold(
         (domainFailure) {},
         (pictureEntityList) {
           matcher = pictureEntityList;
@@ -69,6 +70,7 @@ void main() {
           actual,
           predicate((element) =>
               element is DomainFailure &&
+              element == DomainFailure.unexpected &&
               element == DomainFailure.unexpected));
     });
   });

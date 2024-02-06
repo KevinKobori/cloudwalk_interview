@@ -22,7 +22,7 @@ void main() {
     test('When validate data should call localStorage with correct key',
         () async {
       localStorage.mockFetchSuccess(
-          DeviceLocalStorageFactory().generateInvalidPictureMapList());
+          DeviceLocalStorageFactory().generateInvalidPictureJsonList());
 
       await sut.call(null);
 
@@ -32,7 +32,7 @@ void main() {
     test('When validate data should delete localStorage if it is invalid',
         () async {
       localStorage.mockFetchSuccess(
-          DeviceLocalStorageFactory().generateInvalidPictureMapList());
+          DeviceLocalStorageFactory().generateInvalidPictureJsonList());
 
       final result = await sut.call(null);
       result.fold((l) => l, (r) => r);
@@ -43,7 +43,7 @@ void main() {
     test('When validate data should delete localStorage if it is incomplete',
         () async {
       localStorage.mockFetchSuccess(
-          DeviceLocalStorageFactory().generateIncompletePictureMapList());
+          DeviceLocalStorageFactory().generateIncompletePictureJsonList());
 
       await sut.call(null);
 
@@ -52,7 +52,7 @@ void main() {
 
     test('When validate data should delete localStorage if fetch fails',
         () async {
-      localStorage.mockFetchFailure(MapperFailure.conversionError);
+      localStorage.mockFetchFailure(LocalStorageFailure.unknownError);
 
       final result = await sut.call(null);
 
