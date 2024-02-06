@@ -28,9 +28,8 @@ class _PicturesPageState extends State<PicturesPage> {
     final theme = Theme.of(context);
     return Scaffold(
       backgroundColor:
-      //  Colors.transparent
-      theme.colorScheme.background.withOpacity(0)
-      ,
+          //  Colors.transparent
+          theme.colorScheme.background.withOpacity(0),
       extendBodyBehindAppBar: true,
       extendBody: true,
       appBar: AppBar(
