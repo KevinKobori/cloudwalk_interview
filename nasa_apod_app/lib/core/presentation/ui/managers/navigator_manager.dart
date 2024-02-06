@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_modular/flutter_modular.dart';
 
-abstract class NavigatorManager {
+abstract final class NavigatorManager {
   static void pop() {
     if (Modular.to.canPop()) {
       Modular.to.pop();
