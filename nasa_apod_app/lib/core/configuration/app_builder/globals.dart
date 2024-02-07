@@ -23,12 +23,12 @@ class Globals {
   /// Initializes the Globals.
   /// It initializes necessary controllers and sets the _hasInit flag to true.
   /// This method should be called before accessing the instance.
-  static void initialize({required AppThemeSizesData themeSizes}) {
+  static void initialize({required XMetricsData metrics}) {
     if (!_hasInit) {
       _hasInit = true;
-      instance.themeSizesData = themeSizes;
+      instance.metrics = metrics;
     }
   }
 
-  late AppThemeSizesData themeSizesData;
+  late XMetricsData metrics;
 }

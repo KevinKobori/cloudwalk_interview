@@ -6,14 +6,17 @@ class PicturesModule extends Module {
 
   @override
   void binds(i) {
-    i.addSingleton<PicturesCubit>(() => picturesPresenterFactory());
+    i.add<PicturesPageCubit>(() => picturesPresenterFactory());
   }
 
   @override
   void routes(r) {
-    r.child('/', child: (_) => picturesListPageFactory());
+    r.child('/',
+        child: (_) => PicturesPage(
+            picturesPagePresenter: Modular.get<PicturesPageCubit>()));
+
     r.child('/:pictureDate',
-        child: (context) => pictureDetailsFactory(r.args.params['pictureDate']!,
+        child: (context) => PictureDetailsPage(r.args.params['pictureDate']!,
             pictureViewModel: r.args.data));
   }
 }

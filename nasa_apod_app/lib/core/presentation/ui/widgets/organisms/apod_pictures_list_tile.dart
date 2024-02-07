@@ -3,18 +3,18 @@ import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class ApodPicturesListTile extends StatelessWidget {
   final PictureViewModel pictureViewModel;
-  final PicturesPresenter picturesPresenter;
+  final PicturesPagePresenter picturesPagePresenter;
 
   const ApodPicturesListTile({
     required this.pictureViewModel,
-    required this.picturesPresenter,
+    required this.picturesPagePresenter,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => picturesPresenter.pushToPictureDetails(pictureViewModel.date,
+      onTap: () => picturesPagePresenter.pushToPictureDetails(pictureViewModel.date,
           pictureViewModel: pictureViewModel),
       child: Container(
         height: 180,
@@ -58,8 +58,8 @@ class ApodPicturesListTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ApodGaps.medium,
-                  AppPadding(
-                    padding: const AppEdgeInsets.all(AppGapSizeType.large),
+                  XPadding(
+                    padding: const XEdgeInsets.all(XSpacingSize.large),
                     child: Text(
                       pictureViewModel.date,
                       style: Theme.of(context).textTheme.bodyLarge,

@@ -1,8 +1,67 @@
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
-final kAppThemeSizesData = AppThemeSizesData.standard();
+// const kAppThemeSizesData = XMetricsData();
+// class XMetricsData2 extends ThemeExtension<XMetricsData2> {
+//   const XMetricsData2({this.color, this.size, this.borderRadius});
+
+//   final Color? color;
+//   final double? size;
+//   final double? borderRadius;
+
+//   @override
+//   ThemeExtension<XMetricsData2> lerp(
+//       ThemeExtension<XMetricsData2>? other, double t) {
+//     if (other is! XMetricsData2) {
+//       return this;
+//     }
+//     final double defaultSize = size ?? 100;
+//     final double defaultBorderRadius = borderRadius ?? 0;
+//     return XMetricsData2(
+//       color: Color.lerp(color, other.color, t),
+//       size: other.size != null
+//           ? ((other.size! - defaultSize) * t) + defaultSize
+//           : size,
+//       borderRadius: other.borderRadius != null
+//           ? ((other.borderRadius! - defaultBorderRadius) * t) +
+//               defaultBorderRadius
+//           : borderRadius,
+//     );
+//   }
+
+//   @override
+//   XMetricsData2 copyWith({Color? color, double? size, double? borderRadius}) {
+//     return XMetricsData2(
+//       color: color ?? this.color,
+//       size: size ?? this.size,
+//       borderRadius: borderRadius ?? this.borderRadius,
+//     );
+//   }
+
+//   @override
+//   String toString() =>
+//       'SquareStyle(color: $color, size: $size, borderRadius: $borderRadius)';
+// }
+
+// class HeroCardStyle extends ThemeExtension<HeroCardStyle> {
+//   HeroCardStyle({required this.backgroundColor, required this.borderRadius,});
+
+//   final Color backgroundColor;
+//   final double borderRadius;
+
+// @override
+//   HeroCardStyle copyWith(
+//       Color? backgroundColor,
+//    double? borderRadius,
+//   ) => HeroCardStyle(
+// backgroundColor: backgroundColor ?? this.backgroundColor,
+// borderRadius: borderRadius ?? this.borderRadius,
+//   );
+// }
 
 final ThemeData kThemeData = ThemeData(
+  extensions: <ThemeExtension<dynamic>>[
+    XMetricsData(),
+  ],
   useMaterial3: true,
   fontFamily: 'Secular_One',
   // textTheme: TextTheme(
@@ -46,8 +105,8 @@ final ThemeData kThemeData = ThemeData(
   // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple).copyWith(
   //   // background: Colors.black,
   // ),
-  appBarTheme: const AppBarTheme(
-    backgroundColor: Colors.black,
+  appBarTheme: AppBarTheme(
+    backgroundColor: Colors.black.withOpacity(0.6),
   ),
   colorScheme: ColorScheme(
     // primaryColor: Cor principal usada no app, para widgets como AppBar.
@@ -66,7 +125,9 @@ final ThemeData kThemeData = ThemeData(
     surface: Colors.white,
 
     // scaffoldBackgroundColor: Cor de fundo do Scaffold.
-    background: const Color(0xFFE0E0E0), // Exemplo: Google Grey 300
+    background: Colors.black,
+
+    //  const Color(0xFFE0E0E0), // Exemplo: Google Grey 300
 
     // errorColor: Cor para indicar erros.
     error: const Color(0xFFD32F2F), // Exemplo: Google Red

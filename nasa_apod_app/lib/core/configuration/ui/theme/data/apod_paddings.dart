@@ -1,17 +1,17 @@
 import 'package:nasa_apod_app/nasa_apod_app.dart';
 
 class ApodPaddings {
-  static AppPadding staticScreen({required Widget child}) => AppPadding(
-        padding: const AppEdgeInsets.all(AppGapSizeType.large),
+  static XPadding staticScreen({required Widget child}) => XPadding(
+        padding: const XEdgeInsets.all(XSpacingSize.large),
         child: child,
       );
 
-  static AppPadding scrolledScreen({required Widget child}) => AppPadding(
-        padding: const AppEdgeInsets.only(
-          left: AppGapSizeType.large,
-          top: AppGapSizeType.none,
-          right: AppGapSizeType.large,
-          bottom: AppGapSizeType.none,
+  static XPadding scrolledScreen({required Widget child}) => XPadding(
+        padding: const XEdgeInsets.only(
+          left: XSpacingSize.large,
+          top: XSpacingSize.none,
+          right: XSpacingSize.large,
+          bottom: XSpacingSize.none,
         ),
         child: child,
       );

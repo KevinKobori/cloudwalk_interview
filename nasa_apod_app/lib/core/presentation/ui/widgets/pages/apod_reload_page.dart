@@ -4,7 +4,11 @@ class ApodReloadPage extends StatelessWidget {
   final String error;
   final void Function() reload;
 
-  const ApodReloadPage({required this.error, required this.reload, super.key});
+  const ApodReloadPage({
+    required this.error,
+    required this.reload,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +22,7 @@ class ApodReloadPage extends StatelessWidget {
               textAlign: TextAlign.center),
           ApodGaps.small,
           ElevatedButton(
+            style: ElevatedButton.styleFrom(),
             onPressed: reload,
             child: Text(I18n.strings.reload),
           )

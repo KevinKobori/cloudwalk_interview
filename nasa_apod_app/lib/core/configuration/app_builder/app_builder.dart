@@ -8,18 +8,18 @@ class AppBuilder extends StatelessWidget {
   // final alice = Alice();
   final String title;
   final ThemeData theme;
-  final AppThemeSizesData themeSizes;
+  // final XMetricsData metrics;
 
   const AppBuilder({
     required this.title,
     required this.theme,
-    required this.themeSizes,
+    // required this.metrics,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    Globals.initialize(themeSizes: themeSizes);
+    // Globals.initialize(metrics: metrics);
     // Modular.routerDelegate.setNavigatorKey(alice.getNavigatorKey());
 
     return ResponsiveApp(
@@ -39,6 +39,6 @@ class AppBuilder extends StatelessWidget {
   }
 }
 
-extension AppThemeDataExtension on ThemeData {
-  AppThemeSizesData get data => Globals.instance.themeSizesData;
-}
+// extension AppThemeDataExtension on ThemeData {
+//   XMetricsData get metrics => Globals.instance.metrics;
+// }
